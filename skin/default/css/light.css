@@ -137,6 +137,12 @@ header nav ul li a:hover {
   padding-left: 20px;
   border-left: 3px solid #0099ff;
 }
+#content #article h3 {
+  background: #CCC;
+  margin: 20px 0;
+  padding: 0 20px;
+  border-left: 2px solid #490;
+}
 #content #article #pagination {
   text-align: right;
 }

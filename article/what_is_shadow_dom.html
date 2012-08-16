@@ -6,11 +6,11 @@
 	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
 	<title>TooBug</title>
 	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" href="./skin/default/css/light.css" />
-	<link rel="stylesheet" href="./js/prettify/prettify.css"   />
-	<script src="./js/prettify/prettify.js"></script>
-	<script src="./js/jquery/jquery-1.7.2.min.js"></script>
-	<script src="./js/index.js"></script>
+	<link rel="stylesheet" href="../skin/default/css/light.css" />
+	<link rel="stylesheet" href="../js/prettify/prettify.css"   />
+	<script src="../js/prettify/prettify.js"></script>
+	<script src="../js/jquery/jquery-1.7.2.min.js"></script>
+	<script src="../js/index.js"></script>
 </head>
 <body>
 <header>
@@ -35,31 +35,7 @@
 
 <section id="content">
 	<div id="article">
-		
-			<div class="indexarticle">
-			<h1><a href="./article/hello_solo_and_github.html">你好，Solo &amp; GitHub!</a></h1>
-
-<p><em>2012-08-16 18:24</em></p>
-
-<p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
-
-<p>初中行将毕业时，因为一些突如其来的事情，突然觉得整个世界失去了色彩。那时候真切地觉得，别人都好好活着，我好好地看着就好了。那时候，也曾在心底暗暗标榜过，我的生活，无非是冷眼看世界而已。大半夜在教室睡不着的时候，偶尔也会想想人生。偶尔也会不经意地想到Solo，很好的名字，一个人的精神世界，也许并没有那么糟。</p>
-
-<p>大学进了乐团，终于知道，原来solo还有独奏的意思。那时候跟着一堆朋友们在乐队中瞎混，觉得能抢到一段solo来让自己演奏真的是莫大的荣幸。也是这段经历，让我知道，solo很精彩，solo不孤单。</p>
-
-<p>好了，说了这么多无关痛痒的话题，我只想说，当我看到solo成为一个喜爱的博客项目的名字的时候，打心眼里感到喜悦！于是，来不及想作者的意图到底是本地编译还是在线编译，来不及看代码中的七牛到底是个什么神秘玩意，我就近不急待地开始了我的solo之旅行。</p>
-
-<p>我很庆幸我是做前端的，这样，在第一眼就看出这个项目有很多不完善的时候，仍然有信心去将它打造成我想要的样子。于是，你看到了你现在看到的博客。当然，它不完美，它离我的预想还有很远，但是我坚信总有一天它会让我满意的。</p>
-
-<p>在接触了MarkDown之后，觉得抛弃WordPress是件很自然的事情了。虽然solo没有后台、没有任何动态特性，但对它每个角落的每一行代码完完全全地掌握就足够让我欣喜，而MarkDown对文字中每个细节的把握更是让我觉得完美，这种喜爱的感觉，奇妙得难以言表。</p>
-
-<p>虽然我有两个VPS，但是仍然选择将solo托管在GitHub上，无他，喜爱而已，就像我对MarkDown的喜爱一样，无可救药。</p>
-
-<p>好了，不扯了。一晃两年没写文字了，再次涉足，手足无措，其实我想说的无非就一句话：我生命中的第三个solo，我来了！</p>
-			</div>
-		
-			<div class="indexarticle">
-			<h1><a href="./article/what_is_shadow_dom.html">[译]什么是Shadow Dom？</a></h1>
+	<h1>[译]什么是Shadow Dom？</h1>
 
 <p><em>2012-06-07 18:24</em></p>
 
@@ -82,7 +58,7 @@
 
 <p>把这段代码放到webkit内核的浏览器中，它会这样显示：</p>
 
-<p><img src="images/what_is_shadow_dom_1.png" alt="slider" title="" /></p>
+<p><img src="../images/what_is_shadow_dom_1.png" alt="slider" title="" /></p>
 
 <p>很简单吧，这里有一个滑槽，还有一个滑块可以沿滑槽滑动。</p>
 
@@ -100,7 +76,7 @@ console.log(slider.firstChild); // 返回 null
 
 <p>有一些很简单，就像上面说的slider。而有一些却相当复杂。我们来看一下video元素，它有一些按钮、进度条、hover态的音量控制，像这样（注，原文“you name it”）：</p>
 
-<p><img src="images/what_is_shadow_dom_2.png" alt="slider" title="" /></p>
+<p><img src="../images/what_is_shadow_dom_2.png" alt="slider" title="" /></p>
 
 <p>所有的这一切都只是HTML和CSS——但是是隐藏在shadow DOM子树中的。</p>
 
@@ -139,7 +115,7 @@ console.log(slider.firstChild); // 返回 null
 
 <p>看起来是这样：</p>
 
-<p><img src="images/what_is_shadow_dom_3.png" alt="slider" title="" /></p>
+<p><img src="../images/what_is_shadow_dom_3.png" alt="slider" title="" /></p>
 
 <p>注意一下，为什么渲染的句子的第二部分不是绿色的？这是因为文档（document）中选择器p不能获取到shadown DOM。很酷对不对？！如果一个框架开发者被赋予这样的能力会怎么样？想象一下你只需要写你的widget，而不用担心被不知哪里蹦出来的选择器愚弄……简直令人陶醉。</p>
 
@@ -174,7 +150,7 @@ console.log(slider.firstChild); // 返回 null
 
 <p>结果如下：</p>
 
-<p><img src="images/what_is_shadow_dom_4.png" alt="slider" title="" /></p>
+<p><img src="../images/what_is_shadow_dom_4.png" alt="slider" title="" /></p>
 
 <p>很好，但是我怎样定义滑块的样式呢？我们已经知道，常规的CSS选择器并不能获取到shadow DOM子树。事实上，这里有一些很方便的伪元素，可以取到shadow DOM子树中的元素。（注：这句也很绕，原文“Turns out, there’s a handy pseudo attribute capability, which allows shadow DOM subtrees to associate an arbitrary pseudo-element identifier with an element in the subtree.”）例如，slider中的滑块在webkit中可以这样访问：</p>
 
@@ -189,7 +165,7 @@ console.log(slider.firstChild); // 返回 null
 
 <p>样子如下：</p>
 
-<p><img src="images/what_is_shadow_dom_5.png" alt="slider" title="" /></p>
+<p><img src="../images/what_is_shadow_dom_5.png" alt="slider" title="" /></p>
 
 <p>很完美对不对？想想看，你可以为shadow DOM子树中的元素赋予样式，而不需要真的访问到这些元素。而这些shadow DOM的作者有了决定哪些部分可以被赋予样式的权利。如果你是作者，在做一些UI widget toolkit的时候，难道不想有这样的能力吗？</p>
 
@@ -207,7 +183,7 @@ test.textContent = 'Team Edward';
 
 <p>结果如下：</p>
 
-<p><img src="images/what_is_shadow_dom_6.png" alt="slider" title="" /></p>
+<p><img src="../images/what_is_shadow_dom_6.png" alt="slider" title="" /></p>
 
 <p>哇！欢迎来到twilight DOM的世界！它是文档（document）的一部分，可以被遍历到，但是不会渲染！它是不是很有用呢？不一定，但是如果你需要的话它确实就在那等你。青少年（注：好奇怪，原文“Teens”）可能会喜欢它。</p>
 
@@ -264,14 +240,17 @@ test.textContent = 'I see the light!';
 <p>原文地址：<a href="http://glazkov.com/2011/01/14/what-the-heck-is-shadow-dom/">http://glazkov.com/2011/01/14/what-the-heck-is-shadow-dom/</a></p>
 
 <p>译者注：应该说这是一篇关于前端理论的文章，并不能给前端开发人员带来什么便利，至少短期内没有，但是了解这种技术对我们从事web相关的软件开发会有好处，而且指不定哪天这种开发模式就出现了呢！</p>
-			</div>
-		
-
-		<div id="pagination">
-		
-			<a href="index.html">1</a>
-		
-		</div>
+	</div>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+		var disqus_shortname = 'toobug';
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 	</div>
 </section>
 <div id="foot">
