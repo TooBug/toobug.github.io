@@ -62,7 +62,8 @@ header nav ul li a:hover {
   float: left;
   width: 210px;
   padding: 20px;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.5em;
 }
 #sidebar p {
   margin-bottom: 10px;
@@ -142,6 +143,17 @@ header nav ul li a:hover {
   margin: 20px 0;
   padding: 0 20px;
   border-left: 2px solid #490;
+}
+#content #article .articlemore {
+  text-align: right;
+}
+#content #article .articlemore a {
+  display: inline-block;
+  padding: 5px 20px;
+  border-left: 2px solid #0099ff;
+}
+#content #article .articlemore a:hover {
+  color: #0099ff;
 }
 #content #article #pagination {
   text-align: right;

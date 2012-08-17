@@ -77,7 +77,8 @@ header {
 	float:left;
 	width:@sidewidth - 40px;
 	padding:20px;
-	font-size:13px;
+	font-size:14px;
+	line-height: 1.5em;
 	p{
 		margin-bottom:10px;
 	}
@@ -110,6 +111,17 @@ header {
 			margin: 20px 0;
 			padding: 0 20px;
 			border-left: 2px solid #490;
+		}
+		.articlemore{
+			text-align:right;
+			a{
+				display:inline-block;
+				padding:5px 20px;
+				border-left:2px solid @navhovercolor;
+				&:hover{
+					color:@navhovercolor;
+				}
+			}
 		}
 		#pagination{
 			text-align:right;
