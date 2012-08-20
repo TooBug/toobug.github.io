@@ -23,7 +23,7 @@ $$solo_more$$
 
 实测这个方法有效，但是它会绕元素原来轮廓的左边和上边转动，还是画个图示意一下：
 
-![IE非中心点旋转](./images/ie_matrix_rotation_1.jpg)
+![IE非中心点旋转](../images/ie_matrix_rotation_1.jpg)
 
 如图所示，图形会贴着上边和左边旋转。
 
@@ -37,7 +37,7 @@ $$solo_more$$
 
 通过这样的方式，我们就将向量与点一一映射起来了，研究点的时候就可以用向量来研究啦。
 
-![点到坐标映射](./images/ie_matrix_rotation_2.jpg)
+![点到坐标映射](../images/ie_matrix_rotation_2.jpg)
 
 接下来，研究旋转的实质，P点绕原点O（顺时针）旋转角度α，即向量OP旋转α，新的点P‘坐标变为(3*cosα-4*sinα,4*sinα+3*cosα).
 
