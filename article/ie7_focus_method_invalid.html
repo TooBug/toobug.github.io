@@ -35,32 +35,19 @@
 
 <section id="content">
 	<div id="article">
-	<h1>HTML续行符</h1>
+	<h1>IE7下focus方法失效（原因不明）</h1>
 
-<p><em>2012-02-01 18:04</em></p>
+<p><em>2011-12-28 10:49</em></p>
 
-<p>常识：</p>
+<p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
 
-<ol>
-<li>HTML源码中夹在文字中连续的空白（空格、回车、TAB等）会在页面上形成一个空格</li>
-<li>大部分的代码规范会规定单行不得超过XX字符，超过必须做折行处理</li>
-<li>CSS可以按属性多行编写，JS的长字符串可以用“\”续行</li>
-</ol>
+<p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
 
-<p>问题：HTML的长字符串怎么办？</p>
+<p>断点调试、打log也没什么结果，代码是走到那里了，但是input就是死活不focus。</p>
 
-<p>答案：使用注释</p>
+<p>后来死马当活马医，开始试。结果发现将focus方法连续调用两次，居然生效了。</p>
 
-<p>例：</p>
-
-<pre><code>这是源码中的第一行文字，它很长，以至于达到了要折行的要求&lt;!--
---&gt;接着写第二，不管它有多长都不怕了，因为在页面中，始终是&lt;!--
---&gt;当成同一行处理。
-</code></pre>
-
-<blockquote>
-  <p>2012年8月17日注：这种用法除了是因为规范外，还有一个原因，就是消除inline-block带来的间隙，详见<a href="http://ued.taobao.com/blog/2012/08/15/inline-block/">inline-block的前世今生</a>。</p>
-</blockquote>
+<p>原因不明，期待高人解释。</p>
 	</div>
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">

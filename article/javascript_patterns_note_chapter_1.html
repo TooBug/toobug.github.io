@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="TooBug - 专注前端开发" />
+	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
+	<title>TooBug</title>
+	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+	<link rel="stylesheet" href="../skin/default/css/light.css" />
+	<link rel="stylesheet" href="../js/prettify/prettify.css"   />
+	<script src="../js/prettify/prettify.js"></script>
+	<script src="../js/jquery/jquery-1.7.2.min.js"></script>
+	<script src="../js/index.js"></script>
+</head>
+<body>
+<header>
+	<div id="logo">TooBug</div>
+	<nav>
+		<ul>
+			<li><a href="../index.html">Index<br />首页</a></li>
+			<li><a href="../index.html">Blogs<br />博客</a></li>
+			<li><a href="../about.html">About<br />关于</a></li>
+		</ul>
+	</nav>
+</header>
+<section id="sidebar">
+	<div id="intro">
+		<p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+		<p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
+		<p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
+		<p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
+	</div>
+</section>
+
+
+<section id="content">
+	<div id="article">
+	<h1>《JavaScript Patterns》读书笔记 第一章 介绍</h1>
+
+<p><em>2011-12-17 17:29</em></p>
+
+<p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
+
+<p>这本书目前还没有中文版，据说淘宝UED的大牛们正在翻译。</p>
+
+<p>以下为读书笔记，中文为本人根据意思大致整理，不保证完全跟原文一样准确。</p>
+
+
+
+<h3>第一章 介绍</h3>
+
+<p>广义上的“模式”指“重复的事件或对象的主题……它可以是一种通用的模板或者模型”</p>
+
+<p>在软件开发中，一种模式就是一类问题的解决方案。一种模式不是指可以复制粘贴的代码，而是一种用来解决一类问题的抽象模板。</p>
+
+<p>了解设计模式很重要，因为</p>
+
+<ol>
+<li>可以帮助我们使用已经被实践检验过的模式，不重复造轮子</li>
+<li>人脑的思维能力有限，当你思考一个复杂问题，并且注意力不在底层细节时，它能提供一种抽象的模式帮助你</li>
+<li>在不同的开发者和团队之间易于交流（注：传说中的“黑话”）</li>
+</ol>
+
+<p>这本书讨论了设计模式、编码模式、不好的代码实现（Antipatterns）</p>
+
+<h3>一、面向对象</h3>
+
+<p>JavaScript是一门面向对象语言（注：似乎现在大家都认为它是“基于对象”而非“面向对象”）。</p>
+
+<p>只有五种基本类型不是对象，分别是number,string,boolean,null,undefined
+number,string,boolean的值很容易转变成对象，不管是被编程者还是隐式地被JavaScript解释器。</p>
+
+<p>函数也是对象，可以有属性和方法。</p>
+
+<p>定义变量时就在处理对象。首先，变量自动变成一个叫活动对象（或者全局对象）的属性。其次，这个变量实际上很像对象，因为它有自己的属性，决定它是否能被改变，删除或者用for-in遍历。这些属性在ECMAScript3中不是直接暴露的，但是在第5版中提供特别的装饰器手工操作它们。</p>
+
+<p>对象是名值对的集合（和其它语言的关联数组的概念很像）。有的属性值可以是函数，这些函数被叫作方法。</p>
+
+<h3>二、没有类</h3>
+
+<p>在JS中创建对象不需要类，只需要创建它，然后给它添加基本类型、函数或者对象作为属性即可。一个空对象不是真的是空的，它有一些原生的属性，但是它没有自己的（own）属性。</p>
+
+<h3>三、原型</h3>
+
+<p>JavaScript有继承，虽然这只是一种代码复用的方式。继承可以通过多种不同的方式完成，经常会利用到原型。</p>
+
+<p>原型是一个对象，每个由编码者创建的函数都自动有一个指向空对象的原型，这个对象跟使用字面量或者Object()构造函数创建的空对象差不多，除了constructor是指向函数而不是原生的Object()</p>
+
+<h3>四、环境</h3>
+
+<p>JavaScript需要一个环境来运行，最常见的是浏览器，但那不是唯一的环境。</p>
+
+<p>这本书的大部分是讲的JavaScript核心部分，与环境无关。</p>
+
+<p>环境可以提供自己的宿主对象，这是在ECMAScript中没有定义的，可能会有意料之外的行为（注：如浏览器的JS兼容性问题就绝大部分来源于宿主对象的差异）。</p>
+
+<h3>五、ECMAScript5</h3>
+
+<p>JavaScript核心部分基于ECMAScript标准。第三版标准于1999年被官方承认，也是现在各浏览器实现的版本。第四版已经放弃。第五版在2009年发布。</p>
+
+<p>第5版加入了一些原生对象、方法和属性。但是最重要的变化是严格模式（strict mode），这个模式从以前的版本中移除了一些特性，使得编程更简单，减少错误倾向。</p>
+
+<p>严格模式通过一段普通的文本触发，向下兼容。</p>
+
+<p>在一个作用域中（不管是函数作用域、全局作用域，还是传给eval()的字符串的开头），都可以用”user strict”来触发严格模式。</p>
+
+<p>这本书不研究与ES5有关的模式，因为成书时没有浏览器实现了ES5。但是例子中与ES5相关的特性如下：</p>
+
+<ol>
+<li>保证提供的代码在严格模式下不报错</li>
+<li>避免使用ES5弃用的结构，如arguments.callee</li>
+<li>尽量使用ES5中原生的方法（注：在ES3中自己实现，保持名称和参数一样），如Object.create()</li>
+</ol>
+
+<blockquote>
+  <p>注：后面的JSLint和console，略</p>
+  
+  <p>2012年8月20日注：目前我正在参与翻译该书，<a href="https://github.com/TooooBug/javascript.patterns">翻译稿</a>可以在GitHub上找到。</p>
+</blockquote>
+	</div>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+		var disqus_shortname = 'toobug';
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	</div>
+</section>
+<div id="foot">
+		<p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
+</div>
+		
+</body>
+</html>
