@@ -1,5 +1,5 @@
 # The Little Book on Coffee Script
-_2012-12-23 18:14_
+_2011-12-23 18:14_
 
 最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。
 

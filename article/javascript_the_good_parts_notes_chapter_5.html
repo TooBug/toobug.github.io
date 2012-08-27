@@ -35,19 +35,47 @@
 
 <section id="content">
 	<div id="article">
-	<h1>The Little Book on Coffee Script</h1>
+	<h1>《JavaScript语言精粹》读书笔记 第五章 继承</h1>
 
-<p><em>2011-12-23 18:14</em></p>
+<p><em>2011-04-27 17:15</em></p>
 
-<p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
+<h3>5.0绪</h3>
 
-<p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
+<p>JS是一门弱类型语言。对象的起源无关紧要。</p>
 
-<p>扫了一眼官方推荐的第一本书，但是是网页的，花了点时间整理成PDF了，方便自己看。</p>
+<p>在基于类的语言中，对象是类的实例，并且类可以从另一个类继承。JS是一门基于原型的语言，这意味着对象直接从其他对象继承。</p>
 
-<p>顺便也发到博客上，有需要的同学可以看看。</p>
 
-<p><a href="../attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
+
+<h3>5.1伪类</h3>
+
+<p>函数对象被创建时，Function构造器产生的函数对象会运行类似这样的代码：</p>
+
+<pre><code>this.prototype = {constructor : this};
+</code></pre>
+
+<p>prototype对象是存放继承特征的地方。因为JS没有提供方法去确定哪个函数是打算用来作构造器，所以每个函数都会得到一个prototype对象。</p>
+
+<p>constructor属性没什么用，重要的是prototype对象。</p>
+
+<h3>5.2对象说明符</h3>
+
+<p>传参数可以用对象，不用按顺序了。</p>
+
+<h3>5.3原型</h3>
+
+<p>实现继承和差异化继承。</p>
+
+<h3>5.4函数化</h3>
+
+<p>一个将产生对象的函数：</p>
+
+<ol>
+<li>创建一个新对象。</li>
+<li>定义私有变量和方法。</li>
+<li>给对象扩充方法（公有？）。</li>
+<li>返回新对象</li>
+</ol>
 	</div>
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="TooBug - 专注前端开发" />
+	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
+	<title>TooBug</title>
+	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+	<link rel="stylesheet" href="../skin/default/css/light.css" />
+	<link rel="stylesheet" href="../js/prettify/prettify.css"   />
+	<script src="../js/prettify/prettify.js"></script>
+	<script src="../js/jquery/jquery-1.7.2.min.js"></script>
+	<script src="../js/index.js"></script>
+</head>
+<body>
+<header>
+	<div id="logo">TooBug</div>
+	<nav>
+		<ul>
+			<li><a href="../index.html">Index<br />首页</a></li>
+			<li><a href="../index.html">Blogs<br />博客</a></li>
+			<li><a href="../about.html">About<br />关于</a></li>
+		</ul>
+	</nav>
+</header>
+<section id="sidebar">
+	<div id="intro">
+		<p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+		<p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
+		<p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
+		<p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
+	</div>
+</section>
+
+
+<section id="content">
+	<div id="article">
+	<h1>网址那点事儿</h1>
+
+<p><em>2011-01-12 20:00</em></p>
+
+<p>本文所讨论的“网址”仅指通常意义上的网民认知，不作为学术术语及学术讨论。</p>
+
+<h3>一、一个完整网址的格式</h3>
+
+<p>一个常见的网址包括协议、域名（主机名），例如“http://www.toobug.net”，其中“http”是协议，“www.toobug.net”是要域名，协议和域名之间用“://”来区分。</p>
+
+<p>事实上，一个完整的网址还可能包括用户名、密码、端口以及通过get方式提交的参数和锚点。</p>
+
+<p>举个例子：“http://toobug:pass@www.toobug.net:88/index.php?myname=toobug&amp;mynickname=nicktoobug#tips”。</p>
+
+<p>在这个网址中，协议后面跟着“用户名:密码”，这是用来进行用户认证的。</p>
+
+
+
+<p><img src="../images/something_about_url_1.jpg" alt="认证" title="" /></p>
+
+<p>域名后面的“88”表示要访问的网址的服务器开放的端口是88号。（可以简单认为，一台电脑是一栋楼，一个端口是一个编了号的房间，软件要通讯时先预约开放一扇门，以便别人能准确找到自己。）</p>
+
+<p>“index.php”后面的“?”则表示这个网址要通过get方式传一些参数，参数采用“参数名=参数值”的形式，多个参数之间用“&amp;”隔开。上例中通过get方式传递了myname和mynickname，值分别为toobug和nicktoobug。（传递的参数可以通过后台语言获取，具体语句不表。）</p>
+
+<p>“#”则表示锚点。对于上例，可以简单地这样解释：“页面上有很多元素命名了（name属性），其中有一个name值为tips，当打开页面时，页面滚动条直接滚动到这个name为tips的元素那里。”</p>
+
+<p>事实上，我们很难见到跟上述完整的网址一样的情况，这是因为浏览器和服务器做了处理，如果有些值没有指定，则会默认给一个值。例如，输入网址的时候，不指定协议时会默认采用http协议，不指定端口时会使用默认端口（80），不指定文件时，默认为服务器设定的默认首页，常见的有index.htm/asp/php，default.htm/asp/php等等。</p>
+
+<h3>二、网址和长度和编码</h3>
+
+<p>长度部分的主要内容都是据说，没有查证，如有错误请指正。</p>
+
+<p>HTTP协议并没有规定网址的长度限制，但是各个浏览器有自己的限制。（<a href="http://hi.baidu.com/%B4%F3%CE%C3%D7%D3%D1%A7php/blog/item/d0fcb315383fe903c93d6dec.html">http://hi.baidu.com/%B4%F3%CE%C3%D7%D3%D1%A7php/blog/item/d0fcb315383fe903c93d6dec.html</a>）</p>
+
+<p>当采用自己写的client去连接服务器，不限制网址长度的时候，发现服务器的长度处理能力也是有限的。（<a href="http://www.jb51.net/article/18858.htm">http://www.jb51.net/article/18858.htm</a>）</p>
+
+<p>虽然上面的总结不全面，但是可以肯定一点，为了保险起见，网址是不能太长的，最保险的应该控制在255个字符以内。</p>
+
+<p>我们假设一种情况：我要通过get方式提交一个名为“test”，值为“you&amp;me”的参数，则构造出来的网址可能是 …./file?test=you&amp;me，问题出现了，“&amp;”是多个参数的分隔符，“you&amp;me”，会被分开，“you”成为值，而“me”成了一个值为空的参数。这就是编码产生的背景（当然还有多国语言的因素）。</p>
+
+<p>具体来讲，即是对于非ASCII字符以及部分符号进行编码转换后放入网址，如刚刚说的“&amp;”会被编码成“%26”，空格会被编码成“%20”，将百分号后的数字是十六进制的，转换成十进制刚好对应ASCII码。当然，不用编码的字符也可以强制编码，例如将“http://www.toobug.net”编码成“http://www.toobug%21%61%65%74”。</p>
+
+<p>中文则会视编码被编码为形式与上面一样，但是长度不一样的字符，例如“兔”可能被编码成“%CD%C3”。</p>
+
+<p>关于编码和解码，因为是有固定规则，所以可以通过软件来转换，这类软件很多，也有很多在线的工具可以转换。如<a href="http://www.nengcha.com/code/url/">http://www.nengcha.com/code/url/</a>等。</p>
+
+<p>说到这里就顺便说一下中文域名，即可以通过“<a href="http://清华大学。中国">http://清华大学。中国</a>”这样的网址来访问网站（IE6貌似不行）。事实上这里面也有一个编码转换的过程，有的浏览器会将中文对应的编码展示出来。例如“清华大学。中国”会被转换成“xn--xkry9kk1bz66a.xn--fiqs8s”，我们手工在浏览器中输入“<a href="http://xn--xkry9kk1bz66a.xn--fiqs8s">http://xn--xkry9kk1bz66a.xn--fiqs8s</a>”同样能够访问。</p>
+
+<h3>三、有安全有关的那点事</h3>
+
+<p>应该说，网址不是一个危险的东西，因为它不能执行，也不能盗你的密码什么的。在2011年以前，唯一与它挂点钩的安全问题就是“钓鱼”。</p>
+
+<p>钓鱼，即网址欺骗，将用户引导到一个假的网站上，从而获取用户的密码之类的信息。如QQ的官方网站是www.qq.com，钓鱼网站的网址则可能是www.qq.co之类的容易混淆的网址，当用户进去看到一个界面一样的网站的时候，很可能输入自己的QQ密码，于是悲剧就此发生。</p>
+
+<p>于是，钓鱼的核心内容就是两方面，第一方面是内容，得像真的网站，这个不在本文讨论范围，不表；第二方面就是网址的伪装。</p>
+
+<p>上面讲过一个完整的网址的构成了，下面就列几种常见的类型（或者不常见，但是如果我来钓鱼肯定会用的）：</p>
+
+<p>1、通过二级域名伪装，例如www.qq.com.fishingsite.com。这种很低级，但是被用得很广泛。它还会有些变种，比如将后面的编码，网址变为www.qq.com%21%66……。</p>
+
+<p>2、通过用户名密码来伪装，例如www.qq.com:www.qq.com@fishingsite.com，这种方法在QQ2010中能骗过QQ的认证，会提示为QQ官方网站，但是浏览器支持并不好，IE7、8已经不支持这种地址访问，Chrome会直接显示真实地址，Firefox则会有一个提示。</p>
+
+<p><img src="../images/something_about_url_2.jpg" alt="钓鱼" title="" /></p>
+
+<p>3、通过修改hosts来伪装，这种方法非常非常隐蔽，但是目前好像还没有人用。可能是考虑到既然都能改本机的hosts了，就不需要再用钓鱼这种手段了。</p>
+
+<p>网址伪装的故事讲完了，其实只要知道网址的构成，发挥一点想象力，构造一个能骗人的网址是很容易的。</p>
+
+<p>在结束这段之前，还得讲讲另一种“安全问题”，即2010年的最后一天，金山指360泄露用户密码事件。</p>
+
+<p><img src="../images/something_about_url_3.jpg" alt="安全" title="" /></p>
+
+<p>其实这个也不是360的问题，而是网站开发人员的问题。前面说过，网址中是可以通过get方式提交参数的，而有的网站就将用户名和密码用get方式提交了，导致用户名和密码出现在网址中。</p>
+
+<p>所以，为了防止这种问题，建议开发人员对敏感数据一定要使用post方式提交。在一定程度（很小）上还能防止嗅探。</p>
+
+<h3>四、其它</h3>
+
+<p>1、语义与SEO</p>
+
+<p>网址是可以由开发人员来决定它的样子的，我们看到，有的网址是“http://www.toobug.net/?p=1”，而有的网址则是“http://www.toobug.net/2011/01/hello-front-end-world/”。这两个的区别在于，前者没有语义化，而后者能一眼让别人知道这个页面是什么内容，显得更加友好。</p>
+
+<p>更重要的是，搜索引擎对有语义化的网址会给更高的权重，即排名靠前。</p>
+
+<p>越来越多的人意识到这个问题了，并在努力改善语义化的情况，如果你是开发人员，也建立你将你的网址变成更语义化，让人和机器都能“顾名思义”。</p>
+
+<p>2、浏览器对网址处理的特性</p>
+
+<p>我知道的一些：</p>
+
+<p>a、不输入协议的时候，浏览器会默认添加http协议，但是如果网址以ftp开头，则会添加ftp协议。（IE7/Chrome都是这样，其他待测。）</p>
+
+<p>b、IE访问的网址需要写端口的时候，如果不加协议，会报错。</p>
+
+<p>c、Chrome会默认在地址栏隐藏http协议，但是复制网址的时候会将协议一起复制进去。而https协议则会显示出来。</p>
+
+<p>d、（2012年8月27日补充：将http协议头中的协议去掉，像http:www.toobug.net是可以访问的。）</p>
+
+<p>e、（2012年8月27日补充：在页内引用资源时，如图片地址，直接以“//”协议引用，浏览器会选择跟页面相同的协议，比如“//images/a.jpg”，页面是用https访问的，则图片地址会是“https://domain/images/a.jpg”。）</p>
+	</div>
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+		var disqus_shortname = 'toobug';
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	</div>
+</section>
+<div id="foot">
+		<p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
+</div>
+		
+</body>
+</html>

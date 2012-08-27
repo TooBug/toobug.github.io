@@ -37,22 +37,6 @@
 	<div id="article">
 		
 			<div class="indexarticle">
-			<h1><a href="./article/the_little_book_on_coffee_script.html">The Little Book on Coffee Script</a></h1>
-
-<p><em>2012-12-23 18:14</em></p>
-
-<p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
-
-<p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
-
-<p>扫了一眼官方推荐的第一本书，但是是网页的，花了点时间整理成PDF了，方便自己看。</p>
-
-<p>顺便也发到博客上，有需要的同学可以看看。</p>
-
-<p><a href="attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
-			</div>
-		
-			<div class="indexarticle">
 			<h1><a href="./article/hello_solo_and_github.html">你好，Solo &amp; GitHub!</a></h1>
 
 <p><em>2012-08-16 18:24</em></p>
@@ -127,6 +111,22 @@
 </blockquote>
 			</div>
 		
+			<div class="indexarticle">
+			<h1><a href="./article/ie7_focus_method_invalid.html">IE7下focus方法失效（原因不明）</a></h1>
+
+<p><em>2011-12-28 10:49</em></p>
+
+<p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
+
+<p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
+
+<p>断点调试、打log也没什么结果，代码是走到那里了，但是input就是死活不focus。</p>
+
+<p>后来死马当活马医，开始试。结果发现将focus方法连续调用两次，居然生效了。</p>
+
+<p>原因不明，期待高人解释。</p>
+			</div>
+		
 
 		<div id="pagination">
 		
@@ -135,6 +135,10 @@
 			<a href="index_page2.html">2</a>
 		
 			<a href="index_page3.html">3</a>
+		
+			<a href="index_page4.html">4</a>
+		
+			<a href="index_page5.html">5</a>
 		
 		</div>
 	</div>
