@@ -41,6 +41,7 @@
 <p>非常抱歉，您要访问的页面没有找到。</p>
 <p>如果您是从搜索而来，那么可能是由于博主天生爱折腾，刚将博客改版，您所要访问的文章地址已经改变。</p>
 <p>所有文章内容仍然存在，请进入<a href="/">首页</a>查找需要的文章。</p>
+<p id="redirect" style="display:none;">自动匹配到您想看的文章，3秒钟后自动跳转。</p>
 
 	</div>
 	<div id="disqus_thread"></div>
@@ -64,6 +65,49 @@
 		</script>
 		</div>
 </div>
-		
+<script>
+	$(function(){
+		var url = location.href,
+			urlmap = [{
+				oldkeyword:'app%E5%8C%96',
+				newurl:'/article/ios_web_app_develop_experience_3.html'
+			},{
+				oldkeyword:'app化',
+				newurl:'/article/ios_web_app_develop_experience_3.html'
+			},{
+				oldkeyword:'%E7%89%B9%E8%B4%A8',
+				newurl:'/article/ios_web_app_develop_experience_1.html'
+			},{
+				oldkeyword:'事件与特质',
+				newurl:'/article/ios_web_app_develop_experience_1.html'
+			},{
+				oldkeyword:'access-denie',
+				newurl:'/article/iframe_same_origin_access_denied.html'
+			},{
+				oldkeyword:'matrix-rotation',
+				newurl:'/article/ie_matrix_rotation.html'
+			},{
+				oldkeyword:'jsound-alpha',
+				newurl:'/article/jsound_alpha.html'
+			},{
+				oldkeyword:'%E4%BA%A4%E4%BA%92',
+				newurl:'/article/ios_web_app_develop_experience_2.html'
+			},{
+				oldkeyword:'交互',
+				newurl:'/article/ios_web_app_develop_experience_2.html'
+			},{
+				oldkeyword:'about-url',
+				newurl:'/article/something_about_url.html'
+			}]
+			$.each(urlmap,function(index,urlItem){
+				if(url.indexOf(urlItem.oldkeyword)){
+					setTimeout(function(){
+						location.href = urlItem.newurl;
+					},3000);
+				}
+				$('#redirect').slideDown();
+			})
+	});
+</script>	
 </body>
 </html>
