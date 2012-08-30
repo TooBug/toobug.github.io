@@ -100,7 +100,7 @@
 				newurl:'/article/something_about_url.html'
 			}]
 			$.each(urlmap,function(index,urlItem){
-				if(url.indexOf(urlItem.oldkeyword)){
+				if(url.indexOf(urlItem.oldkeyword) !== -1){
 					setTimeout(function(){
 						location.href = urlItem.newurl;
 					},3000);
