@@ -13,11 +13,58 @@
 	<atom:link href="http://www.toobug.net/rss.xml" rel="self" type="application/rss+xml" />
 	<link>http://www.toobug.net</link>
 	<description>TooBug - 专注前端开发</description>
-	<lastBuildDate>Wed, 07 Nov 2012 04:53:54 -0500</lastBuildDate>
+	<lastBuildDate>Thu, 13 Dec 2012 00:00:58 -0500</lastBuildDate>
 	<language>zh-CN</language>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<generator>http://www.toobug.net</generator>
+        
+		<item>
+		<title>JLint——一个sublime的JSLint插件</title>
+		<link>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</link>
+		<comments>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</comments>
+		<pubDate>Thu, 13 Dec 2012 00:00:00 -0500</pubDate>
+		<dc:creator>TooBug</dc:creator>
+		<category></category>
+		<guid isPermaLink="true">http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</guid>
+		<description><![CDATA[
+        
+
+
+
+<p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
+
+<h3>为什么又造轮子？</h3>
+
+<p>Sublime Text 2是一款非常优秀的代码编辑器，前两天出于对它的喜爱，购买了license，从此走上正版的道路。</p>
+
+<p>恰逢最近在项目中看到了一些不是太好的前端代码，就想弄一个JSLint来辅助检查修改一下。在<a href="http://wbond.net/sublime_packages/community#sort-installs">http://wbond.net/sublime_packages/community#sort-installs</a>上搜索“JSLint”，可以找到三个插件，第一个甚至有2%的用户安装了。但是，仔细看去，这三个插件不是要依赖node就是要依赖java，这让我这种有系统洁癖的人觉得非常不爽。</p>
+
+<p>在找了大半天找不到的情况下，一个想法冒出来了——“逼我么？”</p>
+
+<p>于是有了这个插件。</p>
+
+<h3>说明</h3>
+
+<p>因为是业余作品，花的时间相当少，加之既没有python基础，也不会sublime text插件的开发，全部是现学现卖，因此质量上还有不少问题。</p>
+
+<p>第一个问题是我还不知道如何去打开sublime text 2的控制台，所以在检查完以后需要手工按ctrl+`打开控制台才能看到结果。</p>
+
+<p>第二个问题是不了解其它系统是否有自带的js引擎，所以目前仅支持windows。</p>
+
+<p>第三个问题是windows的脚本宿主（JScript）对连续空行的判断有bug，导致代码中遇到空行后显示的行数不正确。这个坑爹的问题连JSLint作者老道也不准备再搞了，悲剧。</p>
+
+<p>第四个问题是现在代码是同步执行的（还不会搞python子线程的异步执行），文件比较大时会有明显的卡顿现象。</p>
+
+<p>第五个问题是对JSLint的选项还不熟，因此不知道如何配置才最符合工程中的代码要求，这一点我也会自己一边用一边调整。</p>
+
+<h3>结束</h3>
+
+<p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
+        ]]></description>
+		<wfw:commentRss>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
         
 		<item>
 		<title>你好，Solo &amp; GitHub!</title>
@@ -407,62 +454,6 @@ test.textContent = 'I see the light!';
 		</item>
         
 		<item>
-		<title>The Little Book on Coffee Script</title>
-		<link>http://www.toobug.net/article/the_little_book_on_coffee_script.html</link>
-		<comments>http://www.toobug.net/article/the_little_book_on_coffee_script.html</comments>
-		<pubDate>Fri, 23 Dec 2011 00:00:00 -0500</pubDate>
-		<dc:creator>TooBug</dc:creator>
-		<category></category>
-		<guid isPermaLink="true">http://www.toobug.net/article/the_little_book_on_coffee_script.html</guid>
-		<description><![CDATA[
-        
-
-
-
-<p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
-
-<p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
-
-<p>扫了一眼官方推荐的第一本书，但是是网页的，花了点时间整理成PDF了，方便自己看。</p>
-
-<p>顺便也发到博客上，有需要的同学可以看看。</p>
-
-<p><a href="attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
-        ]]></description>
-		<wfw:commentRss>http://www.toobug.net/article/the_little_book_on_coffee_script.html</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-        
-		<item>
-		<title>IE下绝对定位的链接display:block失效的问题</title>
-		<link>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
-		<comments>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</comments>
-		<pubDate>Wed, 21 Dec 2011 00:00:00 -0500</pubDate>
-		<dc:creator>TooBug</dc:creator>
-		<category></category>
-		<guid isPermaLink="true">http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
-		<description><![CDATA[
-        
-
-
-
-<p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
-
-<p>搜索了一下，解决方案在这里：</p>
-
-<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
-
-<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用url(about:blank)做背景。</p>
-
-<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
-
-<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
-        ]]></description>
-		<wfw:commentRss>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-        
-		<item>
 		<title>《Javascript Patterns》读书笔记 第二章 概要（1）</title>
 		<link>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</link>
 		<comments>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</comments>
@@ -590,6 +581,62 @@ func();
 </blockquote>
         ]]></description>
 		<wfw:commentRss>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+        
+		<item>
+		<title>The Little Book on Coffee Script</title>
+		<link>http://www.toobug.net/article/the_little_book_on_coffee_script.html</link>
+		<comments>http://www.toobug.net/article/the_little_book_on_coffee_script.html</comments>
+		<pubDate>Fri, 23 Dec 2011 00:00:00 -0500</pubDate>
+		<dc:creator>TooBug</dc:creator>
+		<category></category>
+		<guid isPermaLink="true">http://www.toobug.net/article/the_little_book_on_coffee_script.html</guid>
+		<description><![CDATA[
+        
+
+
+
+<p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
+
+<p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
+
+<p>扫了一眼官方推荐的第一本书，但是是网页的，花了点时间整理成PDF了，方便自己看。</p>
+
+<p>顺便也发到博客上，有需要的同学可以看看。</p>
+
+<p><a href="attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
+        ]]></description>
+		<wfw:commentRss>http://www.toobug.net/article/the_little_book_on_coffee_script.html</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+        
+		<item>
+		<title>IE下绝对定位的链接display:block失效的问题</title>
+		<link>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
+		<comments>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</comments>
+		<pubDate>Wed, 21 Dec 2011 00:00:00 -0500</pubDate>
+		<dc:creator>TooBug</dc:creator>
+		<category></category>
+		<guid isPermaLink="true">http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
+		<description><![CDATA[
+        
+
+
+
+<p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
+
+<p>搜索了一下，解决方案在这里：</p>
+
+<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
+
+<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用url(about:blank)做背景。</p>
+
+<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
+
+<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
+        ]]></description>
+		<wfw:commentRss>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
         
