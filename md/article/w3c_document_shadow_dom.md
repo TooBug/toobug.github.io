@@ -83,3 +83,71 @@ shadow root的parentNode和parentElement必须返回null。
 
 ### 2、下边界封装
 
+为了维护下边界封闭，分配shadow host的子节点到Shadow DOM子树中的插入点的过程必须有以下规则：
+
+- 分配过程不影响文档DOM和Shadow DOM子树的状态
+- 分配过程中参与分配的插入点通过提供一个规则（criteria）来指定子节点，这个规则决定某个节点是否被分配到指定的插入点
+- 分配过程是执行一个稳定的算法的结果（译注：应该是指不存在随机性）
+- 分配过程不会改变影响分配结果的变量的值
+- 当影响分配结果的变量值改变的时候，分配过程会重新进行
+
+一个插入点可能是“活动的”（active）或者是“非活动的”（inactive）。活动的插入点会参与分配过程，非活动的则不会参与。如果没有显式设为非活动，则插入点默认是活动的。
+
+如果一个插入点不在Shadow DOM子树中，它必须和HTMLUnknownElement一样渲染。（译注：没懂这种情况如何出现……）
+
+分配的算法必须有输出，等价于执行以下几步（这里和伪代码差不多了，可跳过）：
+
+> 输入
+> 	TREE，Shadow DOM子树
+> 	POOL，DOM节点的列表
+> 输出
+> 	POOL中的节点被分配到TREE中的插入点
+> 1. 按照顺序遍历TREE中活动的插入点：
+> 	1. 让POINT成为当前的插入点
+> 	2. 遍历POOL中的节点：
+> 		1. 让NODE成为当前节点
+> 		2. 如果NODE和POINT的规则匹配：
+> 			1. 将NODE分配给POINT
+> 			2. 将NODE从POOL中移除
+> 		3. 否则，继续遍历
+> 	3. 继续遍历
+
+### 3、匹配插入点
+
+插入点的匹配规则是通过一系列“选择器片段”（selector fragment）来定义的。一个选择器片段实际上是这样一个选择器中的片段(shadow-host)>(fragment)，其中(shadow-host)是一个唯一标识shadow host的选择器，(fragment)是一个选择器片段。（译注：即选择器片段特指fragment部分，不包含shadow host。）
+
+一个有效的选择器片段可以包含：
+
+- 节点类型选择器（如div）或者通用选择器（*）
+- class选择器
+- ID选择器
+- 属性选择器
+- 以下列出的伪类选择器：
+	- :link
+	- :visited
+	- :target
+	- :enabled
+	- :disabled
+	- :checked
+	- :indeterminate
+	- :nth-child()
+	- :nth-last-child()
+	- :nth-of-type()
+	- :nth-last-of-type()
+	- :first-child
+	- :last-child
+	- :first-of-type
+	- :last-of-type
+	- :only-of-type
+
+如果其它类型的选择器出现在选择器片段上，这个片段必须被认为是无效的。
+
+浏览器必须让节点去匹配选择器片段，如果节点（译注：不确定是不是这个意思，原文“A conforming UAs must consider a node as matching a set of selector fragments in the context of a given shadow host, if it:”）：
+
+- 是shadow host的子节点，且
+- 所有的选择器片段是有效的，且
+- 子节点至少匹配一个选择器片段，或者选择器片段是空的
+
+### 4、匹配子元素，分配到插入点
+
+
