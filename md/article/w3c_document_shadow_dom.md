@@ -95,7 +95,7 @@ shadow root的parentNode和parentElement必须返回null。
 
 如果一个插入点不在Shadow DOM子树中，它必须和HTMLUnknownElement一样渲染。（译注：没懂这种情况如何出现……）
 
-分配的算法必须有输出，等价于执行以下几步（这里和伪代码差不多了，可跳过）：
+分配算法必须有输出，等价于执行以下几步（这里和伪代码差不多了，可跳过）：
 
 > 输入
 > 	TREE，Shadow DOM子树
@@ -149,5 +149,63 @@ shadow root的parentNode和parentElement必须返回null。
 - 子节点至少匹配一个选择器片段，或者选择器片段是空的
 
 ### 4、匹配子元素，分配到插入点
+
+[“引用组合器”（Reference combinators）](http://dev.w3.org/csswg/selectors4/#idref-combinators)（译注：这是属于[选择器标准](http://dev.w3.org/csswg/selectors4)的一个概念，大意是“A /attr/ B”表示当A的attr属性值为B的ID时，选择B。其中A、B被叫作“复合选择器”，attr被叫作“组合器”。标准中有一个CSS的例子类似于“label:hover /for/ input”，即label的for属性为input的ID，且label处于hover态时应用到input上的样式）被用来匹配shadow host的子节点，并将它们分配到Shadow DOM子树中的插入点上。匹配过程中必须应用以下规则：
+
+- 组合器的值必须是select
+- 第一个复合选择器必须匹配到插入点
+- 第二个复合选择器必须匹配一个要被分配到这个插入点的元素
+
+例如，.some-insertion-point /select/ div.special将匹配所有class中含special的div，并将它们分配到class中含有some-insertion-point的插入点。
+
+所有其它类型的选择器不能跨越Shadow DOM子树和shadow host之间的shadow边界。
+
+### 5、承载多棵Shadow DOM子树
+
+一个shadow host可以承载多棵Shadow DOM子树。这种情况下，子树按照被添加的顺序进入堆栈，（遍历时）从最近添加的子树开始。放置树的东东叫“树栈”（tree stack）。最近被添加的树叫“新树”（younger tree），最先添加的树叫“老树”（older tree）。最后被添加的那棵树叫“最新树”（youngest tree）。
+
+为了方便组合同一个shadow host上面的多棵子树，一种特殊的插入点（“shadow插入点”）被提出来了。shadow插入点是在Shadow DOM子树中指定的一个位置，用来标示渲染时将“老树”插在哪里。如果一棵Shadow DOM子树中有多个shadow插入点，只有第一个是有效的。这也就是说一棵Shadow DOM子树会被分配到一个shadow插入点的位置。（译注：指除“最新树”以外的，因为最新树是直接插在shadow root上的。）
+
+像其它的插入点一样，shadow插入点也可以是活动的和非活动的。
+
+组合是通过“树组合算法”完成，必须等价于以下步骤（又来伪代码了，跳吧……）：
+
+> 输入
+> 	HOST，一个shadow host
+> 输出
+> 	所有的插入点和shadow插入点被填充
+> 1. 让TREE成为HOST中的“树栈”中的“最新树”
+> 2. 让POOL成为节点列表
+> 3. 将HOST的子元素填充进POOL中
+> 4. 当TREE存在时：
+> 	1. 让POINT成为TREE中第一个活动的shadow插入点
+> 	2. 运行“分配算法”（译注：上文中的），提供POOL和TREE作为输入
+> 	3. 如果POINT存在：
+> 		1. 寻找在HOST中比TREE老一点的树
+> 			1. 如果没有更老的树：
+> 				1. 将POOL中的节点分配给POINT
+> 				2. 停止
+> 			2. 否则：
+> 				1. 让TREE成为这棵老一点的树
+> 				2. 将TREE放置到POINT
+> 				3. 继续循环
+> 	4. 否则，停止
+
+当一个插入点或者shadow插入点没有被放置或者分配到任何东西时，在渲染时必须用回退（降级）内容替代它们。回退内容是指代表插入点的DOM元素的所有子元素。在回退内容中出现的插入点或者shadow插入点必须被认为是非活动的。
+
+### 6、嵌套的Shadow DOM子树
+
+Shadow DOM子树中的任何元素都可以是shadow host，这样就可以产生嵌套的Shadow DOM子树。当一棵Shadow DOM子树对应的shadow host本身是另一棵Shadow DOM子树的一部分时，这棵子树将被嵌套。
+
+当一棵Shadow DOM子树被另一棵通过一级或者更多级嵌套时，称这棵子树被另一棵子树封闭（enclosed）。
+
+### 7、渲染Shadow DOM子树
+
+渲染Shadow DOM子树，或者叫将它们可视化的过程，被专门定义，必须按照以下步骤进行（伪代码又来了，不爱译了，闪人……原文在[这里](http://www.w3.org/TR/shadow-dom/#rendering-shadow-subtrees)）：
+
+(伪代码，省略……)
+
+渲染的结果会产生多棵DOM子树组合的一个新结构，其中包含文档树。我们用“渲染后的”来指代这个结构。
+
 
 
