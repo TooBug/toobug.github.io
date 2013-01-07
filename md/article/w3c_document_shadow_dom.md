@@ -207,5 +207,36 @@ Shadow DOM子树中的任何元素都可以是shadow host，这样就可以产�
 
 渲染的结果会产生多棵DOM子树组合的一个新结构，其中包含文档树。我们用“渲染后的”来指代这个结构。
 
+## 六、事件
 
+当一个事件在Shadow DOM内被触发时，它的路径要么穿过shadow边界，要么在shadow边界被中止。有一个例外是“突变类事件”（mutation event）（译注：见[这里](http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-mutationevents)，指load、focus、blur等事件）。突变类事件不能在Shadow DOM子树中被触发。
+
+需要穿过shadow边界的事件，必须被填充一个“调整后的父元素”（adjusted parent），也就是渲染后充当父元素的元素。“父元素计算算法”被用来计算调整后的父元素以及创造事件触发后的祖先元素列表。这个算法必须和以下步骤等价（又是伪代码，不过这个可以一看）：
+
+> 输入
+> 	NODE，一个DOM节点
+> 输出
+> 	PARENT，一个DOM节点的调整后的父元素
+> 1. 如果NODE是shadow root：
+> 	1. 如果NODE现在被放置到shadow插入点：
+> 		1. 让PARENT成为NODE被放置shadow插入点
+> 	2. 否则，让PARENT成为NODE的shadow host
+> 2. 如果NODE是被分配到Shadow DOM子树中的插入点，放PARENT成为NODE被分配到的插入点
+> 3. 否则，让PARENT成为NODE的父节点
+
+### 1、事件重定位（retargeting）
+
+在事件穿过shadow边界的情况中，有关事件目标的信息需要被调整以维护上边界封装。事件重定位是一个根据事件触发节点的祖先节点计算“相对目标”（relative target）的过程。相对目标是一个最能准确描述事件触发目标同时又能维护上边界封装的DOM节点。
+
+“重定位算法”被用来计算相对目标，它必须和以下步骤等价（还是伪代码，继续跳过……）：
+
+（伪代码，省略，原文在[这里](http://www.w3.org/TR/shadow-dom/#event-retargeting)）
+
+重定位过程必须在事件触发前进行。
+
+### 2、重定位relatedTarget
+
+有一些事件会有relatedTarget属性，这个属性指向一个节点，但并不是事件的目标，而是和事件相关的节点。
+
+比如，mouseover事件的relatedTarget可能指向的是某个节点，鼠标从这个节点移向了事件的目标。在这种情况下如果relatedTarget在Shadow DOM子树中，浏览器不可以在子树之外的地方泄露它的真实值。如果relatedTarget和target都是同一棵Shadow DOM子树的一部分，浏览器应该在shadow边界停止事件，以避免出现像mouseover、mouseout之类的事件从同一个节点触发。（译注：这里指避免出现mouseover、mouseout事件看起来是在同一个节点内发生的，它们应该是在两个节点之间发生才对。）
 
