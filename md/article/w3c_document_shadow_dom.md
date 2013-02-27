@@ -240,3 +240,37 @@ Shadow DOM子树中的任何元素都可以是shadow host，这样就可以产�
 
 比如，mouseover事件的relatedTarget可能指向的是某个节点，鼠标从这个节点移向了事件的目标。在这种情况下如果relatedTarget在Shadow DOM子树中，浏览器不可以在子树之外的地方泄露它的真实值。如果relatedTarget和target都是同一棵Shadow DOM子树的一部分，浏览器应该在shadow边界停止事件，以避免出现像mouseover、mouseout之类的事件从同一个节点触发。（译注：这里指避免出现mouseover、mouseout事件看起来是在同一个节点内发生的，它们应该是在两个节点之间发生才对。）
 
+这样，如果一个事件有relatedTarget属性，它的值和事件触发的行为必须有所调整，通常是这样：
+
+1. 对一个给定的DOM结点，relatedTarget必须被调整为和它在同一棵Shadow DOM子树中的祖先（也可能是它自己）。
+2. 当target和relatedTarget一样时，事件处理函数不可被触发
+
+“related target解析”算法被用于计算relatedTarget属性的值，它必须等价于以下步骤（继续跳过……）：
+
+（伪代码，省略，原文在[这里](http://www.w3.org/TR/shadow-dom/#retargeting-related-target)）
+
+### 3、重定位焦点事件
+
+focus，DOMFocusIn，blur，DOMFocusOut事件必须和有relatedTarget属性的事件一样对待（译注，指有一个relatedTarget属性），（relatedTarget）对应的节点是在target（或另一个节点）获得焦点时正在失去焦点的节点。这样也使得target失焦的过程和relatedTarget失焦的过程一样。（译注：看懂了吗？哈哈，我也没有……）
+
+### 4、必须停止冒泡的事件
+
+下列事件必须在最接近shadow边界的时候被中止：
+
+- abort
+- abort
+- error
+- select
+- change
+- load
+- reset
+- resize
+- scroll
+- selectstart
+
+### 5、事件触发
+
+事件触发时：
+
+-  事件的target和currentTarget属性必须返回节点的相对目标，
+
