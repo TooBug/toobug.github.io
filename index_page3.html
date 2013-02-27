@@ -1,61 +1,48 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-	<meta charset="utf-8" />
-	<title>TooBug</title>
-	<meta name="description" content="TooBug - 专注前端开发" />
-	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
-	<link rel="alternate" type="application/rss+xml" title="TooBug" href="http://www.toobug.net/rss.xml" />
-	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" href="./skin/default/css/light.css" />
-	<link rel="stylesheet" href="./js/prettify/prettify.css"   />
-	<script src="./js/prettify/prettify.js"></script>
-	<script src="./js/jquery/jquery-1.7.2.min.js"></script>
-	<script src="./js/index.js"></script>
-</head>
-<body>
-<header>
-	<div id="logo"><a href="/">TooBug</a></div>
-	<nav>
-		<ul>
-			<li><a href="/index.html">Index<br />首页</a></li>
-			<li><a href="/page/about.html">About<br />关于</a></li>
-		</ul>
-	</nav>
-</header>
-<section id="sidebar">
-	<div id="intro">
-		<p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
-		<p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
-		<p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
-		<p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
-	</div>
-</section>
-
-
-<section id="content">
-	<div id="article">
-		
-			<div class="indexarticle">
-			<h1><a href="./article/javascript_patterns_note_chapter_1.html">《JavaScript Patterns》读书笔记 第一章 介绍</a></h1>
-
-<p><em>2011-12-17 17:29</em></p>
-
-<p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="./css/light.css">
+    <link rel="stylesheet" href="./js/prettify/prettify.css">
+    <script src="./js/prettify/prettify.js"></script>
+    <script src="./js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="/">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="./index.html">Index<br />首页</a></li>
+          <li><a href="./page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div id="intro">
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
+        <p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
+        <p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <div class="indexarticle">
+          <h1><a href="./article/javascript_patterns_note_chapter_1.html">《JavaScript Patterns》读书笔记 第一章 介绍</a><em class="pubDate">2011-12-17</em></h1><p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
 
 <p>这本书目前还没有中文版，据说淘宝UED的大牛们正在翻译。</p>
 
 <p>以下为读书笔记，中文为本人根据意思大致整理，不保证完全跟原文一样准确。</p>
-
-<div class="articlemore"><a href="./article/javascript_patterns_note_chapter_1.html">继续阅读</a></div>
-			</div>
-		
-			<div class="indexarticle">
-			<h1><a href="./article/ie_matrix_rotation.html">IE下利用Matrix滤镜实现绕中心点旋转</a></h1>
-
-<p><em>2011-12-15 13:16</em></p>
-
-<p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
+          <div class="articlemore"><a href="./article/javascript_patterns_note_chapter_1.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/ie_matrix_rotation.html">IE下利用Matrix滤镜实现绕中心点旋转</a><em class="pubDate">2011-12-15</em></h1><p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
 
 <p>在IE下旋转一个元素，则只能靠滤镜了。</p>
 
@@ -67,16 +54,10 @@
 <p>其中i取0，1，2，3，分别代表旋转90度、180度、270度、360度。</p>
 
 <p>而如果要实现任意角度旋转，则要使用Matrix（矩阵）滤镜。</p>
-
-<div class="articlemore"><a href="./article/ie_matrix_rotation.html">继续阅读</a></div>
-			</div>
-		
-			<div class="indexarticle">
-			<h1><a href="./article/keyboard_event_of_html_elements.html">HTML元素的键盘事件</a></h1>
-
-<p><em>2011-12-06 16:30</em></p>
-
-<p>这篇文章里已经说得很清楚了：</p>
+          <div class="articlemore"><a href="./article/ie_matrix_rotation.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/keyboard_event_of_html_elements.html">HTML元素的键盘事件</a><em class="pubDate">2011-12-06</em></h1><p>这篇文章里已经说得很清楚了：</p>
 
 <p><a href="http://yiminghe.iteye.com/blog/729265">http://yiminghe.iteye.com/blog/729265</a></p>
 
@@ -88,14 +69,10 @@
 </ul>
 
 <p>文中没有说到的一点是：document.body,document,window都可以直接响应键盘事件。</p>
-			</div>
-		
-			<div class="indexarticle">
-			<h1><a href="./article/iframe_same_origin_access_denied.html">同域iframe“拒绝访问”的问题</a></h1>
-
-<p><em>2011-12-01 16:57</em></p>
-
-<p>同事项目中用了一个iframe，父页和子页都设置了document.domain进行降域，结果在非IE下正常，IE下“拒绝访问”。</p>
+          <div class="articlemore"><a href="./article/keyboard_event_of_html_elements.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/iframe_same_origin_access_denied.html">同域iframe“拒绝访问”的问题</a><em class="pubDate">2011-12-01</em></h1><p>同事项目中用了一个iframe，父页和子页都设置了document.domain进行降域，结果在非IE下正常，IE下“拒绝访问”。</p>
 
 <p>跟大多数人想的一样，iframe遇到“拒绝访问”首先肯定考虑是document.domain的问题，但是这里父子页面都显式做了降域处理，应该不会。找不出其他原因，只好试了一下，结果屏蔽来屏蔽去调了半天，问题依旧。</p>
 
@@ -104,14 +81,10 @@
 <p>问题产生的原因是IE的速度比较慢，在iframe还没有加载的时候是访问不到它的contentWindow,contentDocument之类的对象的，所以报“拒绝访问”。解决的办法很简单，加一个轮询，如果iframe的document.readyState == ‘complete’，再进行操作。</p>
 
 <p>猜测：其他的浏览器一定不出问题么？如果加载一个超级大的文件？还是原理不一样？（如果也有同样的问题的话，其它浏览器可以直接监听iframe的onload事件。）</p>
-			</div>
-		
-			<div class="indexarticle">
-			<h1><a href="./article/xheditor_paste_images.html">xheditor从剪贴板粘贴图片的实现原理</a></h1>
-
-<p><em>2011-11-30 10:08</em></p>
-
-<p><a href="http://xheditor.com/">xheditor</a>是一个优秀的国产富文本编辑器，最近的（其实我也不知道有多久了）版本推出了一个粘贴剪贴板图片的功能，很是喜爱，好奇了好久，最终不住去看了下源码，基本明白了。</p>
+          <div class="articlemore"><a href="./article/iframe_same_origin_access_denied.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/xheditor_paste_images.html">xheditor从剪贴板粘贴图片的实现原理</a><em class="pubDate">2011-11-30</em></h1><p><a href="http://xheditor.com/">xheditor</a>是一个优秀的国产富文本编辑器，最近的（其实我也不知道有多久了）版本推出了一个粘贴剪贴板图片的功能，很是喜爱，好奇了好久，最终不住去看了下源码，基本明白了。</p>
 
 <p>首先，这个功能很新，不支持IE系列浏览器……所以用的是一些新的API。</p>
 
@@ -120,35 +93,14 @@
 <p>一点前置小知识是必备的，那就是对大部分截图软件来说，截图操作是一个把截取的图片转换成指定格式（貌似jpg居多， windows自带的是bmp），然后放入剪贴板的过程。</p>
 
 <p>所以，要粘贴图片，核心就是读取剪贴板。</p>
-
-<div class="articlemore"><a href="./article/xheditor_paste_images.html">继续阅读</a></div>
-			</div>
-		
-
-		<div id="pagination">
-		
-			<a href="index.html">1</a>
-		
-			<a href="index_page2.html">2</a>
-		
-			<a href="index_page3.html">3</a>
-		
-			<a href="index_page4.html">4</a>
-		
-			<a href="index_page5.html">5</a>
-		
-		</div>
-	</div>
-</section>
-<div id="foot">
-		<p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
-		<div id="stat">
-		<script type="text/javascript">
-			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6897881fe107aeba9fa7de180b4213a9' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		</div>
-</div>
-		
-</body>
+          <div class="articlemore"><a href="./article/xheditor_paste_images.html">继续阅读</a></div>
+        </div>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a>
+        </div>
+      </div>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
+    </div>
+  </body>
 </html>

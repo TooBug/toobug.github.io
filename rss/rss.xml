@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>TooBug</title>
+    <link>http://www.toobug.net</link>
+    <description>TooBug - 专注前端开发</description>
+    <lastBuildDate>Thu, 13 Dec 2012 12:50:00 +0800</lastBuildDate>
+    <generator>Solo 2.0</generator>
+    <item>
+      <title>JLint——一个sublime的JSLint插件</title>
+      <link>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</guid>
+      <pubDate>Thu, 13 Dec 2012 12:50:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
+
+<h3>为什么又造轮子？</h3>
+
+<p>Sublime Text 2是一款非常优秀的代码编辑器，前两天出于对它的喜爱，购买了license，从此走上正版的道路。</p>
+
+<p>恰逢最近在项目中看到了一些不是太好的前端代码，就想弄一个JSLint来辅助检查修改一下。在<a href="http://wbond.net/sublime_packages/community#sort-installs">http://wbond.net/sublime_packages/community#sort-installs</a>上搜索“JSLint”，可以找到三个插件，第一个甚至有2%的用户安装了。但是，仔细看去，这三个插件不是要依赖node就是要依赖java，这让我这种有系统洁癖的人觉得非常不爽。</p>
+
+<p>在找了大半天找不到的情况下，一个想法冒出来了——“逼我么？”</p>
+
+<p>于是有了这个插件。</p>
+
+<h3>说明</h3>
+
+<p>因为是业余作品，花的时间相当少，加之既没有python基础，也不会sublime text插件的开发，全部是现学现卖，因此质量上还有不少问题。</p>
+
+<p>第一个问题是我还不知道如何去打开sublime text 2的控制台，所以在检查完以后需要手工按ctrl+`打开控制台才能看到结果。</p>
+
+<p>第二个问题是不了解其它系统是否有自带的js引擎，所以目前仅支持windows。</p>
+
+<p>第三个问题是windows的脚本宿主（JScript）对连续空行的判断有bug，导致代码中遇到空行后显示的行数不正确。这个坑爹的问题连JSLint作者老道也不准备再搞了，悲剧。</p>
+
+<p>第四个问题是现在代码是同步执行的（还不会搞python子线程的异步执行），文件比较大时会有明显的卡顿现象。</p>
+
+<p>第五个问题是对JSLint的选项还不熟，因此不知道如何配置才最符合工程中的代码要求，这一点我也会自己一边用一边调整。</p>
+
+<h3>结束</h3>
+
+<p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>你好，Solo &amp; GitHub!</title>
+      <link>http://www.toobug.net/article/hello_solo_and_github.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/hello_solo_and_github.html</guid>
+      <pubDate>Thu, 16 Aug 2012 18:24:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
+
+<p>初中行将毕业时，因为一些突如其来的事情，突然觉得整个世界失去了色彩。那时候真切地觉得，别人都好好活着，我好好地看着就好了。那时候，也曾在心底暗暗标榜过，我的生活，无非是冷眼看世界而已。大半夜在教室睡不着的时候，偶尔也会想想人生。偶尔也会不经意地想到Solo，很好的名字，一个人的精神世界，也许并没有那么糟。</p>
+
+<p>大学进了乐团，终于知道，原来solo还有独奏的意思。那时候跟着一堆朋友们在乐队中瞎混，觉得能抢到一段solo来让自己演奏真的是莫大的荣幸。也是这段经历，让我知道，solo很精彩，solo不孤单。</p>
+
+<p>好了，说了这么多无关痛痒的话题，我只想说，当我看到solo成为一个喜爱的博客项目的名字的时候，打心眼里感到喜悦！于是，来不及想作者的意图到底是本地编译还是在线编译，来不及看代码中的七牛到底是个什么神秘玩意，我就迫不急待地开始了我的solo之旅行。</p>
+
+<p>我很庆幸我是做前端的，这样，在第一眼就看出这个项目有很多不完善的时候，仍然有信心去将它打造成我想要的样子。于是，你看到了你现在看到的博客。当然，它不完美，它离我的预想还有很远，但是我坚信总有一天它会让我满意的。</p>
+
+<p>在接触了MarkDown之后，觉得抛弃WordPress是件很自然的事情了。虽然solo没有后台、没有任何动态特性，但对它每个角落的每一行代码完完全全地掌握就足够让我欣喜，而MarkDown对文字中每个细节的把握更是让我觉得完美，这种喜爱的感觉，奇妙得难以言表。</p>
+
+<p>虽然我有两个VPS，但是仍然选择将solo托管在GitHub上，无他，喜爱而已，就像我对MarkDown的喜爱一样，无可救药。</p>
+
+<p>好了，不扯了。一晃两年没写文字了，再次涉足，手足无措，其实我想说的无非就一句话：我生命中的第三个solo，我来了！</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>jSound Alpha</title>
+      <link>http://www.toobug.net/article/jsound_alpha.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/jsound_alpha.html</guid>
+      <pubDate>Fri, 06 Apr 2012 12:27:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>某天突发奇想，咋没有一个关于声音的js库？本来HTML5的声音就很弱，这方面应该有更多的封装才适合做游戏之类的东东。</p>
+
+<p>在网上找了一下，有个叫<a href="https://github.com/nicklockwood/SoundManager">soundmanager</a>的库，不过它是调用flash的声音能力，当然功能也比较强大。</p>
+
+<p>于是就自己写了一个，目前还只是最最简单的版本，全部代码如下：</p>
+
+<pre><code>~function(w){
+    if(w.jSound)return;
+    ~function(){
+        if (!document.body){
+            setTimeout(arguments.callee,50);
+            return;
+        }
+        var elem = document.createElement('audio'),src;
+        if (!elem.canPlayType){
+            elem = document.createElement('bgsound');
+        }
+        document.body.appendChild(elem);
+        w.jSound={
+            play:function(soundSrc){
+                src=soundSrc;
+                elem.src='';
+                elem.src=src;
+                if (elem.canPlayType){
+                    elem.play();
+                }
+            }
+        }
+    }();
+}(window);
+</code></pre>
+
+<p>目前只是封装了IE与非IE的差别，IE下用bgsound，非IE用audio标签，还有比较多的事情要解决：</p>
+
+<ul>
+<li>声音重叠（IE下必须播放完后才能重新放同一个声音，即使将src赋空后重新赋值也不行）</li>
+<li>URL请求，目前每点击一次在高级浏览器下会发出两个HTTP请求，原因还没仔细去看，后续看看能否优化成下载后不再发出请求</li>
+<li>多声音管理，本来刚开始是将jSound写成构造函数的，然后每个对象管理自己的src和页面元素elem，但是试用了一下觉得似乎不太必要又改为了现在全局对象的样子，是否需要单独的对象要再衡量一下</li>
+<li>播放状态管理，这个估计有困难</li>
+</ul>
+
+<blockquote>
+  <p>8月17日更新：已经开源到<a href="https://github.com/TooooBug/jSound">GitHub</a>，另外许久未打理，估计得过段时间再继续完善。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>IE7下focus方法失效（原因不明）</title>
+      <link>http://www.toobug.net/article/ie7_focus_method_invalid.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ie7_focus_method_invalid.html</guid>
+      <pubDate>Wed, 28 Dec 2011 10:49:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
+
+<p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
+
+<p>断点调试、打log也没什么结果，代码是走到那里了，但是input就是死活不focus。</p>
+
+<p>后来死马当活马医，开始试。结果发现将focus方法连续调用两次，居然生效了。</p>
+
+<p>原因不明，期待高人解释。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《Javascript Patterns》读书笔记 第二章 概要（1）</title>
+      <link>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</guid>
+      <pubDate>Sat, 24 Dec 2011 18:34:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>这一章概要地介绍了一些最佳实践、模式还有编码习惯。</p>
+
+<h3>一、编写可维护的代码</h3>
+
+<p>发现bug时最好能立马修复，延迟可能导致你需要更多的时间去重新理解问题，还有可以解决问题的代码。</p>
+
+<p>代码经常会被阅读，因为以下原因：</p>
+
+<ol>
+<li>Bugs</li>
+<li>新功能要添加</li>
+<li>程序需要在新环境下运行</li>
+<li>代码的功能被改变</li>
+<li>代码完全被重写</li>
+</ol>
+
+<p>可维护的代码表示代码具有以下特性：</p>
+
+<ol>
+<li>可读的</li>
+<li>一致的</li>
+<li>可预测的</li>
+<li>看起来像同一个人编写的</li>
+<li>有文档的</li>
+</ol>
+
+<h3>二、尽量减少全局变量</h3>
+
+<p>JavaScript用函数来管理作用域，函数内定义的变量是局部的。全局变量是定义在任何函数之外的或者是未定义直接使用的变量。</p>
+
+<p>每个JavaScript有一个全局对象（global object），当this用在任何函数之外时可以访问到它。每个全局变量成为全局对象的一个属性，游戏器中全局对象是window。</p>
+
+<p>全局变量的问题在于它被所有的代码共享，当两部分的代码定义相同的全局变量时，会产生冲突。</p>
+
+<p>引入一个第三方的代码也是很常见的，比如：</p>
+
+<ol>
+<li>第三方库</li>
+<li>来自广告伙伴的脚本</li>
+<li>来自流量跟踪和分析的代码</li>
+<li>各种widget等</li>
+</ol>
+
+<p>当一个第三方脚本定义了全局变量result后，你自己定义的函数定义全局变量result时就会覆盖前面的全局变量。</p>
+
+<p>所以和其他的脚本共同工作时，减少全局变量的使用是非常重要的。使用var定义变量是一个最重要的方法。</p>
+
+<p>提示：另一个减少全局变量使用的原因是考虑到可移植性，当你的代码要运行在不同的环境中时，定义全局变量是很危险的，因为可以覆盖来自宿主的全局变量。</p>
+
+<p>用var创建的全局变量和未使用var创建的隐性全局变量有一点细微的差别：</p>
+
+<p>用var创建的全局变量不能被delete删除，而未使用var创建的隐性全局变量可以用delete删除。</p>
+
+<p>在ES5“严格模式”下，给未定义的变量赋值将报错。</p>
+
+<h3>三、访问全局对象</h3>
+
+<p>在浏览器中，全局对象可以在任何代码中通过window访问。但在另一些环境中，这个全局对象可能叫不同的名字，所以最好不要硬编码，而是通过下面的代码访问（在任何代码中都可以）：</p>
+
+<pre><code>var global = (function(){
+    return this;
+}());
+</code></pre>
+
+<p>(注：最外层的括号完全可以不要的，括回也可以放到最后一对空括号之前)</p>
+
+<h3>四、单var语句</h3>
+
+<p>在函数开头只使用一个var语句有如下好处：</p>
+
+<ol>
+<li>变量集中到开头</li>
+<li>阻止当一个变量在声明前使用时产生逻辑错误（hoisting，见后文）（注：这个是指JavaScript预编译机制导致的变量可见性问题，即一个变量在同一作用域内先读，后定义，则读的时候会是undefined，而不管它的作用域链中同名变量情况是如何）</li>
+<li>强迫记得声明变量，减少隐性全局变量</li>
+<li>减少代码量</li>
+</ol>
+
+<p>声明变量时赋初值是个好习惯，可能避免逻辑错误，并增加代码可读性，可以一眼看出是什么类型的变量。</p>
+
+<p>你也可以在定义的时候做真正的计算。（注：例子中是指一系列逗号分开的定义中，后面的变量可以使用前面的变量）</p>
+
+<p>JavaScript允许在函数内部随意、多次使用var定义变量，就跟在顶部定义一样的效果，这个行为叫hoisting（注：不知该如何翻译好）。如：</p>
+
+<pre><code>myname="global";
+function func(){
+    alert(myname);    //"undefined"
+    var myname="local";
+    alert(myname);    //"local"
+}
+func();
+</code></pre>
+
+<p>跟下面的代码一样，好像定义被提前了一样：</p>
+
+<pre><code>myname="global";
+function func(){
+    var myname;
+    alert(myname);    //"undefined"
+    myname="local";
+    alert(myname);    //"local"
+}
+func();
+</code></pre>
+
+<blockquote>
+  <p>提示：在理解的时候，可以将函数和变量定义理解为“提前”，但ECMAScript中并未有这种说法。在实现的时候，其实是分两步的，第一步先扫描函数和变量定义，创建上下文环境（context），第二步才执行代码。</p>
+  
+  <p>第二章内容好多，先发一部分，之后继续。</p>
+  
+  <p>2012年8月20日更新：短期内可能不会更新了，本书正在翻译中，<a href="https://github.com/TooooBug/javascript.patterns">翻译稿</a>可以在GitHub上找到。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>IE下绝对定位的链接display:block失效的问题</title>
+      <link>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
+      <pubDate>Wed, 21 Dec 2011 20:02:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
+
+<p>搜索了一下，解决方案在这里：</p>
+
+<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
+
+<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用url(about:blank)做背景。</p>
+
+<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
+
+<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>Chrome也支持zoom了</title>
+      <link>http://www.toobug.net/article/chrome_supports_zoom.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/chrome_supports_zoom.html</guid>
+      <pubDate>Wed, 21 Dec 2011 19:59:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>查阅网上的中文资料，几乎每篇文章都在说，zoom是IE专有的属性，但事实是，chrome也支持。</p>
+
+<p>Demo：<a href="http://jsfiddle.net/toobug/9drpy/1/embedded/result/">http://jsfiddle.net/toobug/9drpy/1/embedded/result/</a></p>
+
+<p>所以在chrome下放大元素除了用css3之外，也可以用zoom这样简单的方法了。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《JavaScript Patterns》读书笔记 第一章 介绍</title>
+      <link>http://www.toobug.net/article/javascript_patterns_note_chapter_1.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_patterns_note_chapter_1.html</guid>
+      <pubDate>Sat, 17 Dec 2011 17:29:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
+
+<p>这本书目前还没有中文版，据说淘宝UED的大牛们正在翻译。</p>
+
+<p>以下为读书笔记，中文为本人根据意思大致整理，不保证完全跟原文一样准确。</p>
+
+<h3>第一章 介绍</h3>
+
+<p>广义上的“模式”指“重复的事件或对象的主题……它可以是一种通用的模板或者模型”</p>
+
+<p>在软件开发中，一种模式就是一类问题的解决方案。一种模式不是指可以复制粘贴的代码，而是一种用来解决一类问题的抽象模板。</p>
+
+<p>了解设计模式很重要，因为</p>
+
+<ol>
+<li>可以帮助我们使用已经被实践检验过的模式，不重复造轮子</li>
+<li>人脑的思维能力有限，当你思考一个复杂问题，并且注意力不在底层细节时，它能提供一种抽象的模式帮助你</li>
+<li>在不同的开发者和团队之间易于交流（注：传说中的“黑话”）</li>
+</ol>
+
+<p>这本书讨论了设计模式、编码模式、不好的代码实现（Antipatterns）</p>
+
+<h3>一、面向对象</h3>
+
+<p>JavaScript是一门面向对象语言（注：似乎现在大家都认为它是“基于对象”而非“面向对象”）。</p>
+
+<p>只有五种基本类型不是对象，分别是number,string,boolean,null,undefined
+number,string,boolean的值很容易转变成对象，不管是被编程者还是隐式地被JavaScript解释器。</p>
+
+<p>函数也是对象，可以有属性和方法。</p>
+
+<p>定义变量时就在处理对象。首先，变量自动变成一个叫活动对象（或者全局对象）的属性。其次，这个变量实际上很像对象，因为它有自己的属性，决定它是否能被改变，删除或者用for-in遍历。这些属性在ECMAScript3中不是直接暴露的，但是在第5版中提供特别的装饰器手工操作它们。</p>
+
+<p>对象是名值对的集合（和其它语言的关联数组的概念很像）。有的属性值可以是函数，这些函数被叫作方法。</p>
+
+<h3>二、没有类</h3>
+
+<p>在JS中创建对象不需要类，只需要创建它，然后给它添加基本类型、函数或者对象作为属性即可。一个空对象不是真的是空的，它有一些原生的属性，但是它没有自己的（own）属性。</p>
+
+<h3>三、原型</h3>
+
+<p>JavaScript有继承，虽然这只是一种代码复用的方式。继承可以通过多种不同的方式完成，经常会利用到原型。</p>
+
+<p>原型是一个对象，每个由编码者创建的函数都自动有一个指向空对象的原型，这个对象跟使用字面量或者Object()构造函数创建的空对象差不多，除了constructor是指向函数而不是原生的Object()</p>
+
+<h3>四、环境</h3>
+
+<p>JavaScript需要一个环境来运行，最常见的是浏览器，但那不是唯一的环境。</p>
+
+<p>这本书的大部分是讲的JavaScript核心部分，与环境无关。</p>
+
+<p>环境可以提供自己的宿主对象，这是在ECMAScript中没有定义的，可能会有意料之外的行为（注：如浏览器的JS兼容性问题就绝大部分来源于宿主对象的差异）。</p>
+
+<h3>五、ECMAScript5</h3>
+
+<p>JavaScript核心部分基于ECMAScript标准。第三版标准于1999年被官方承认，也是现在各浏览器实现的版本。第四版已经放弃。第五版在2009年发布。</p>
+
+<p>第5版加入了一些原生对象、方法和属性。但是最重要的变化是严格模式（strict mode），这个模式从以前的版本中移除了一些特性，使得编程更简单，减少错误倾向。</p>
+
+<p>严格模式通过一段普通的文本触发，向下兼容。</p>
+
+<p>在一个作用域中（不管是函数作用域、全局作用域，还是传给eval()的字符串的开头），都可以用”user strict”来触发严格模式。</p>
+
+<p>这本书不研究与ES5有关的模式，因为成书时没有浏览器实现了ES5。但是例子中与ES5相关的特性如下：</p>
+
+<ol>
+<li>保证提供的代码在严格模式下不报错</li>
+<li>避免使用ES5弃用的结构，如arguments.callee</li>
+<li>尽量使用ES5中原生的方法（注：在ES3中自己实现，保持名称和参数一样），如Object.create()</li>
+</ol>
+
+<blockquote>
+  <p>注：后面的JSLint和console，略</p>
+  
+  <p>2012年8月20日注：目前我正在参与翻译该书，<a href="https://github.com/TooooBug/javascript.patterns">翻译稿</a>可以在GitHub上找到。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>IE下利用Matrix滤镜实现绕中心点旋转</title>
+      <link>http://www.toobug.net/article/ie_matrix_rotation.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ie_matrix_rotation.html</guid>
+      <pubDate>Thu, 15 Dec 2011 13:16:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
+
+<p>在IE下旋转一个元素，则只能靠滤镜了。</p>
+
+<p>如果只是以90度为单位旋转的话，简单地使用这个滤镜就好：</p>
+
+<pre><code>filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=i)
+</code></pre>
+
+<p>其中i取0，1，2，3，分别代表旋转90度、180度、270度、360度。</p>
+
+<p>而如果要实现任意角度旋转，则要使用Matrix（矩阵）滤镜。</p>
+
+<p>网上介绍的方法都是这样：</p>
+
+<pre><code>filter:progid:DXImageTransform.Microsoft.Matrix(M11=m11,M12=m12,M21=m21,M22=m22,sizingMethod="auto expand");
+</code></pre>
+
+<p>设旋转角为x，用弧度表示。那么m11=cos(x),m12=-sin(x),m21=sin(x),m22=cos(x)</p>
+
+<p>实测这个方法有效，但是它会绕元素原来轮廓的左边和上边转动，还是画个图示意一下：</p>
+
+<p><img src="../images/ie_matrix_rotation_1.jpg" alt="IE非中心点旋转" title="" /></p>
+
+<p>如图所示，图形会贴着上边和左边旋转。</p>
+
+<p>那如果我们要绕中间点旋转的话要怎么做呢？这就说来话长了，得讲到几何的向量方法。</p>
+
+<p>坐标系中，每个点有一个坐标，比如点p(3,4)，横坐标为3，纵坐标为4。</p>
+
+<p>接下来，向量：简单理解为有方向的线段。</p>
+
+<p>将点和原点连接起来，方向从原点指向点，即构成一个向量op。</p>
+
+<p>通过这样的方式，我们就将向量与点一一映射起来了，研究点的时候就可以用向量来研究啦。</p>
+
+<p><img src="../images/ie_matrix_rotation_2.jpg" alt="点到坐标映射" title="" /></p>
+
+<p>接下来，研究旋转的实质，P点绕原点O（顺时针）旋转角度α，即向量OP旋转α，新的点P‘坐标变为(3<em>cosα-4</em>sinα,4<em>sinα+3</em>cosα).</p>
+
+<p>为什么会是这个值，请参阅<a href="http://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC">http://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC</a>（数学里面以逆时针为正方向，所以公式在符号上略有不同）</p>
+
+<p>上面新坐标中，在原坐标上进行的计算的数cosα,-sinα,sinα,cosα刚好就是上上面IE的matrix中的参数m11,m12,m21,m22！</p>
+
+<p>事实上，上面的计算一般会写成矩阵的方式来进行，见<a href="http://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC">维基百科</a>的表示方法。</p>
+
+<p>所以，matrix滤镜的实质是对图形进行坐标的矩阵运算。</p>
+
+<p>上面说的是绕原点O旋转，如果绕的是非原点呢？情况比较复杂，详见<a href="http://hi.baidu.com/windsion/blog/item/b4a41951699aa0c9b645ae4f.html">http://hi.baidu.com/windsion/blog/item/b4a41951699aa0c9b645ae4f.html</a>。</p>
+
+<p>大致分为三步：</p>
+
+<ol>
+<li>整体位移，即把中心点和向量做相应位移，使旋转点变为原点</li>
+<li>绕原点旋转，和上面说的一样</li>
+<li>整体位移，再将中心点移回原来的地方去</li>
+</ol>
+
+<p>这个时候，计算的矩阵就变得复杂了（<a href="http://hi.baidu.com/windsion/blog/item/b4a41951699aa0c9b645ae4f.html">上面文章</a>的最下方）。</p>
+
+<p>而事实上，这个矩阵是可以化简的，详见这里<a href="http://stackoverflow.com/questions/5051451/javascript-ie-rotation-transform-maths">http://stackoverflow.com/questions/5051451/javascript-ie-rotation-transform-maths</a></p>
+
+<p>最终，我们得到除了上面的m11,m12,m21,m22之外的另外两个数，这两个数在IE的matrix滤镜中表示为Dx,Dy。</p>
+
+<p>将这六个参数写入matrix滤镜，即可绕中心点旋转了。</p>
+
+<p>完整的写法：</p>
+
+<pre><code>progid:DXImageTransform.Microsoft.Matrix(Dx=dx,Dy=dy,M11=m11,M12=m12,M21=m21,M22=m22);
+</code></pre>
+
+<p>其中</p>
+
+<pre><code>dx=-width/2*cosdeg+height/2*sindeg+width/2,
+dy=-width/2*sindeg-height/2*cosdeg+height/2
+m11,m12,m21,m22与前面说的一样。
+</code></pre>
+
+<p>哦哦，对了，微软官方说了<a href="http://msdn.microsoft.com/en-us/library/ms532872(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/ms532872(v=vs.85).aspx</a>，如果sizingMethod=”auto expand”，那么Dx、Dy是无效的哦。所以去掉就好啦。</p>
+
+<p>最后的最后，sizingMethod是什么意思呢，如果不设它的话，旋转对象的容器大小会是固定的，所以可能有遮挡的情况，自己要调整好大小，而如果它被设为auto expand，就是自动扩展的意思，即旋转时外面的容器大小会自动调整，以便不遮挡正在旋转的元素。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>HTML元素的键盘事件</title>
+      <link>http://www.toobug.net/article/keyboard_event_of_html_elements.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/keyboard_event_of_html_elements.html</guid>
+      <pubDate>Tue, 06 Dec 2011 16:30:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>这篇文章里已经说得很清楚了：</p>
+
+<p><a href="http://yiminghe.iteye.com/blog/729265">http://yiminghe.iteye.com/blog/729265</a></p>
+
+<p>核心观点是：</p>
+
+<ul>
+<li>除了文中列出的元素，其他元素不能直接获得键盘事件，除非通过冒泡</li>
+<li>对不能直接获得键盘事件的元素，通过让它强制获得焦点可以响应键盘事件</li>
+</ul>
+
+<p>文中没有说到的一点是：document.body,document,window都可以直接响应键盘事件。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>同域iframe“拒绝访问”的问题</title>
+      <link>http://www.toobug.net/article/iframe_same_origin_access_denied.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/iframe_same_origin_access_denied.html</guid>
+      <pubDate>Thu, 01 Dec 2011 16:57:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>同事项目中用了一个iframe，父页和子页都设置了document.domain进行降域，结果在非IE下正常，IE下“拒绝访问”。</p>
+
+<p>跟大多数人想的一样，iframe遇到“拒绝访问”首先肯定考虑是document.domain的问题，但是这里父子页面都显式做了降域处理，应该不会。找不出其他原因，只好试了一下，结果屏蔽来屏蔽去调了半天，问题依旧。</p>
+
+<p>后来辗转找到了这篇文章<a href="http://www.cnblogs.com/shouzheng/archive/2008/07/07/1237245.html">http://www.cnblogs.com/shouzheng/archive/2008/07/07/1237245.html</a>，终于解决问题。</p>
+
+<p>问题产生的原因是IE的速度比较慢，在iframe还没有加载的时候是访问不到它的contentWindow,contentDocument之类的对象的，所以报“拒绝访问”。解决的办法很简单，加一个轮询，如果iframe的document.readyState == ‘complete’，再进行操作。</p>
+
+<p>猜测：其他的浏览器一定不出问题么？如果加载一个超级大的文件？还是原理不一样？（如果也有同样的问题的话，其它浏览器可以直接监听iframe的onload事件。）</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《JavaScript语言精粹》读书笔记 第六章 数组</title>
+      <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_6.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_6.html</guid>
+      <pubDate>Wed, 27 Apr 2011 17:16:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <h3>6.0绪</h3>
+
+<p>数组可以是很快的数据结构，但是JS不是这种。</p>
+
+<p>JS提供了一种拥有一些类数组（array-like）特性的对象。把下标转变成字符串作为属性。</p>
+
+<p>比真正的数组慢，但很方便。</p>
+
+<p>检索和更新与对象一模一样，除了可以用整数作为属性名。</p>
+
+<h3>6.1数组字面量</h3>
+
+<p>数组字面量是在一对方括号中包围零个或多个用逗号分隔的表达式。</p>
+
+<p>JS数组允许包含任意混合类型的值！</p>
+
+<h3>6.2长度</h3>
+
+<p>每个数组有一个length，length没有上界，如果用大于或等于当前length的数字作为下标来保存一个元素，length将增大来容纳新元素。</p>
+
+<p>length属性的值是最大整数属性名加1，不一定等于数组里属性的个数！</p>
+
+<p>length可写，设置更大的值无须分配空间（注：貌似，JS数组是”稀疏“的），设置更小的值将删除多的属性。</p>
+
+<h3>6.3删除</h3>
+
+<p>delete numbers[2]可以删除，但是会留下undefined在原位置。</p>
+
+<pre><code>numbers.splice(index,num[,newitem[,newitem...]])
+</code></pre>
+
+<p>删除元素，后面的位置前移，如果newitem存在，则插入index。效率不高。</p>
+
+<h3>6.4枚举</h3>
+
+<p>可以用for in，但是顺序无法保证，而且不能排除原型链中的属性。</p>
+
+<p>可以用for循环。</p>
+
+<h3>6.5混淆的地方</h3>
+
+<p>typeof数组是”object”。</p>
+
+<p>typeof null是”object”。</p>
+
+<p>JS没有好的机制区分数组和对象。</p>
+
+<pre><code>var is_array = function(value){
+    return value &amp;&amp;
+        typeof value === "object" &amp;&amp;
+        value.constructor === Array;
+}
+</code></pre>
+
+<p>这段代码，如果识别从不同的window或者frame里构造的数据就会失败。</p>
+
+<pre><code>var is_array = function(value){
+    return value &amp;&amp;
+        typeof value === "object" &amp;&amp;
+        typeof value.length === "number" &amp;&amp; //对象不一定
+        typeof value.splice === "function" &amp;&amp; //所有数组有
+        !(value.propertyIsEnumerable("length")); //length不能用for in枚举
+}
+</code></pre>
+
+<p>（第一行拒绝了null，第三行确定了是数组，为什么要有其他行？对象也可能添加splice方法，也可能添加length属性。）</p>
+
+<h3>6.6方法</h3>
+
+<p>数组添加非数字属性名的属性时，不改变length。</p>
+
+<h3>6.7维度</h3>
+
+<p>JS数组中的属性值为数组，则构成二维数组。</p>
+
+<p>第二维的数组需要自己创建。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《JavaScript语言精粹》读书笔记 第五章 继承</title>
+      <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_5.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_5.html</guid>
+      <pubDate>Wed, 27 Apr 2011 17:15:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <h3>5.0绪</h3>
+
+<p>JS是一门弱类型语言。对象的起源无关紧要。</p>
+
+<p>在基于类的语言中，对象是类的实例，并且类可以从另一个类继承。JS是一门基于原型的语言，这意味着对象直接从其他对象继承。</p>
+
+<h3>5.1伪类</h3>
+
+<p>函数对象被创建时，Function构造器产生的函数对象会运行类似这样的代码：</p>
+
+<pre><code>this.prototype = {constructor : this};
+</code></pre>
+
+<p>prototype对象是存放继承特征的地方。因为JS没有提供方法去确定哪个函数是打算用来作构造器，所以每个函数都会得到一个prototype对象。</p>
+
+<p>constructor属性没什么用，重要的是prototype对象。</p>
+
+<h3>5.2对象说明符</h3>
+
+<p>传参数可以用对象，不用按顺序了。</p>
+
+<h3>5.3原型</h3>
+
+<p>实现继承和差异化继承。</p>
+
+<h3>5.4函数化</h3>
+
+<p>一个将产生对象的函数：</p>
+
+<ol>
+<li>创建一个新对象。</li>
+<li>定义私有变量和方法。</li>
+<li>给对象扩充方法（公有？）。</li>
+<li>返回新对象</li>
+</ol>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《JavaScript语言精粹》读书笔记 第四章 函数</title>
+      <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_4.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_4.html</guid>
+      <pubDate>Wed, 27 Apr 2011 16:53:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <h3>4.1函数对象</h3>
+
+<p>在Javascript中函数就是对象。</p>
+
+<pre><code>Function.prototype===Object
+</code></pre>
+
+<p>函数创建时有两个隐藏属性：上下文、实现函数行为的代码</p>
+
+<h3>4.2函数字面量</h3>
+
+<p>通过函数字面量创建的函数对象包含一个连到外部上下文的连接–闭包。</p>
+
+<h3>4.3调用</h3>
+
+<p>四种调用模式：方法调用模式、函数调用模式、构造器调用模式、apply调用模式</p>
+
+<p>不同的模式在初始化this上有差异</p>
+
+<p>调用运算符：任何产生函数值（注：似乎应为”函数” ）的表达式后一对圆括号</p>
+
+<p>实参（arguments）与形参（parameters）个数不匹配时不会报错，多的会忽略，少的为undefined。</p>
+
+<p>方法调用模式：一个函数被保存为对象的一个属性时，称为方法，this被绑定到该对象。通过this可取得所属对象上下文的方法称为公共方法。</p>
+
+<p>函数调用模式：一个函数非对象属性，this绑定到全局对象。不会绑定到外部函数的this！</p>
+
+<p>构造器调用模式：JS是原型继承，同时提供了基于类类似的对象构建语法！（即new运算符。 ）</p>
+
+<p>apply调用模式：apply接收两个参数，第一个被绑定给this第二个是参数数组。如</p>
+
+<pre><code>var status = Quo.prototype.get_status.apply(statusObject);
+</code></pre>
+
+<p>相当于</p>
+
+<pre><code>statusObject.get_status();
+</code></pre>
+
+<p>虽然它没有get_status方法。</p>
+
+<h3>4.4参数</h3>
+
+<p>arguments数组会包含所有实参，包括形参中没有对应的实参。</p>
+
+<p>arguments是一个类数组（array-like），有length属性，缺少所有的数组方法。</p>
+
+<h3>4.5返回</h3>
+
+<p>函数被调用时从第一个语句开始执行，遇到关闭函数体的”}”时结束，控制权交还给调用该函数的语句。return使函数提前返回，不再执行余下语句。</p>
+
+<p>函数总会返回值，如果没有指定，返回undefined。</p>
+
+<p>如果函数以new方式调用，且返回值不是对象，则返回this（新对象 ）。</p>
+
+<h3>4.6异常</h3>
+
+<pre><code>try{
+    function();
+}catch(e){
+    //e
+}
+</code></pre>
+
+<p>function通过</p>
+
+<pre><code>throw {name:"error",message:"error"};
+</code></pre>
+
+<p>抛出exception对象，被catch接住（e）。</p>
+
+<p>一个try只能一个catch。</p>
+
+<h3>4.7给类型增加方法</h3>
+
+<p>JS允许给基本类型增加方法。</p>
+
+<p>增加的方法立刻被赋予到所有对象实例上。</p>
+
+<h3>4.8递归</h3>
+
+<p>尾递归指在函数最后执行递归调用的递归。</p>
+
+<p>JS未做尾递归优化（变成循环），尝试递归可能因为堆栈溢出而运行失败。</p>
+
+<h3>4.9作用域</h3>
+
+<p>作用域控制变量和参数的可见性和生命周期，减少名称冲突，提供自动内存管理。</p>
+
+<p>JS不支持块级作用域。</p>
+
+<p>有函数作用域，在函数中任何位置定义的变量在函数中的任何位置可见。（注：可见指有这个字面量，不一定有值。如果先用，再定义，则用的值为undefined。 ）</p>
+
+<h3>4.10闭包</h3>
+
+<pre><code>var myObject = function(){
+    var value=0;
+    return {
+        getValue:function(){
+        return value;
+    };
+}
+
+var anotherObject = myObject(); //这里的anotherObject实际上等于getValue函数所在的对象
+anotherObject.getValue(); //0
+</code></pre>
+
+<p>getValue访问它被创建时所处的上下文环境，闭包。</p>
+
+<p>重点是return回来是一个对象！可以不用new.</p>
+
+<p>例子：</p>
+
+<pre><code>var testfunc = function ( nodes ) {
+    var i ;
+    for ( i = 0 ; i &lt; nodes . length ; i ++ ) {
+
+        //这种方案中的匿名函数因会被外部调用而被保留，而此时i为nodes.length
+        /*nodes[i].onclick = function(){
+            alert(i);
+            alert(this.onclick);
+            return false;
+        }*/
+
+        //这种方案中，将参数i所在函数当场执行，变成形参e，返回事件处理函数，该函数得到e，即循环当时的i值
+        nodes [ i ] . onclick = function ( e ) {
+            return function ( ) { //注：原书中这里和下一行的形参有误
+                alert ( e ) ;
+                alert ( this . onclick ) ;
+                return false ;
+            } ;
+        } ( i ) ;
+    }
+}
+
+testfunc ( document . getElementsByTagName ( “a” ) ) ;
+</code></pre>
+
+<h3>4.11回调</h3>
+
+<p>异步，防止界面假死（客户端阻塞）</p>
+
+<h3>4.12模块</h3>
+
+<p>模块：提供接口却隐藏状态与实现的函数或对象。</p>
+
+<pre><code>String.method(‘deentityify’,function(){
+    var entity = {
+        quot : ‘”‘,
+        lt : ‘&lt;’,
+        gt : ‘&gt;’
+    }
+
+    return function(){
+        return this.replace(/&amp;([^&amp;;]+);/g,function(a,b){
+            var r = entity[b];
+            return typeof r === ‘string’ ? r : a;
+        }
+    }
+}())
+</code></pre>
+
+<p>entity仅对内部可见</p>
+
+<p>模块模式的一般形式是：一个定义了私有变量和函数的函数；利用闭包创建可以访问私有变量和函数的特权函数；最后返回这个特权函数，或者把它们保存到一个可访问到的地方。</p>
+
+<h3>4.13级联</h3>
+
+<p>如果让没有返回值的方法返回this而不是undefined，就可以启用级联。（如jQuery的连缀 ）</p>
+
+<h3>4.14套用</h3>
+
+<pre><code>var add1=add.curry(1);
+add1(6)
+</code></pre>
+
+<h3>4.15记忆</h3>
+
+<p>设计技巧。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《JavaScript语言精粹》读书笔记 第三章 对象</title>
+      <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_3.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_3.html</guid>
+      <pubDate>Wed, 27 Apr 2011 16:47:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <h3>3.0绪</h3>
+
+<p>简单类型：数字、字符串、布尔、null、undefined</p>
+
+<p>对象：数组、函数、正则表达式、对象</p>
+
+<p>对象是属性的窗口，每个属性有名和值。</p>
+
+<h3>3.1对象字面量</h3>
+
+<p>对象字面量是包围在一对花括号中的零或多个名值对。</p>
+
+<p>属性名允许空值。</p>
+
+<p>如果属性名不是保留字，可以不用引号。</p>
+
+<p>对象可嵌套。</p>
+
+<h3>3.2检索</h3>
+
+<p>方括号或者点语法，优先考虑用点语法，因为好看。</p>
+
+<p>不存在的成员元素，返回undefined。</p>
+
+<p>多级对象时，检索undefined会抛出TypeError。用&amp;&amp;解决：flight.equipent &amp;&amp; flight.equipment.model</p>
+
+<h3>3.3更新</h3>
+
+<p>赋值语句。</p>
+
+<h3>3.4引用</h3>
+
+<p>对象通过引用来传递，它们永远不会被拷贝！</p>
+
+<h3>3.5原型</h3>
+
+<p>每个对象都连接到一个原型对象，并可以从中继承属性。</p>
+
+<p>所有通过字面量创建的对象都连接到Object.prototype。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>iOS Web App开发心得（四） 其它</title>
+      <link>http://www.toobug.net/article/ios_web_app_develop_experience_4.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ios_web_app_develop_experience_4.html</guid>
+      <pubDate>Mon, 14 Mar 2011 20:44:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>iOS Web App开发过程中的一些其他的小心得：</p>
+
+<h3>1、关于jQuery</h3>
+
+<p>事实上，jQuery已经针对移动设备推出了jQuery Mobile（2012年8月27日注：jQuery和jQuery Mobile完全不是一个东西），但是我没有去下载，而是直接用了jQuery，并没有什么理由。从实际效果来看，也还算理想，mobile safari跑jQuery还算流畅，与桌面浏览器的差异并没有那么夸张。</p>
+
+<p>但是，有一点不完美，就是触控的事件，不能使用jQuery的绑定方式（bind方法），而必须使用javascript的原生语法。猜测应该是jQuery对事件做了封装并做了兼容性处理，没有考虑到触控事件。（2012年8月27日注：完全可以用jQuery来绑定，只是在事件处理的时候取jQuery封闭事件中的originalEvent就可以了。）</p>
+
+<h3>2、viewport带来的问题</h3>
+
+<p>其实这一点在前面已经讲过，还是想再重复一下。</p>
+
+<p>因为只有viewport的概念，导致了很多和桌面浏览器不一样的地方，比如没有滚动条，需要手工去处理很多事情。</p>
+
+<p>同样因为viewport，元素的fixed定位方式失效。</p>
+
+<p>另外由于viewport自身的操作需要很多触控动作，给交互也带来不小的麻烦，前文已经说过。</p>
+
+<h3>3、iOS自己的处事方式</h3>
+
+<p>iOS在一些地方有自己的特殊处理方式，需要注意。</p>
+
+<p>比如不允许用户从浏览器中上传文件，这个特性就让应用的空间一下子少了好多。(2012年8月27日注：iOS6已经允许了。)</p>
+
+<p>再比如对于选择框\<select\>，并不是像桌面浏览器一样下拉，而是一个系统的模态窗口选择，完全是苹果自己的风格。</p>
+
+<h3>4、SVG支持不力</h3>
+
+<p>网上查到SVG的嵌入方式有三种，除了iframe外，其余两种均试过，很遗憾，不能生效。</p>
+
+<h3>5、背景缩放的bug</h3>
+
+<p>按照CSS的标准，背景图片大小是可以缩放的。实际使用时，在有的机器上有明显bug，表现为有时候缩放变为平铺，有时候需要再加一个多点触控才能触发缩放。</p>
+
+<h3>结语：</h3>
+
+<p>本次开发的app周期不长，最终也没有形成产品，但是中间还是有很多东西值得记录。</p>
+
+<p>在写这一系列文章的时候，我自知写得不够详尽，没有配图，也没有引用资料来源。这主要是限于时间和精力有限，如果对文章内容有异议或者想了解更多也欢迎和我联系。</p>
+
+<p>当然，在有限的开发周期中，我了解到的东西也极为有限，如果有不对的地方，还请大家指正！</p>
+
+<blockquote>
+  <p>2012年8月27日注：现在看来，当时写的东西中有非常多不严谨的地方，趁这次博客迁移把顺手能修正的部分都给修正掉。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>iOS Web App开发心得（三） APP化</title>
+      <link>http://www.toobug.net/article/ios_web_app_develop_experience_3.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ios_web_app_develop_experience_3.html</guid>
+      <pubDate>Fri, 04 Mar 2011 19:18:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>书接上回，今天说页面如何变成iOS上的本地应用。</p>
+
+<h3>1、放到桌面</h3>
+
+<p>其实这个最简单啦，点浏览器的加号（2012年8月27日注：新版safari中已经不是加号了，而是iOS中经常表示“更多操作”的箭头），就会有一个菜单，添加到屏幕就行。</p>
+
+<h3>2、设置图标和启动画面</h3>
+
+<p>添加到屏幕后，默认的图标是一个纯白色图标，启动画面则是上次运行时的画面截图（所以感觉不到有启动画面）。为了更像原生的App，我们添加一下图标和启动画面。</p>
+
+<p>图标的添加方法是在head区添加如下代码：</p>
+
+<pre><code>&lt;link rel="apple-touch-icon" href="icon.png" /&gt;
+</code></pre>
+
+<p>其中，icon.png是图标，必须为png格式，大小为57<em>57像素（2012年8月27日注：iPad1/2为72</em>72，iPhone3为57<em>57，retina屏对应</em>2，即iPad3为144<em>144，iPhone4(s)为114</em>114），不需要添加圆角和光影效果，iOS自己会处理。（2012年8月27日注：也可处理好圆角和光影，让iOS不再自动添加效果。）</p>
+
+<p>启动画面的添加方法也差不多：</p>
+
+<pre><code>&lt;link rel="apple-touch-startup-image" href="startup.png" /&gt;
+</code></pre>
+
+<p>其中，startup.png是图标，必须为png格式，纵向图片，iphone/itouch的大小为320<em>460，ipad为768</em>1004。</p>
+
+<p>要说明的是，启动画面的时间会很短，而且这个时间似乎是不可控的，个人感觉是在页面ready的时候启动画面消失。另外，在我试验用的itouch3上，图标和启动画面均未生效，iphone4和ipad上有效。（2012年8月27日注：关于启动画面是否可以横屏的问题，我找了很久没有找到对应的方法，但上次WebRebuild广州站，有演讲嘉宾说可以实现，待考。）</p>
+
+<h3>3、隐藏地址栏</h3>
+
+<p>为了更像本地App，我们要隐藏掉地址栏和系统工具栏，而在隐藏这个之前，我们必须设定程序全屏，否则无效。（2012年8月27日注：这里之前理解有误，第二个设定其实是底栏样式。）</p>
+
+<p>全屏：</p>
+
+<pre><code>&lt;meta name="apple-mobile-web-app-capable" content="yes" /&gt;
+</code></pre>
+
+<p>设定顶栏颜色为黑色（也可设为white或者black-translucent）：</p>
+
+<pre><code>&lt;meta name="apple-mobile-web-app-status-bar-style" content="black" /&gt;
+</code></pre>
+
+<h3>4、控制用户的缩放</h3>
+
+<p>作为一个网页，事实上可以无限缩放的（当然，缩小到比viewport还小时会自动充满viewport），而作为一个程序，我们有时候不希望这样的事情发生，如下代码可以解决：</p>
+
+<pre><code>&lt;meta name="viewport" content="width=device-width; initial-scale=1.0; minimum-scale:1.0; maximum-scale:2.0; user-scalable=yes" /&gt;
+</code></pre>
+
+<p>上述代码的意思是，viewport的宽度为设备宽度，initial-scale是初始的缩放值。（按照我的理解，viewport的宽度值和initial-scale这两个属性应该是不可以同时存在的，因为定义了一个值会自动推算出另一个值，比如我将viewport的宽度设为屏幕宽度的2倍，那么initial-scale应该自动为0.5，待验证。）后面两个自然是能缩放的最小和最大值了。</p>
+
+<p>如果不想让用户缩放，则可以将最小值和最大值设为一样，都为1.0，或者直接将user-scalable设为no。</p>
+
+<h3>5、离线</h3>
+
+<p>到这里，我们的App已经很像原生App了。可是，如果断网了怎么办？于是，最后的一步——离线。离线之后，我们的程序就可以在没有网络的时候正常运行，完全和原生App一样了！</p>
+
+<p>上述已经说过的特性都是iOS独有的（2012年8月27日，事实上有很多已经变成事实标准了，比如viewport控制），但是离线是HTML5的特性。</p>
+
+<p>要实现离线，首先得有一个先决条件：能修改web服务器的MIME（确切地讲，是MIME中有manifest类型）。关于MIME是什么就不详细介绍了。（2012年8月27日，关于这点也不太准确，在PC端的chrome中，并不关于.manifest文件的MIME，但是在iOS 4.3和5.0的safari中，都需要有准确的MIME才能使离线正常工作。）</p>
+
+<p>首先，我们需要在web服务器中将.manifest后缀的MIME设为“text/cache-manifest”。对IIS，在站点属性中可以设置，对apache，则能直接通过修改.htaccess文件实现。不详述。</p>
+
+<p>接下来，我们需要创建一个离线文件列表，列表中的文件将被缓存供下次使用。</p>
+
+<p>我建立的名叫cache.manifest，内容如下：</p>
+
+<pre><code>CACHE MANIFEST 
+# xpad v0.1.0009
+
+# 指明缓存入口 
+CACHE: 
+index.html 
+index.css 
+jquery.js 
+xpadicon.png 
+xpadstartup.png 
+images/pic.png
+
+# 以下资源必须在线访问 
+NETWORK: 
+login.php
+
+# 如果index.php无法访问则用404.html代替 
+FALLBACK: 
+/index.php /404.html
+</code></pre>
+
+<h1>开头的是注释，这个好理解。文件分为三段：CACHE、NETWORK、FALLBACK。</h1>
+
+<p>CACHE表示要缓存的文件，即可以离线使用的资源，可以看到，html/css/js/pic都可以缓存，当然，其他类型的也可以。</p>
+
+<p>NETWORK表示必须在线访问的，例如登录之类的页面。</p>
+
+<p>FALLBACK表示如果在线访问失败时，用什么文件替换。上面的代码表示index.php访问失败时用404.html替换。这个可以用在网络不好的时候，例如一个离线应用去访问一个在线页面，但是没有访问成功，这时就可以调用一个已经离线了的页面去，不破坏用户体验。</p>
+
+<p>再接下来，就是告诉iOS，我们的程序需要离线，方法是在访问的页面中的html标签中加入一个属性标记上面说的manifest文件：</p>
+
+<p><html manifest="cache.manifest"></p>
+
+<p>访问一次，只要文件传输完毕，我们的应用就成功离线啦！这时断开网络再次打开，依然可以使用！</p>
+
+<p>App化的操作基本都完成啦，可以先喝口茶休息下。</p>
+
+<p>接下来呢？接下来你可能会修改你的页面，但是，悲剧来了，你发现无论你怎么刷新，页面都没有变化，即使清掉缓存也不行。</p>
+
+<p>事实上，更改页面文件并不会导致离线文件也更新，而清掉缓存也不会清掉离线的文件！（2012年8月27日注：事实上，这里发生的情况是带有manifest属性的页面即使没有被写到manifest文件中，也会被离线下来，导致入口文件根本更新不到。）更新缓存的条件是：.manifest内容发生变化！所以如你看到那样，我在最前面加入了版本，这样一方面可以标版本，另一方面刚好让程序更新缓存。</p>
+
+<p>我们的Web App在打开时会检测更新，但是，本次打开使用的仍然会是老版本，如果更新完成，再刷新或者再次启动会是新版本，而如果更新过程未完成，则仍然是老版本。这中间不会有任何提示。（2012年8月27日注：简单地说，就是最少要启动两次才能应用新版本。）当然，可以用脚本更新，不详述。</p>
+
+<h3>小结</h3>
+
+<p>至此，一个完美的Web App就诞生了！</p>
+
+<p>现在唯一的局限就是技术限制了——网页不可能调用系统的API，如文件IO，摄像头等等。要使用这些功能，就得老老实实地下载SDK回来开发原生的App。可是，如果用HTML+js+css，也能调用本地API，和原生App实现同样的功能，是不是很心动？事实上，已经有这样的框架出现，如PhoneGap等等。有兴趣不妨Google之。因超出本文范围，故就此打住。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>iOS Web App开发心得（二） 交互</title>
+      <link>http://www.toobug.net/article/ios_web_app_develop_experience_2.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ios_web_app_develop_experience_2.html</guid>
+      <pubDate>Wed, 02 Mar 2011 14:21:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <h3>1、忽大忽小的屏幕</h3>
+
+<p>不管是iTouch还是iPhone或者是iPad，都给我这样一种感觉：它的屏幕忽大忽小。</p>
+
+<p>觉得它很大的时候，是考虑到用户的单手操作。仅对iTouch和iPhone这样的大小，单手覆盖半径为屏幕宽度的圆就很困难，更不要说单手覆盖全屏了。而iPad，单手能做的操作估计也就是抱着它跑来跑去了。基于这样的情况，在做APP的时候，就应该将最常用操作放到用户单手可及的区域。</p>
+
+<p>觉得它很小的时候，是考虑到有限的交互动作。首先，我们回顾一下PC上的交互是怎么操作的，排除掉快捷键以后，一般是鼠标移动或者点击一个地方，如果是复杂的动作，则会出现下一步的交互区域，再进行点击。回到手持设备上，先定义一个“模糊度”，即手指的触控操作是不精确的。一个鼠标指针在屏幕上移动，我们可以精确地知道它现在位于哪一个像素，但是手指触控时，我们只能保证我们点中了一个“范围”。即手指设备触控操作的“模糊度”是很大的。在这样一个现实下，手持设备的屏幕就显得太小了，一个包含5个选项的子菜单大约就得占据iPhone三分之一到二分之一的屏幕高度。</p>
+
+<p>因此，在忽大忽小的屏幕上设计交互，是件和PC很不一样的事情，必须特别优先考虑最常用的操作，而将不常用的操作另外处理，比较痛苦。</p>
+
+<h3>2、来自系统事件的冲突</h3>
+
+<p>上一篇讲述过iOS的safari上可以进行的触控操作，无非单点触控和多点触控，具体而言，则可以有touchstart，touchmove，touchend，gesturestart，gesturechange，gestureend。(事实上，我在实验的时候，从来没有见到gestureend发生过。)</p>
+
+<p>那么剩下来给我们用的事件真的不多了，而在这有限的事件中，还会有一些和系统事件有冲突。比如“长按”这个动作，在PC上我们可以随意使用，但是在iOS上，长按会出现系统的放大镜和选择框，严重影响用户体验。再比如touchmove，一方面我们可以用它，另一方面，系统也在用它拖动viewport！再比如，多点触控时缩放动作，同样的，一方面我们可以用，另一方面，系统也在用它缩放viewport。</p>
+
+<p>因此，在做交互设计的时候，必须对系统用到的事件有所取舍，要么给系统，要么给自己，想要同时让两者响应是一件会产生不可预料后果的事情。</p>
+
+<h3>3、惯性拖拽和屏幕边缘处理</h3>
+
+<p>刚开始，我在做APP的时候，没有加入惯性拖拽，但是当我把APP拿给别人看的时候，所有的人，无一例外地都会以很快的速度拖一下，然后迅速放开，发现没有惯性运动时，一副很奇怪的表情。</p>
+
+<p>当然，我是没有玩过iPhone的，他们都玩过，后来看了一下，这个特性几乎是所有APP的必备特性。当然，这也来自于iOS的体验。</p>
+
+<p>因此，在这些设计中，必须兼顾到系统的风格和用户已有的使用习惯。</p>
+
+<h3>4、屏幕边缘</h3>
+
+<p>关于屏幕边缘的处理，同样来自于上面所说的“模糊度大”的问题。如果要触控到屏幕边缘，很多时候是需要将手指的一部分放到设备的非屏幕区（黑边）部分的，理论上讲这完全没有问题。但是有很多保护套在设计的时候并没有考虑这个问题，于是造成了“用户触及不到屏幕边缘部分”的问题。在处理边缘部分的交互时，必须考虑到这种情况并加以处理。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>iOS Web App开发心得（一） 事件与特质</title>
+      <link>http://www.toobug.net/article/ios_web_app_develop_experience_1.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ios_web_app_develop_experience_1.html</guid>
+      <pubDate>Tue, 01 Mar 2011 17:48:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>最近在做iOS上的Web App，截止目前为止算是告一段落。有些心得，先大致记下。以下所有内容基于iOS 4.2上的mobile safari。</p>
+
+<h3>1、没有键盘事件</h3>
+
+<p>很好理解，因为没有键盘。</p>
+
+<h3>2、有延迟的鼠标事件</h3>
+
+<p>这个就有点诡异了，虽然没有鼠标，但是会有鼠标事件，个人猜测是为了兼容一些有鼠标事件的程序而添加的。但是事实上，这个鼠标事件有延迟，它发生在没有移动的单点触控（存疑，多点触控有的时候也会出现）的触控事件结束的时候！（在ontouchend以后。）</p>
+
+<h3>3、触控事件</h3>
+
+<p>这个是重点，没有了键盘鼠标，所有的操作都要靠触控来完成。触控分为单点触控和多点触控，下面分别叙述。</p>
+
+<p>单点触控：</p>
+
+<p>会依次触发ontouchstart -> ( ontouchmove ->) ontouchend ( -> onmousemove -> onmousedown -> onmouseup -> onclick )。</p>
+
+<p>其中，如果触控时手指移动，则触发ontouchmove，到ontouchend结束，如果不移动，则会触发后续的鼠标事件。</p>
+
+<p>多点触控：</p>
+
+<p>多点触控中也会发生单点触控的事件，除此之外，还有专属于多点触控的事件：ongesturestart（多点触控开始），ongesturechange（多点触控的动作，如缩放、旋转等），ongestureend（多点触控结束）。</p>
+
+<p>由于多点触控需要多个手指，而每个手指都会触发单点触探的事件，因此顺序会比较混乱，以下事件顺序是从各种各样的触控顺序中总结出来的“必经之路”。（所有结果来自于两个手指，更多数量的触控未试。）</p>
+
+<p>( ontouchstart -> ) ongesturestart -> ontouchstart -> ongestturechange -> ontouchend</p>
+
+<p>其中最开始的ontouchstart的发生条件是两指不同时按下，如果同时按下则直接触发ongesturestart。</p>
+
+<p>讲完纠结的顺序，接下来讲事件的属性。</p>
+
+<p>触控事件会有一个touches属性，它是一个数组，数组中的每个元素就是一个手指的信息，这样就可以获取触控的坐标。如e.touches[0].pageX，e.touches[0].target（目标DOM）。这个属性在单点和多点触控时是一样的。</p>
+
+<p>在多点触控中，e还会多几个属性：target，是多点触控的目标DOM（如果两指在不同的DOM上，情况如何待验证，反正项目中用的时候出过问题）；scale，缩放的程度，开始缩放时值为1，缩小时scale变小，放大时scale变大；rotation，旋转的角度。</p>
+
+<p>需要注意的是，如果要实时绽放和旋转，需要将元素之前的状态保存，否则，元素的属性在变化，而scale和rotation都是相对之前的状态，在变换的时候会出现问题。</p>
+
+<h3>4、没有滚动条的滚动内容</h3>
+
+<p>没有滚动条？是的，很诡异吧！页面没有滚动条，可以往下拖，这可以理解，可是设置了overflow:scroll的也没有滚动条，只能眼睁睁地看着它们被吃掉，诡异。</p>
+
+<p>这源于设计理念，mobile safari本来就是显示的整个页面，自然没有滚动条。等等？整个页面？那为什么我只能看到一部分？这是因为它被裁剪了，你能看到的部分叫viewport，你拖动的部分改变的是viewport，而不是页面，因此onscroll之类的事件也不会发生。那么隐藏了的内容怎么办，答案是：可以滚动，得用双指拖动。拖动完成时会触发一个事件（Sorry，忘记具体情况了）。</p>
+
+<p>如果我们要自己写滚动的东西，就得劫持ontouchmove事件（也有可能是用这个事件做别的事情，比如拖动元素），而这个事件默认会拖动viewport，因此，需要给ontouchmove返回false。</p>
+
+<p>（2012年8月27日注：也可以使用一些其它的类库来完成，比如iscroll就相当不错。）</p>
+
+<h3>5、纠结的放大镜和选定框</h3>
+
+<p>在一个元素上长按会呼出系统的放大镜和选择框，而点击一下则会消失。在做项目的过程中，发现别人写的东西点一下可以让选择框消失，而我写的东西中，选择框一旦出来就消失不掉。后来发现，这个消失的过程其实是在ontouchend事件中，如果这个事件阻止了默认动作，就不能去掉选择框了。</p>
+
+<h3>6、click事件的样式变化</h3>
+
+<p>如前述，虽然没有鼠标，但仍然会有鼠标事件，其中的onclick事件发生时，safari会自动改变一下元素的样式，以示被点击。这个样式可以用-webkit-tap-highlight-color属性来定义。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>Hello, Front-end World!</title>
+      <link>http://www.toobug.net/article/hello_front_end_world.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/hello_front_end_world.html</guid>
+      <pubDate>Tue, 11 Jan 2011 02:12:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>很早很早之前，就有一个心愿：建一个有关IT的站点。曾经也写过“超IT”等好多网站，最后终于发现，内容太泛是做不下去的。</p>
+
+<p>当然，这也和自己的方向有关，早些年没有意识到IT还有如此多的技术方向，还有非技术方向，也没有想过自己会从事什么方向。</p>
+
+<p>现在，成了前端开发人员了，终于清楚了未来的路，想建一个站点的想法再一次冒出来。于是在手头并不宽裕的情况下，买了主机域名，开了这个博客。</p>
+
+<p>这个博客将会是一个近乎纯技术的博客，主要内容为Web前端开发及相关的内容。</p>
+
+<p>我希望我发上去的文章都是仔细验证过的，比较严谨的东西，以便自己以后查阅，当然，如果能在同时给同行的人一些帮助、提示，甚至能有更多的交流，则是求之不得的事情。</p>
+
+<p>写这个博客还有一个目的，即是在繁复的工作中，不断提醒自己，专注自己的方向，不断提升，不要被其他事情扰乱了自己的方向。</p>
+
+<p>限于个人水平有限，文章难免有偏颇或者错误，还望大家不吝赐教指正！</p>
+        ]]>
+      </description>
+    </item>
+  </channel>
+</rss>

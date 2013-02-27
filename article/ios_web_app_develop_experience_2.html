@@ -1,46 +1,39 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-	<meta charset="utf-8" />
-	<title>TooBug</title>
-	<meta name="description" content="TooBug - 专注前端开发" />
-	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
-	<title>TooBug</title>
-	<link rel="alternate" type="application/rss+xml" title="TooBug" href="http://www.toobug.net/rss.xml" />
-	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" href="../skin/default/css/light.css" />
-	<link rel="stylesheet" href="../js/prettify/prettify.css"   />
-	<script src="../js/prettify/prettify.js"></script>
-	<script src="../js/jquery/jquery-1.7.2.min.js"></script>
-	<script src="../js/index.js"></script>
-</head>
-<body>
-<header>
-	<div id="logo"><a href="/">TooBug</a></div>
-	<nav>
-		<ul>
-			<li><a href="../index.html">Index<br />首页</a></li>
-			<li><a href="../page/about.html">About<br />关于</a></li>
-		</ul>
-	</nav>
-</header>
-<section id="sidebar">
-	<div id="intro">
-		<p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
-		<p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
-		<p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
-		<p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
-	</div>
-</section>
-
-
-<section id="content">
-	<div id="article">
-	<h1>iOS Web App开发心得（二） 交互</h1>
-
-<p><em>2011-03-02 14:21</em></p>
-
-<h3>1、忽大忽小的屏幕</h3>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="/">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div id="intro">
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
+        <p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
+        <p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <h1>iOS Web App开发心得（二） 交互<em class="pubDate">2011-03-02 14:21:00</em></h1><h3>1、忽大忽小的屏幕</h3>
 
 <p>不管是iTouch还是iPhone或者是iPad，都给我这样一种感觉：它的屏幕忽大忽小。</p>
 
@@ -49,8 +42,6 @@
 <p>觉得它很小的时候，是考虑到有限的交互动作。首先，我们回顾一下PC上的交互是怎么操作的，排除掉快捷键以后，一般是鼠标移动或者点击一个地方，如果是复杂的动作，则会出现下一步的交互区域，再进行点击。回到手持设备上，先定义一个“模糊度”，即手指的触控操作是不精确的。一个鼠标指针在屏幕上移动，我们可以精确地知道它现在位于哪一个像素，但是手指触控时，我们只能保证我们点中了一个“范围”。即手指设备触控操作的“模糊度”是很大的。在这样一个现实下，手持设备的屏幕就显得太小了，一个包含5个选项的子菜单大约就得占据iPhone三分之一到二分之一的屏幕高度。</p>
 
 <p>因此，在忽大忽小的屏幕上设计交互，是件和PC很不一样的事情，必须特别优先考虑最常用的操作，而将不常用的操作另外处理，比较痛苦。</p>
-
-
 
 <h3>2、来自系统事件的冲突</h3>
 
@@ -71,28 +62,22 @@
 <h3>4、屏幕边缘</h3>
 
 <p>关于屏幕边缘的处理，同样来自于上面所说的“模糊度大”的问题。如果要触控到屏幕边缘，很多时候是需要将手指的一部分放到设备的非屏幕区（黑边）部分的，理论上讲这完全没有问题。但是有很多保护套在设计的时候并没有考虑这个问题，于是造成了“用户触及不到屏幕边缘部分”的问题。在处理边缘部分的交互时，必须考虑到这种情况并加以处理。</p>
-	</div>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-		var disqus_shortname = 'toobug';
-		(function() {
-			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	</div>
-</section>
-<div id="foot">
-		<p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
-		<div id="stat">
-		<script type="text/javascript">
-			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6897881fe107aeba9fa7de180b4213a9' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		</div>
-</div>
-		
-</body>
+      </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
+    </div>
+  </body>
 </html>

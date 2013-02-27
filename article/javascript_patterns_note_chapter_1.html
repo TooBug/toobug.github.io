@@ -1,52 +1,43 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-	<meta charset="utf-8" />
-	<title>TooBug</title>
-	<meta name="description" content="TooBug - 专注前端开发" />
-	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
-	<title>TooBug</title>
-	<link rel="alternate" type="application/rss+xml" title="TooBug" href="http://www.toobug.net/rss.xml" />
-	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" href="../skin/default/css/light.css" />
-	<link rel="stylesheet" href="../js/prettify/prettify.css"   />
-	<script src="../js/prettify/prettify.js"></script>
-	<script src="../js/jquery/jquery-1.7.2.min.js"></script>
-	<script src="../js/index.js"></script>
-</head>
-<body>
-<header>
-	<div id="logo"><a href="/">TooBug</a></div>
-	<nav>
-		<ul>
-			<li><a href="../index.html">Index<br />首页</a></li>
-			<li><a href="../page/about.html">About<br />关于</a></li>
-		</ul>
-	</nav>
-</header>
-<section id="sidebar">
-	<div id="intro">
-		<p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
-		<p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
-		<p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
-		<p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
-	</div>
-</section>
-
-
-<section id="content">
-	<div id="article">
-	<h1>《JavaScript Patterns》读书笔记 第一章 介绍</h1>
-
-<p><em>2011-12-17 17:29</em></p>
-
-<p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="/">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div id="intro">
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
+        <p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
+        <p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <h1>《JavaScript Patterns》读书笔记 第一章 介绍<em class="pubDate">2011-12-17 17:29:00</em></h1><p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
 
 <p>这本书目前还没有中文版，据说淘宝UED的大牛们正在翻译。</p>
 
 <p>以下为读书笔记，中文为本人根据意思大致整理，不保证完全跟原文一样准确。</p>
-
-
 
 <h3>第一章 介绍</h3>
 
@@ -118,28 +109,22 @@ number,string,boolean的值很容易转变成对象，不管是被编程者还�
   
   <p>2012年8月20日注：目前我正在参与翻译该书，<a href="https://github.com/TooooBug/javascript.patterns">翻译稿</a>可以在GitHub上找到。</p>
 </blockquote>
-	</div>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-		var disqus_shortname = 'toobug';
-		(function() {
-			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	</div>
-</section>
-<div id="foot">
-		<p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
-		<div id="stat">
-		<script type="text/javascript">
-			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6897881fe107aeba9fa7de180b4213a9' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		</div>
-</div>
-		
-</body>
+      </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
+    </div>
+  </body>
 </html>

@@ -1,46 +1,39 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-	<meta charset="utf-8" />
-	<title>TooBug</title>
-	<meta name="description" content="TooBug - 专注前端开发" />
-	<meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js" />
-	<title>TooBug</title>
-	<link rel="alternate" type="application/rss+xml" title="TooBug" href="http://www.toobug.net/rss.xml" />
-	<link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" href="../skin/default/css/light.css" />
-	<link rel="stylesheet" href="../js/prettify/prettify.css"   />
-	<script src="../js/prettify/prettify.js"></script>
-	<script src="../js/jquery/jquery-1.7.2.min.js"></script>
-	<script src="../js/index.js"></script>
-</head>
-<body>
-<header>
-	<div id="logo"><a href="/">TooBug</a></div>
-	<nav>
-		<ul>
-			<li><a href="../index.html">Index<br />首页</a></li>
-			<li><a href="../page/about.html">About<br />关于</a></li>
-		</ul>
-	</nav>
-</header>
-<section id="sidebar">
-	<div id="intro">
-		<p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
-		<p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
-		<p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
-		<p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
-	</div>
-</section>
-
-
-<section id="content">
-	<div id="article">
-	<h1>xheditor从剪贴板粘贴图片的实现原理</h1>
-
-<p><em>2011-11-30 10:08</em></p>
-
-<p><a href="http://xheditor.com/">xheditor</a>是一个优秀的国产富文本编辑器，最近的（其实我也不知道有多久了）版本推出了一个粘贴剪贴板图片的功能，很是喜爱，好奇了好久，最终不住去看了下源码，基本明白了。</p>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="/">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div id="intro">
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p>新浪微博：<a href="http://weibo.com/toooobug" target="_blank">@TooBug</a></p>
+        <p>腾讯微博：<a href="http://t.qq.com/TooBug" target="_blank">@TooBug</a></p>
+        <p>GitHub：<a href="https://github.com/toooobug" target="_blank">@TooBug</a></p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <h1>xheditor从剪贴板粘贴图片的实现原理<em class="pubDate">2011-11-30 10:08:00</em></h1><p><a href="http://xheditor.com/">xheditor</a>是一个优秀的国产富文本编辑器，最近的（其实我也不知道有多久了）版本推出了一个粘贴剪贴板图片的功能，很是喜爱，好奇了好久，最终不住去看了下源码，基本明白了。</p>
 
 <p>首先，这个功能很新，不支持IE系列浏览器……所以用的是一些新的API。</p>
 
@@ -49,8 +42,6 @@
 <p>一点前置小知识是必备的，那就是对大部分截图软件来说，截图操作是一个把截取的图片转换成指定格式（貌似jpg居多， windows自带的是bmp），然后放入剪贴板的过程。</p>
 
 <p>所以，要粘贴图片，核心就是读取剪贴板。</p>
-
-
 
 <h3>一、读取剪贴板的时机</h3>
 
@@ -90,28 +81,22 @@ if(ev&amp;&amp;(clipboardData=ev.originalEvent.clipboardData)&amp;&amp;(items=cl
 <p>好吧，本来还想写下中间上报到服务器的代码的，想了想觉得也没什么很特别的地方。最多是把base64数据当成普通URL上报，然后服务端再解码成图片。</p>
 
 <p>嗯。就这样，当笔记了。</p>
-	</div>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-		var disqus_shortname = 'toobug';
-		(function() {
-			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	</div>
-</section>
-<div id="foot">
-		<p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
-		<div id="stat">
-		<script type="text/javascript">
-			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6897881fe107aeba9fa7de180b4213a9' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		</div>
-</div>
-		
-</body>
+      </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo"  target="_blank">Solo</a></p>
+    </div>
+  </body>
 </html>
