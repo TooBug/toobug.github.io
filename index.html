@@ -34,6 +34,51 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/shadow_dom_101.html">[译]Shadow DOM入门</a><em class="pubDate">2013-05-28</em></h1><h2>译者按</h2>
+
+<p>去年我曾经翻译过一篇<a href="www.toobug.net/article/what_is_shadow_dom.html">介绍Shadow DOM的文章</a>，当时觉得这是一门好遥远的技术，但仅仅在半年之后，chrome就已经支持了Shadow DOM，到目前为止，Web Components的各个子标准也已经初见端倪，可以再深入把玩一番了。</p>
+
+<h2>简介</h2>
+
+<blockquote>
+  <p>注：本文讨论的API还没有被完全标准化，还处在不断讨论变更的阶段，所以请在项目中谨慎使用实验性的API。</p>
+</blockquote>
+
+<p>Web Components是一系列比较前卫的标准的集合，它可以：</p>
+
+<ul>
+<li>使得在页面中构建挂件（widget）成为可能</li>
+<li>构建的挂件很可靠，可以被重复使用</li>
+<li>如果挂件的下一个版本改变了内部实现细节，并不会影响页面</li>
+</ul>
+
+<p>这是否是说你得在使用HTML/JavaScript还是使用Web Components之间做出选择？事实上，不是的。HTML和JavaScript可以做出交互式的组件，而挂件正是这样的交互式组件。这也就是说使用HTML和JavaScript来开发挂件是件很有意义的事情。Web Components标准正是用来做这件事情的。</p>
+
+<blockquote>
+  <p>如果构建一个挂件必须要强制使用另外的技术，那么这是没有意义的。比如，使用<code>&lt;canvas&gt;</code>来构建一个挂件显然是件无趣的事情。它的确很可靠，因为当你改变画布中的内容时页面不会受影响，但它在可访问性、可索引性、内容创作、自适应分辨率等方面都很不友好。</p>
+</blockquote>
+
+<p>如果HTML和JavaScript来构建挂件面临一个基础性的问题，那就是挂件内的DOM树并没有被从页面其它部分封装起来。缺少封装意味着页面的CSS可能会意外地被应用到挂件内部，JavaScript可能会意外地修改挂件内部，还可能引起挂件内外的ID冲突等等。</p>
+
+<blockquote>
+  <p>缺少封装带来的另一方面的问题是，当你升级了你的库，改变了挂件的DOM结构，那么你的CSS和JavaScript有可能会意外地不能正常工作。</p>
+</blockquote>
+
+<p>Web Components由4个部分组成：</p>
+
+<ol>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/templates/index.html">模板（Templates）</a></li>
+<li><a href="http://www.w3.org/TR/shadow-dom/">Shadow DOM</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/custom/index.html">自定义元素（Custom Elements）</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#external-custom-elements-and-decorators">Packaging</a></li>
+</ol>
+
+<p>Shadow DOM着眼于DOM树的封装问题。Web Components的这4个部分在设计时是希望它们协同工作的，但你可以自由选择使用哪一部分。本教程将讨论如何使用Shadow DOM。</p>
+
+<p>Shadow DOM目前只在Chrome 25+可用，API前面有一个<code>webkit</code>前缀。</p>
+          <div class="articlemore"><a href="./article/shadow_dom_101.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/jlint_a_jslint_plugin_of_sublime.html">JLint——一个sublime的JSLint插件</a><em class="pubDate">2012-12-13</em></h1><p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
 
 <h3>为什么又造轮子？</h3>
@@ -93,32 +138,7 @@
 <p>于是就自己写了一个，目前还只是最最简单的版本，全部代码如下：</p>
           <div class="articlemore"><a href="./article/jsound_alpha.html">继续阅读</a></div>
         </div>
-        <div class="indexarticle">
-          <h1><a href="./article/the_line_continuation_of_html.html">HTML续行符</a><em class="pubDate">2012-02-01</em></h1><p>常识：</p>
-
-<ol>
-<li>HTML源码中夹在文字中连续的空白（空格、回车、TAB等）会在页面上形成一个空格</li>
-<li>大部分的代码规范会规定单行不得超过XX字符，超过必须做折行处理</li>
-<li>CSS可以按属性多行编写，JS的长字符串可以用“\”续行</li>
-</ol>
-
-<p>问题：HTML的长字符串怎么办？</p>
-
-<p>答案：使用注释</p>
-
-<p>例：</p>
-
-<pre><code>这是源码中的第一行文字，它很长，以至于达到了要折行的要求&lt;!--
---&gt;接着写第二，不管它有多长都不怕了，因为在页面中，始终是&lt;!--
---&gt;当成同一行处理。
-</code></pre>
-
-<blockquote>
-  <p>2012年8月17日注：这种用法除了是因为规范外，还有一个原因，就是消除inline-block带来的间隙，详见<a href="http://ued.taobao.com/blog/2012/08/15/inline-block/">inline-block的前世今生</a>。</p>
-</blockquote>
-          <div class="articlemore"><a href="./article/the_line_continuation_of_html.html">继续阅读</a></div>
-        </div>
-        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
         </div>
       </div>
     </section>
