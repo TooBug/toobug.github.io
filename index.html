@@ -36,7 +36,7 @@
         <div class="indexarticle">
           <h1><a href="./article/shadow_dom_101.html">[译]Shadow DOM第一课</a><em class="pubDate">2013-05-28</em></h1><h2>译者按</h2>
 
-<p>去年我曾经翻译过一篇<a href="http://www.toobug.net/article/what_is_shadow_dom.html">介绍Shadow DOM的文章</a>，当时觉得这是一门好遥远的技术，但仅仅在半年之后，chrome就已经支持了Shadow DOM，到目前为止，Web Components的各个子标准也已经初见端倪，可以再深入把玩一番了。</p>
+<p>去年我曾经翻译过一篇<a href="http://www.toobug.net/article/what_is_shadow_dom.html">介绍Shadow DOM的文章</a>，当时觉得这是一门好遥远的技术，但仅仅在半年之后，chrome就已经支持了Shadow DOM，到目前为止，Web Components的各个子标准也已经初见端倪，可以再深入把玩一番了。建议使用chrome 25+访问本文章以便可以看到可以使用的实例，否则文章中的演示将只能看到静态的图片。</p>
 
 <h2>简介</h2>
 
@@ -64,16 +64,17 @@
   <p>缺少封装带来的另一方面的问题是，当你升级了你的库，改变了挂件的DOM结构，那么你的CSS和JavaScript有可能会意外地不能正常工作。</p>
 </blockquote>
 
-<p>Web Components由4个部分组成：</p>
+<p>Web Components由5个部分组成（译注：原文中是模板、Shadow DOM、自定义元素、Packaging四个部分，翻译时根据最新规范做了修改，感谢 <a href="http://weibo.com/jieorlin">@一丝</a> 提醒）：</p>
 
 <ol>
 <li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/templates/index.html">模板（Templates）</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#decorator-section">装饰器（Decorators）</a></li>
 <li><a href="http://www.w3.org/TR/shadow-dom/">Shadow DOM</a></li>
 <li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/custom/index.html">自定义元素（Custom Elements）</a></li>
-<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#external-custom-elements-and-decorators">Packaging</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/imports/index.html">Imports</a></li>
 </ol>
 
-<p>Shadow DOM着眼于DOM树的封装问题。Web Components的这4个部分在设计时是希望它们协同工作的，但你可以自由选择使用哪一部分。本教程将讨论如何使用Shadow DOM。</p>
+<p>Shadow DOM着眼于DOM树的封装问题。Web Components的这5个部分在设计时是希望它们协同工作的，但你可以自由选择使用哪一部分。本教程将讨论如何使用Shadow DOM。</p>
 
 <p>Shadow DOM目前只在Chrome 25+可用，API前面有一个<code>webkit</code>前缀。</p>
           <div class="articlemore"><a href="./article/shadow_dom_101.html">继续阅读</a></div>
