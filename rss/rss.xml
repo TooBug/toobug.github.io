@@ -11,10 +11,8 @@
       <link>http://www.toobug.net/article/shadow_dom_101.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_101.html</guid>
       <pubDate>Tue, 28 May 2013 06:26:44 +0800</pubDate>
-      <category>&quot;Shadow</category>
-      <category>DOM&quot;</category>
-      <category>&quot;Web</category>
-      <category>Components&quot;</category>
+      <category>Shadow DOM</category>
+      <category>Web Components</category>
       <description>
         <![CDATA[
         <h2>译者按</h2>
