@@ -87,6 +87,7 @@ header nav ul li a:hover {
 #sidebar .sideContent{
 	background: #f0f0f0;
 	padding: 20px;
+	margin-bottom: 20px;
 }
 #sidebar p {
 	margin-bottom: 10px;
