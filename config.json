@@ -9,7 +9,7 @@
 	"domain" : "www.toobug.net",
 
     "sourcePath": "./source",
-    "distPath": "../../toooobug.github.com",
+    "distPath": "./dist",
     "skinPath": "./source/skin",
 
     "disabledPagePlugins":[
