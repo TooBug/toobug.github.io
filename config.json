@@ -13,7 +13,8 @@
     "skinPath": "./source/skin",
 
     "disabledPagePlugins":[
-    	"defineSkin"
+    	"defineSkin",
+    	"packageSource"
     ]
 
 
