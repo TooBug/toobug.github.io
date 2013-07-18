@@ -1,0 +1,21 @@
+#nametag1.outer {
+	border: 2px solid brown;
+	border-radius: 1em;
+	background: red;
+	font-size: 20pt;
+	width: 12em;
+	height: 7em;
+	text-align: center;
+}
+#nametag1 .boilerplate {
+	color: white;
+	font-family: sans-serif;
+	padding: 0.5em;
+}
+#nametag1 .name {
+	color: black;
+	background: white;
+	font-family: "Marker Felt", cursive;
+	font-size: 45pt;
+	padding-top: 0.2em;
+}

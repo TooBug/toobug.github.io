@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="./css/light.css">
+    <link rel="stylesheet" href="./js/prettify/prettify.css">
+    <script src="./js/prettify/prettify.js"></script>
+    <script src="./js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="./index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="./index.html">Index<br />首页</a></li>
+          <li><a href="./page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div class="sideTitle">作者简介</div>
+      <div id="intro" class="sideContent">
+        <p class="avatar"><img src="http://tp4.sinaimg.cn/2160639311/180/5633952458/1"></p>
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p><a href="http://weibo.com/toooobug" target="_blank"><img src="http://www.sinaimg.cn/blog/developer/wiki/32x32.png"></a><a href="http://t.qq.com/TooBug" target="_blank"><img src="http://mat1.gtimg.com/app/opent/images/wiki/resource/weiboicon32.png"></a><a href="https://github.com/TooooBug" target="_blank"><img src="http://cdn-img.easyicon.cn/png/10981/1098194.gif"></a></p>
+      </div>
+      <div class="sideTitle">友情链接</div>
+      <div class="sideContent">
+        <p>
+          <ul class="friendLink">
+            <li><a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a></li>
+            <li><a href="http://cdc.im" target="_blank">CDC前端博客</a></li>
+            <li><a href="http://www.lesscss.net" target="_blank">LESS中国官网</a></li>
+            <li><a href="http://www.gruntjs.org" target="_blank">Grunt中文社区</a></li>
+            <li><a href="http://www.basecss.net" target="_blank">Basecss的博客</a></li>
+            <li><a href="http://www.veryued.org" target="_blank">飞长的博客</a></li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <div class="indexarticle">
+          <h1><a href="./article/shadow_dom_101.html">[译]Shadow DOM第一课</a><em class="pubDate">2013-05-28</em></h1><h2>译者按</h2>
+
+<p>去年我曾经翻译过一篇<a href="http://www.toobug.net/article/what_is_shadow_dom.html">介绍Shadow DOM的文章</a>，当时觉得这是一门好遥远的技术，但仅仅在半年之后，Chrome就已经支持了Shadow DOM，到目前为止，Web Components的各个子标准也已经初见端倪，可以再深入把玩一番了。建议使用Chrome 25+访问本文章以便可以看到可以使用的实例，否则文章中的演示将只能看到静态的图片。</p>
+
+<h2>简介</h2>
+
+<blockquote>
+  <p>注：本文讨论的API还没有被完全标准化，还处在不断讨论变更的阶段，所以请在项目中谨慎使用实验性的API。</p>
+</blockquote>
+
+<p><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html">Web Components</a>是一系列比较前卫的标准的集合，它可以：</p>
+
+<ul>
+<li>使得在页面中构建挂件（widget）成为可能</li>
+<li>构建的挂件很可靠，可以被重复使用</li>
+<li>如果挂件的下一个版本改变了内部实现细节，并不会影响页面</li>
+</ul>
+
+<p>这是否是说你得在使用HTML/JavaScript还是使用Web Components之间做出选择？事实上，不是的。HTML和JavaScript可以做出交互式的组件，而挂件正是这样的交互式组件。这也就是说使用HTML和JavaScript来开发挂件是件很有意义的事情。Web Components标准正是用来做这件事情的。</p>
+
+<blockquote>
+  <p>如果构建一个挂件必须要强制使用另外的技术，那么这是没有意义的。比如，使用<code>&lt;canvas&gt;</code>来构建一个挂件显然是件无趣的事情。它的确很可靠，因为当你改变画布中的内容时页面不会受影响，但它在可访问性、可索引性、内容创作、自适应分辨率等方面都很不友好。</p>
+</blockquote>
+
+<p>如果HTML和JavaScript来构建挂件面临一个基础性的问题，那就是挂件内的DOM树并没有被从页面其它部分封装起来。缺少封装意味着页面的CSS可能会意外地被应用到挂件内部，JavaScript可能会意外地修改挂件内部，还可能引起挂件内外的ID冲突等等。</p>
+
+<blockquote>
+  <p>缺少封装带来的另一方面的问题是，当你升级了你的库，改变了挂件的DOM结构，那么你的CSS和JavaScript有可能会意外地不能正常工作。</p>
+</blockquote>
+
+<p>Web Components由5个部分组成（译注：原文中是模板、Shadow DOM、自定义元素、Packaging四个部分，翻译时根据最新规范做了修改，感谢 <a href="http://weibo.com/jieorlin">@一丝</a> 提醒）：</p>
+
+<ol>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/templates/index.html">模板（Templates）</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#decorator-section">装饰器（Decorators）</a></li>
+<li><a href="http://www.w3.org/TR/shadow-dom/">Shadow DOM</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/custom/index.html">自定义元素（Custom Elements）</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/imports/index.html">Imports</a></li>
+</ol>
+
+<p>Shadow DOM着眼于DOM树的封装问题。Web Components的这5个部分在设计时是希望它们协同工作的，但你可以自由选择使用哪一部分。本教程将讨论如何使用Shadow DOM。</p>
+
+<p>Shadow DOM目前只在Chrome 25+可用，API前面有一个<code>webkit</code>前缀。</p>
+          <div class="articlemore"><a href="./article/shadow_dom_101.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/jlint_a_jslint_plugin_of_sublime.html">JLint——一个sublime的JSLint插件</a><em class="pubDate">2012-12-13</em></h1><p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
+
+<h3>为什么又造轮子？</h3>
+
+<p>Sublime Text 2是一款非常优秀的代码编辑器，前两天出于对它的喜爱，购买了license，从此走上正版的道路。</p>
+
+<p>恰逢最近在项目中看到了一些不是太好的前端代码，就想弄一个JSLint来辅助检查修改一下。在<a href="http://wbond.net/sublime_packages/community#sort-installs">http://wbond.net/sublime_packages/community#sort-installs</a>上搜索“JSLint”，可以找到三个插件，第一个甚至有2%的用户安装了。但是，仔细看去，这三个插件不是要依赖node就是要依赖java，这让我这种有系统洁癖的人觉得非常不爽。</p>
+
+<p>在找了大半天找不到的情况下，一个想法冒出来了——“逼我么？”</p>
+
+<p>于是有了这个插件。</p>
+
+<h3>说明</h3>
+
+<p>因为是业余作品，花的时间相当少，加之既没有python基础，也不会sublime text插件的开发，全部是现学现卖，因此质量上还有不少问题。</p>
+
+<p>第一个问题是我还不知道如何去打开sublime text 2的控制台，所以在检查完以后需要手工按ctrl+`打开控制台才能看到结果。</p>
+
+<p>第二个问题是不了解其它系统是否有自带的js引擎，所以目前仅支持windows。</p>
+
+<p>第三个问题是windows的脚本宿主（JScript）对连续空行的判断有bug，导致代码中遇到空行后显示的行数不正确。这个坑爹的问题连JSLint作者老道也不准备再搞了，悲剧。</p>
+
+<p>第四个问题是现在代码是同步执行的（还不会搞python子线程的异步执行），文件比较大时会有明显的卡顿现象。</p>
+
+<p>第五个问题是对JSLint的选项还不熟，因此不知道如何配置才最符合工程中的代码要求，这一点我也会自己一边用一边调整。</p>
+
+<h3>结束</h3>
+
+<p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
+          <div class="articlemore"><a href="./article/jlint_a_jslint_plugin_of_sublime.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/hello_solo_and_github.html">你好，Solo &amp; GitHub!</a><em class="pubDate">2012-08-16</em></h1><p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
+
+<p>初中行将毕业时，因为一些突如其来的事情，突然觉得整个世界失去了色彩。那时候真切地觉得，别人都好好活着，我好好地看着就好了。那时候，也曾在心底暗暗标榜过，我的生活，无非是冷眼看世界而已。大半夜在教室睡不着的时候，偶尔也会想想人生。偶尔也会不经意地想到Solo，很好的名字，一个人的精神世界，也许并没有那么糟。</p>
+
+<p>大学进了乐团，终于知道，原来solo还有独奏的意思。那时候跟着一堆朋友们在乐队中瞎混，觉得能抢到一段solo来让自己演奏真的是莫大的荣幸。也是这段经历，让我知道，solo很精彩，solo不孤单。</p>
+          <div class="articlemore"><a href="./article/hello_solo_and_github.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/what_is_shadow_dom.html">[译]什么是Shadow Dom？</a><em class="pubDate">2012-06-07</em></h1><p>如果你做过网站，那么很可能你已经用过一些JavaScript类库。既然如此，你可能会对这些不知名的类库作者心存感激。</p>
+
+<p>这些作者——web开发领域的勇士们——都面对着同样的一个问题——封装。他们会花大量的精力在面向对象的经典问题之一上面，即如何封装自己的代码，以便与类库使用者的代码分离。</p>
+
+<p>除了SVG，现在的Web平台只提供了一种原生的方法去隔离代码块，这并不优雅。没错，我说的就是iframe。对大部分需要封装的场景来说，frames太重而且限制太多。</p>
+
+<p>如果我需要把每个自定义的按钮都放到iframe里，你是什么感觉，会不会疯掉？</p>
+
+<p>所以，我们需要一些更好的东西。事实上，大部分的浏览器已经变相地提供了一种强大技术去隐藏一些实现细节。这个技术就是所谓的“shadow DOM”。</p>
+          <div class="articlemore"><a href="./article/what_is_shadow_dom.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/jsound_alpha.html">jSound Alpha</a><em class="pubDate">2012-04-06</em></h1><p>某天突发奇想，咋没有一个关于声音的js库？本来HTML5的声音就很弱，这方面应该有更多的封装才适合做游戏之类的东东。</p>
+
+<p>在网上找了一下，有个叫<a href="https://github.com/nicklockwood/SoundManager">soundmanager</a>的库，不过它是调用flash的声音能力，当然功能也比较强大。</p>
+
+<p>于是就自己写了一个，目前还只是最最简单的版本，全部代码如下：</p>
+          <div class="articlemore"><a href="./article/jsound_alpha.html">继续阅读</a></div>
+        </div>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
+        </div>
+      </div>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>
+      <script src="http://tajs.qq.com/stats?sId=22296323"></script>
+    </div>
+  </body>
+</html>
