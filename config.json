@@ -1,0 +1,20 @@
+{
+    "blogName": "TooBug",
+    "blogSubTitle": "Life is too bug ...",
+    "blogKeywords": "TooBug,web前端,前端,HTML,CSS,JavaScript,js",
+	"blogDescription" : "TooBug - 专注前端开发",
+
+	"authorName" : "TooBug",
+
+	"domain" : "www.toobug.net",
+
+    "sourcePath": "./source",
+    "distPath": "../../toooobug.github.com",
+    "skinPath": "./source/skin",
+
+    "disabledPagePlugins":[
+    	"defineSkin"
+    ]
+
+
+}
