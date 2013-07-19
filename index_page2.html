@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="./css/light.css">
+    <link rel="stylesheet" href="./js/prettify/prettify.css">
+    <script src="./js/prettify/prettify.js"></script>
+    <script src="./js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="./index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="./index.html">Index<br />首页</a></li>
+          <li><a href="./page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div class="sideTitle">作者简介</div>
+      <div id="intro" class="sideContent">
+        <p class="avatar"><img src="http://tp4.sinaimg.cn/2160639311/180/5633952458/1"></p>
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p><a href="http://weibo.com/toooobug" target="_blank"><img src="http://www.sinaimg.cn/blog/developer/wiki/32x32.png"></a><a href="http://t.qq.com/TooBug" target="_blank"><img src="http://mat1.gtimg.com/app/opent/images/wiki/resource/weiboicon32.png"></a><a href="https://github.com/TooooBug" target="_blank"><img src="http://cdn-img.easyicon.cn/png/10981/1098194.gif"></a></p>
+      </div>
+      <div class="sideTitle">友情链接</div>
+      <div class="sideContent">
+        <p>
+          <ul class="friendLink">
+            <li><a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a></li>
+            <li><a href="http://cdc.im" target="_blank">CDC前端博客</a></li>
+            <li><a href="http://www.lesscss.net" target="_blank">LESS中国官网</a></li>
+            <li><a href="http://www.gruntjs.org" target="_blank">Grunt中文社区</a></li>
+            <li><a href="http://www.basecss.net" target="_blank">Basecss的博客</a></li>
+            <li><a href="http://www.veryued.org" target="_blank">飞长的博客</a></li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <div class="indexarticle">
+          <h1><a href="./article/the_line_continuation_of_html.html">HTML续行符</a><em class="pubDate">2012-02-01</em></h1><p>常识：</p>
+
+<ol>
+<li>HTML源码中夹在文字中连续的空白（空格、回车、TAB等）会在页面上形成一个空格</li>
+<li>大部分的代码规范会规定单行不得超过XX字符，超过必须做折行处理</li>
+<li>CSS可以按属性多行编写，JS的长字符串可以用“\”续行</li>
+</ol>
+
+<p>问题：HTML的长字符串怎么办？</p>
+
+<p>答案：使用注释</p>
+
+<p>例：</p>
+
+<pre><code>这是源码中的第一行文字，它很长，以至于达到了要折行的要求&lt;!--
+--&gt;接着写第二，不管它有多长都不怕了，因为在页面中，始终是&lt;!--
+--&gt;当成同一行处理。
+</code></pre>
+
+<blockquote>
+  <p>2012年8月17日注：这种用法除了是因为规范外，还有一个原因，就是消除inline-block带来的间隙，详见<a href="http://ued.taobao.com/blog/2012/08/15/inline-block/">inline-block的前世今生</a>。</p>
+</blockquote>
+          <div class="articlemore"><a href="./article/the_line_continuation_of_html.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/ie7_focus_method_invalid.html">IE7下focus方法失效（原因不明）</a><em class="pubDate">2011-12-28</em></h1><p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
+
+<p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
+
+<p>断点调试、打log也没什么结果，代码是走到那里了，但是input就是死活不focus。</p>
+
+<p>后来死马当活马医，开始试。结果发现将focus方法连续调用两次，居然生效了。</p>
+
+<p>原因不明，期待高人解释。</p>
+          <div class="articlemore"><a href="./article/ie7_focus_method_invalid.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/javascript_patterns_note_chapter_2.html">《Javascript Patterns》读书笔记 第二章 概要（1）</a><em class="pubDate">2011-12-24</em></h1><p>这一章概要地介绍了一些最佳实践、模式还有编码习惯。</p>
+
+<h3>一、编写可维护的代码</h3>
+
+<p>发现bug时最好能立马修复，延迟可能导致你需要更多的时间去重新理解问题，还有可以解决问题的代码。</p>
+
+<p>代码经常会被阅读，因为以下原因：</p>
+
+<ol>
+<li>Bugs</li>
+<li>新功能要添加</li>
+<li>程序需要在新环境下运行</li>
+<li>代码的功能被改变</li>
+<li>代码完全被重写</li>
+</ol>
+
+<p>可维护的代码表示代码具有以下特性：</p>
+
+<ol>
+<li>可读的</li>
+<li>一致的</li>
+<li>可预测的</li>
+<li>看起来像同一个人编写的</li>
+<li>有文档的</li>
+</ol>
+          <div class="articlemore"><a href="./article/javascript_patterns_note_chapter_2.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/the_little_book_on_coffee_script.html">The Little Book on Coffee Script</a><em class="pubDate">2011-12-23</em></h1><p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
+
+<p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
+
+<p>扫了一眼官方推荐的第一本书，但是是网页的，花了点时间整理成PDF了，方便自己看。</p>
+
+<p>顺便也发到博客上，有需要的同学可以看看。</p>
+
+<p><a href="../attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
+          <div class="articlemore"><a href="./article/the_little_book_on_coffee_script.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/ie_position_absolute_link_display_block_invalid.html">IE下绝对定位的链接display:block失效的问题</a><em class="pubDate">2011-12-21</em></h1><p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
+
+<p>搜索了一下，解决方案在这里：</p>
+
+<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
+
+<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用url(about:blank)做背景。</p>
+
+<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
+
+<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
+          <div class="articlemore"><a href="./article/ie_position_absolute_link_display_block_invalid.html">继续阅读</a></div>
+        </div>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
+        </div>
+      </div>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>
+      <script src="http://tajs.qq.com/stats?sId=22296323"></script>
+    </div>
+  </body>
+</html>

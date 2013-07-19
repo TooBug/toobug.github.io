@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
+    <link rel="stylesheet" href="./css/light.css">
+    <link rel="stylesheet" href="./js/prettify/prettify.css">
+    <script src="./js/prettify/prettify.js"></script>
+    <script src="./js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="./index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="./index.html">Index<br />首页</a></li>
+          <li><a href="./page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div class="sideTitle">作者简介</div>
+      <div id="intro" class="sideContent">
+        <p class="avatar"><img src="http://tp4.sinaimg.cn/2160639311/180/5633952458/1"></p>
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p><a href="http://weibo.com/toooobug" target="_blank"><img src="http://www.sinaimg.cn/blog/developer/wiki/32x32.png"></a><a href="http://t.qq.com/TooBug" target="_blank"><img src="http://mat1.gtimg.com/app/opent/images/wiki/resource/weiboicon32.png"></a><a href="https://github.com/TooooBug" target="_blank"><img src="http://cdn-img.easyicon.cn/png/10981/1098194.gif"></a></p>
+      </div>
+      <div class="sideTitle">友情链接</div>
+      <div class="sideContent">
+        <p>
+          <ul class="friendLink">
+            <li><a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a></li>
+            <li><a href="http://cdc.im" target="_blank">CDC前端博客</a></li>
+            <li><a href="http://www.lesscss.net" target="_blank">LESS中国官网</a></li>
+            <li><a href="http://www.gruntjs.org" target="_blank">Grunt中文社区</a></li>
+            <li><a href="http://www.basecss.net" target="_blank">Basecss的博客</a></li>
+            <li><a href="http://www.veryued.org" target="_blank">飞长的博客</a></li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <div class="indexarticle">
+          <h1><a href="./article/ios_web_app_develop_experience_4.html">iOS Web App开发心得（四） 其它</a><em class="pubDate">2011-03-14</em></h1><p>iOS Web App开发过程中的一些其他的小心得：</p>
+
+<h3>1、关于jQuery</h3>
+
+<p>事实上，jQuery已经针对移动设备推出了jQuery Mobile（2012年8月27日注：jQuery和jQuery Mobile完全不是一个东西），但是我没有去下载，而是直接用了jQuery，并没有什么理由。从实际效果来看，也还算理想，mobile safari跑jQuery还算流畅，与桌面浏览器的差异并没有那么夸张。</p>
+
+<p>但是，有一点不完美，就是触控的事件，不能使用jQuery的绑定方式（bind方法），而必须使用javascript的原生语法。猜测应该是jQuery对事件做了封装并做了兼容性处理，没有考虑到触控事件。（2012年8月27日注：完全可以用jQuery来绑定，只是在事件处理的时候取jQuery封闭事件中的originalEvent就可以了。）</p>
+          <div class="articlemore"><a href="./article/ios_web_app_develop_experience_4.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/ios_web_app_develop_experience_3.html">iOS Web App开发心得（三） APP化</a><em class="pubDate">2011-03-04</em></h1><p>书接上回，今天说页面如何变成iOS上的本地应用。</p>
+
+<h3>1、放到桌面</h3>
+
+<p>其实这个最简单啦，点浏览器的加号（2012年8月27日注：新版safari中已经不是加号了，而是iOS中经常表示“更多操作”的箭头），就会有一个菜单，添加到屏幕就行。</p>
+          <div class="articlemore"><a href="./article/ios_web_app_develop_experience_3.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/ios_web_app_develop_experience_2.html">iOS Web App开发心得（二） 交互</a><em class="pubDate">2011-03-02</em></h1><h3>1、忽大忽小的屏幕</h3>
+
+<p>不管是iTouch还是iPhone或者是iPad，都给我这样一种感觉：它的屏幕忽大忽小。</p>
+
+<p>觉得它很大的时候，是考虑到用户的单手操作。仅对iTouch和iPhone这样的大小，单手覆盖半径为屏幕宽度的圆就很困难，更不要说单手覆盖全屏了。而iPad，单手能做的操作估计也就是抱着它跑来跑去了。基于这样的情况，在做APP的时候，就应该将最常用操作放到用户单手可及的区域。</p>
+
+<p>觉得它很小的时候，是考虑到有限的交互动作。首先，我们回顾一下PC上的交互是怎么操作的，排除掉快捷键以后，一般是鼠标移动或者点击一个地方，如果是复杂的动作，则会出现下一步的交互区域，再进行点击。回到手持设备上，先定义一个“模糊度”，即手指的触控操作是不精确的。一个鼠标指针在屏幕上移动，我们可以精确地知道它现在位于哪一个像素，但是手指触控时，我们只能保证我们点中了一个“范围”。即手指设备触控操作的“模糊度”是很大的。在这样一个现实下，手持设备的屏幕就显得太小了，一个包含5个选项的子菜单大约就得占据iPhone三分之一到二分之一的屏幕高度。</p>
+
+<p>因此，在忽大忽小的屏幕上设计交互，是件和PC很不一样的事情，必须特别优先考虑最常用的操作，而将不常用的操作另外处理，比较痛苦。</p>
+          <div class="articlemore"><a href="./article/ios_web_app_develop_experience_2.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/ios_web_app_develop_experience_1.html">iOS Web App开发心得（一） 事件与特质</a><em class="pubDate">2011-03-01</em></h1><p>最近在做iOS上的Web App，截止目前为止算是告一段落。有些心得，先大致记下。以下所有内容基于iOS 4.2上的mobile safari。</p>
+          <div class="articlemore"><a href="./article/ios_web_app_develop_experience_1.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
+          <h1><a href="./article/something_about_url.html">网址那点事儿</a><em class="pubDate">2011-01-12</em></h1><p>本文所讨论的“网址”仅指通常意义上的网民认知，不作为学术术语及学术讨论。</p>
+
+<h3>一、一个完整网址的格式</h3>
+
+<p>一个常见的网址包括协议、域名（主机名），例如“http://www.toobug.net”，其中“http”是协议，“www.toobug.net”是要域名，协议和域名之间用“://”来区分。</p>
+
+<p>事实上，一个完整的网址还可能包括用户名、密码、端口以及通过get方式提交的参数和锚点。</p>
+
+<p>举个例子：“http://toobug:pass@www.toobug.net:88/index.php?myname=toobug&amp;mynickname=nicktoobug#tips”。</p>
+
+<p>在这个网址中，协议后面跟着“用户名:密码”，这是用来进行用户认证的。</p>
+          <div class="articlemore"><a href="./article/something_about_url.html">继续阅读</a></div>
+        </div>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
+        </div>
+      </div>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>
+      <script src="http://tajs.qq.com/stats?sId=22296323"></script>
+    </div>
+  </body>
+</html>

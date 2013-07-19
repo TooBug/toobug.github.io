@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <title>iOS Web App开发心得（四） 其它 - TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="../rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="../index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div class="sideTitle">作者简介</div>
+      <div id="intro" class="sideContent">
+        <p class="avatar"><img src="http://tp4.sinaimg.cn/2160639311/180/5633952458/1"></p>
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a>。关注体验设计，关注大前端生态圈。</p>
+        <p><a href="http://weibo.com/toooobug" target="_blank"><img src="http://www.sinaimg.cn/blog/developer/wiki/32x32.png"></a><a href="http://t.qq.com/TooBug" target="_blank"><img src="http://mat1.gtimg.com/app/opent/images/wiki/resource/weiboicon32.png"></a><a href="https://github.com/TooooBug" target="_blank"><img src="http://cdn-img.easyicon.cn/png/10981/1098194.gif"></a></p>
+      </div>
+      <div class="sideTitle">友情链接</div>
+      <div class="sideContent">
+        <p>
+          <ul class="friendLink">
+            <li><a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a></li>
+            <li><a href="http://cdc.im" target="_blank">CDC前端博客</a></li>
+            <li><a href="http://www.lesscss.net" target="_blank">LESS中国官网</a></li>
+            <li><a href="http://www.gruntjs.org" target="_blank">Grunt中文社区</a></li>
+            <li><a href="http://www.basecss.net" target="_blank">Basecss的博客</a></li>
+            <li><a href="http://www.veryued.org" target="_blank">飞长的博客</a></li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <h1>iOS Web App开发心得（四） 其它<em class="pubDate">2011-03-14 20:44:00</em></h1><p>iOS Web App开发过程中的一些其他的小心得：</p>
+
+<h3>1、关于jQuery</h3>
+
+<p>事实上，jQuery已经针对移动设备推出了jQuery Mobile（2012年8月27日注：jQuery和jQuery Mobile完全不是一个东西），但是我没有去下载，而是直接用了jQuery，并没有什么理由。从实际效果来看，也还算理想，mobile safari跑jQuery还算流畅，与桌面浏览器的差异并没有那么夸张。</p>
+
+<p>但是，有一点不完美，就是触控的事件，不能使用jQuery的绑定方式（bind方法），而必须使用javascript的原生语法。猜测应该是jQuery对事件做了封装并做了兼容性处理，没有考虑到触控事件。（2012年8月27日注：完全可以用jQuery来绑定，只是在事件处理的时候取jQuery封闭事件中的originalEvent就可以了。）</p>
+
+<h3>2、viewport带来的问题</h3>
+
+<p>其实这一点在前面已经讲过，还是想再重复一下。</p>
+
+<p>因为只有viewport的概念，导致了很多和桌面浏览器不一样的地方，比如没有滚动条，需要手工去处理很多事情。</p>
+
+<p>同样因为viewport，元素的fixed定位方式失效。</p>
+
+<p>另外由于viewport自身的操作需要很多触控动作，给交互也带来不小的麻烦，前文已经说过。</p>
+
+<h3>3、iOS自己的处事方式</h3>
+
+<p>iOS在一些地方有自己的特殊处理方式，需要注意。</p>
+
+<p>比如不允许用户从浏览器中上传文件，这个特性就让应用的空间一下子少了好多。(2012年8月27日注：iOS6已经允许了。)</p>
+
+<p>再比如对于选择框\<select\>，并不是像桌面浏览器一样下拉，而是一个系统的模态窗口选择，完全是苹果自己的风格。</p>
+
+<h3>4、SVG支持不力</h3>
+
+<p>网上查到SVG的嵌入方式有三种，除了iframe外，其余两种均试过，很遗憾，不能生效。</p>
+
+<h3>5、背景缩放的bug</h3>
+
+<p>按照CSS的标准，背景图片大小是可以缩放的。实际使用时，在有的机器上有明显bug，表现为有时候缩放变为平铺，有时候需要再加一个多点触控才能触发缩放。</p>
+
+<h3>结语：</h3>
+
+<p>本次开发的app周期不长，最终也没有形成产品，但是中间还是有很多东西值得记录。</p>
+
+<p>在写这一系列文章的时候，我自知写得不够详尽，没有配图，也没有引用资料来源。这主要是限于时间和精力有限，如果对文章内容有异议或者想了解更多也欢迎和我联系。</p>
+
+<p>当然，在有限的开发周期中，我了解到的东西也极为有限，如果有不对的地方，还请大家指正！</p>
+
+<blockquote>
+  <p>2012年8月27日注：现在看来，当时写的东西中有非常多不严谨的地方，趁这次博客迁移把顺手能修正的部分都给修正掉。</p>
+</blockquote>
+      </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>
+      <script src="http://tajs.qq.com/stats?sId=22296323"></script>
+    </div>
+  </body>
+</html>
