@@ -50,13 +50,9 @@
         <div class="indexarticle">
           <h1><a href="./article/xheditor_paste_images.html">xheditor从剪贴板粘贴图片的实现原理</a><em class="pubDate">2011-11-30</em></h1><p><a href="http://xheditor.com/">xheditor</a>是一个优秀的国产富文本编辑器，最近的（其实我也不知道有多久了）版本推出了一个粘贴剪贴板图片的功能，很是喜爱，好奇了好久，最终不住去看了下源码，基本明白了。</p>
 
-<p>首先，这个功能很新，不支持IE系列浏览器……所以用的是一些新的API。</p>
+<p>首先，这个功能很新，不支持IE系列浏览器……用的是一些新的API。我手上的代码是1.1.10，所以代码行数以这个版本为准。</p>
 
-<p>我手上的代码是1.1.10，所以代码行数以这个版本为准。</p>
-
-<p>一点前置小知识是必备的，那就是对大部分截图软件来说，截图操作是一个把截取的图片转换成指定格式（貌似jpg居多， windows自带的是bmp），然后放入剪贴板的过程。</p>
-
-<p>所以，要粘贴图片，核心就是读取剪贴板。</p>
+<p>一点前置小知识是必备的，那就是对大部分截图软件来说，截图操作是一个把截取的图片转换成指定格式（windows自带的是bmp）然后放入剪贴板的过程。所以，要粘贴图片，核心就是读取剪贴板。</p>
           <div class="articlemore"><a href="./article/xheditor_paste_images.html">继续阅读</a></div>
         </div>
         <div class="indexarticle">
