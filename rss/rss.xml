@@ -4,13 +4,13 @@
     <title>TooBug</title>
     <link>http://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
-    <lastBuildDate>Tue, 28 May 2013 06:26:44 +0400</lastBuildDate>
+    <lastBuildDate>Tue, 28 May 2013 06:26:44 +0800</lastBuildDate>
     <generator>Solo 2.0</generator>
     <item>
       <title>[译]Shadow DOM第一课</title>
       <link>http://www.toobug.net/article/shadow_dom_101.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_101.html</guid>
-      <pubDate>Tue, 28 May 2013 06:26:44 +0400</pubDate>
+      <pubDate>Tue, 28 May 2013 06:26:44 +0800</pubDate>
       <category>Shadow DOM</category>
       <category>Web Components</category>
       <description>
@@ -537,7 +537,7 @@ template.remove();
       <title>JLint——一个sublime的JSLint插件</title>
       <link>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</guid>
-      <pubDate>Thu, 13 Dec 2012 12:50:00 +0400</pubDate>
+      <pubDate>Thu, 13 Dec 2012 12:50:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
@@ -576,7 +576,7 @@ template.remove();
       <title>你好，Solo &amp; GitHub!</title>
       <link>http://www.toobug.net/article/hello_solo_and_github.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/hello_solo_and_github.html</guid>
-      <pubDate>Thu, 16 Aug 2012 18:24:00 +0400</pubDate>
+      <pubDate>Thu, 16 Aug 2012 18:24:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
@@ -601,7 +601,7 @@ template.remove();
       <title>[译]什么是Shadow Dom？</title>
       <link>http://www.toobug.net/article/what_is_shadow_dom.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/what_is_shadow_dom.html</guid>
-      <pubDate>Thu, 07 Jun 2012 18:24:00 +0400</pubDate>
+      <pubDate>Thu, 07 Jun 2012 18:24:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>如果你做过网站，那么很可能你已经用过一些JavaScript类库。既然如此，你可能会对这些不知名的类库作者心存感激。</p>
@@ -816,7 +816,7 @@ test.textContent = 'I see the light!';
       <title>jSound Alpha</title>
       <link>http://www.toobug.net/article/jsound_alpha.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/jsound_alpha.html</guid>
-      <pubDate>Fri, 06 Apr 2012 12:27:00 +0400</pubDate>
+      <pubDate>Fri, 06 Apr 2012 12:27:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>某天突发奇想，咋没有一个关于声音的js库？本来HTML5的声音就很弱，这方面应该有更多的封装才适合做游戏之类的东东。</p>
@@ -870,7 +870,7 @@ test.textContent = 'I see the light!';
       <title>HTML续行符</title>
       <link>http://www.toobug.net/article/the_line_continuation_of_html.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/the_line_continuation_of_html.html</guid>
-      <pubDate>Wed, 01 Feb 2012 18:04:00 +0400</pubDate>
+      <pubDate>Wed, 01 Feb 2012 18:04:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>常识：</p>
@@ -902,7 +902,7 @@ test.textContent = 'I see the light!';
       <title>IE7下focus方法失效（原因不明）</title>
       <link>http://www.toobug.net/article/ie7_focus_method_invalid.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/ie7_focus_method_invalid.html</guid>
-      <pubDate>Wed, 28 Dec 2011 10:49:00 +0400</pubDate>
+      <pubDate>Wed, 28 Dec 2011 10:49:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
@@ -921,7 +921,7 @@ test.textContent = 'I see the light!';
       <title>《Javascript Patterns》读书笔记 第二章 概要（1）</title>
       <link>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</guid>
-      <pubDate>Sat, 24 Dec 2011 18:34:00 +0400</pubDate>
+      <pubDate>Sat, 24 Dec 2011 18:34:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>这一章概要地介绍了一些最佳实践、模式还有编码习惯。</p>
@@ -1042,7 +1042,7 @@ func();
       <title>The Little Book on Coffee Script</title>
       <link>http://www.toobug.net/article/the_little_book_on_coffee_script.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/the_little_book_on_coffee_script.html</guid>
-      <pubDate>Fri, 23 Dec 2011 18:14:00 +0400</pubDate>
+      <pubDate>Fri, 23 Dec 2011 18:14:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
@@ -1061,7 +1061,7 @@ func();
       <title>IE下绝对定位的链接display:block失效的问题</title>
       <link>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
-      <pubDate>Wed, 21 Dec 2011 20:02:00 +0400</pubDate>
+      <pubDate>Wed, 21 Dec 2011 20:02:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
@@ -1082,7 +1082,7 @@ func();
       <title>Chrome也支持zoom了</title>
       <link>http://www.toobug.net/article/chrome_supports_zoom.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/chrome_supports_zoom.html</guid>
-      <pubDate>Wed, 21 Dec 2011 19:59:00 +0400</pubDate>
+      <pubDate>Wed, 21 Dec 2011 19:59:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>查阅网上的中文资料，几乎每篇文章都在说，zoom是IE专有的属性，但事实是，chrome也支持。</p>
@@ -1103,7 +1103,7 @@ func();
       <title>《JavaScript Patterns》读书笔记 第一章 介绍</title>
       <link>http://www.toobug.net/article/javascript_patterns_note_chapter_1.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/javascript_patterns_note_chapter_1.html</guid>
-      <pubDate>Sat, 17 Dec 2011 17:29:00 +0400</pubDate>
+      <pubDate>Sat, 17 Dec 2011 17:29:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>《JavaScript Patterns》(<a href="http://book.douban.com/subject/5252901/">http://book.douban.com/subject/5252901/</a>)是一本关于JavaScript的设计模式的书，它抛弃了其他同类书籍“一定要完全模拟面向对象”的思路，而是从一个更高的层次，即设计模式解决了什么问题入手，对每种模式进行细致的分析，然后从JavaScript本身的特性出发去进行实现，写得非常不错。</p>
@@ -1189,7 +1189,7 @@ number,string,boolean的值很容易转变成对象，不管是被编程者还�
       <title>IE下利用Matrix滤镜实现绕中心点旋转</title>
       <link>http://www.toobug.net/article/ie_matrix_rotation.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/ie_matrix_rotation.html</guid>
-      <pubDate>Thu, 15 Dec 2011 13:16:00 +0400</pubDate>
+      <pubDate>Thu, 15 Dec 2011 13:16:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
@@ -1280,7 +1280,7 @@ m11,m12,m21,m22与前面说的一样。
       <title>HTML元素的键盘事件</title>
       <link>http://www.toobug.net/article/keyboard_event_of_html_elements.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/keyboard_event_of_html_elements.html</guid>
-      <pubDate>Tue, 06 Dec 2011 16:30:00 +0400</pubDate>
+      <pubDate>Tue, 06 Dec 2011 16:30:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>这篇文章里已经说得很清楚了：</p>
@@ -1302,7 +1302,7 @@ m11,m12,m21,m22与前面说的一样。
       <title>同域iframe“拒绝访问”的问题</title>
       <link>http://www.toobug.net/article/iframe_same_origin_access_denied.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/iframe_same_origin_access_denied.html</guid>
-      <pubDate>Thu, 01 Dec 2011 16:57:00 +0400</pubDate>
+      <pubDate>Thu, 01 Dec 2011 16:57:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p>同事项目中用了一个iframe，父页和子页都设置了document.domain进行降域，结果在非IE下正常，IE下“拒绝访问”。</p>
@@ -1321,7 +1321,7 @@ m11,m12,m21,m22与前面说的一样。
       <title>xheditor从剪贴板粘贴图片的实现原理</title>
       <link>http://www.toobug.net/article/xheditor_paste_images.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/xheditor_paste_images.html</guid>
-      <pubDate>Wed, 30 Nov 2011 10:08:00 +0400</pubDate>
+      <pubDate>Wed, 30 Nov 2011 10:08:00 +0800</pubDate>
       <description>
         <![CDATA[
         <p><a href="http://xheditor.com/">xheditor</a>是一个优秀的国产富文本编辑器，最近的（其实我也不知道有多久了）版本推出了一个粘贴剪贴板图片的功能，很是喜爱，好奇了好久，最终不住去看了下源码，基本明白了。</p>
@@ -1379,7 +1379,7 @@ if(ev&amp;&amp;
       <title>《JavaScript语言精粹》读书笔记 第六章 数组</title>
       <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_6.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_6.html</guid>
-      <pubDate>Wed, 27 Apr 2011 17:16:00 +0400</pubDate>
+      <pubDate>Wed, 27 Apr 2011 17:16:00 +0800</pubDate>
       <description>
         <![CDATA[
         <h3>6.0绪</h3>
@@ -1465,7 +1465,7 @@ if(ev&amp;&amp;
       <title>《JavaScript语言精粹》读书笔记 第五章 继承</title>
       <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_5.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_5.html</guid>
-      <pubDate>Wed, 27 Apr 2011 17:15:00 +0400</pubDate>
+      <pubDate>Wed, 27 Apr 2011 17:15:00 +0800</pubDate>
       <description>
         <![CDATA[
         <h3>5.0绪</h3>
@@ -1510,7 +1510,7 @@ if(ev&amp;&amp;
       <title>《JavaScript语言精粹》读书笔记 第四章 函数</title>
       <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_4.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_4.html</guid>
-      <pubDate>Wed, 27 Apr 2011 16:53:00 +0400</pubDate>
+      <pubDate>Wed, 27 Apr 2011 16:53:00 +0800</pubDate>
       <description>
         <![CDATA[
         <h3>4.1函数对象</h3>
@@ -1699,7 +1699,7 @@ add1(6)
       <title>《JavaScript语言精粹》读书笔记 第三章 对象</title>
       <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_3.html</link>
       <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_3.html</guid>
-      <pubDate>Wed, 27 Apr 2011 16:47:00 +0400</pubDate>
+      <pubDate>Wed, 27 Apr 2011 16:47:00 +0800</pubDate>
       <description>
         <![CDATA[
         <h3>3.0绪</h3>
