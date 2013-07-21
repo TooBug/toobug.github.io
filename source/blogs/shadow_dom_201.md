@@ -2,7 +2,7 @@ Title: [译]Shadow DOM第二课
 Date: 2013-06-11 14:05:58
 Tags: "Shadow DOM" "Web Components"
 
-本文将会讨论更多可以用Shadow DOM做的神奇的事情。本文是在[《Shadow DOM第一课》](http://www.toobug.net/article/shadow_dom_101.html)的基础之上讨论的，如果你需要基础介绍，请参看那篇。
+本文将会讨论Shadow DOM的更多神奇之处。本文是在[《Shadow DOM第一课》](http://www.toobug.net/article/shadow_dom_101.html)的基础之上讨论的，如果你需要基础介绍，请参看那篇。
 
 ## 介绍
 
@@ -10,7 +10,7 @@ Tags: "Shadow DOM" "Web Components"
 
 ## 样式封装
 
-Shadow DOM中有一个很核心的特性叫shadow边界（shadow boundary）它有很多好用的特点，其中的一点就是提供了样式封装。换句话说：默认情况下，在Shadow DOM中定义的样式会被限制在Shadow Root的范围中。
+Shadow DOM中有一个很核心的特性叫“shadow边界”（shadow boundary），它有很多好用的特点，其中的一点就是提供了样式封装。换句话说：默认情况下，在Shadow DOM中定义的样式会被限制在Shadow Root的范围中。
 
 $$solo_more$$
 
@@ -124,12 +124,6 @@ root.innerHTML = '<style>' +
 	<p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_3.gif" /></p>
 </div>
 
-
-<div class="helperimg" style="display:none;">
-	<p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
-	<p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_101_2.png" /></p>
-</div>
-
 在这个例子中，我使用了`*`选择器来选择承载我的Shadow DOM的元素。也就是“我不关心你是什么元素，只要按这样的样式显示就行了。”
 
 另一种需要使用`@host`的场景是你想从Shadow DOM内部为不同类型的shadow host指定不同的样式，比如shadow host是自定义元素时就需要这样。当然你还可以根据shadow host元素的类型来创建不同的皮肤。
@@ -240,38 +234,80 @@ Webkit和Firefox都定义了一些伪元素，用于给原生的元素指定样�
 	- `false` 默认值，[http://www.impressivewebs.com/inherit-value-css/](这里)可以了解更多关于CSS继承的内容
 	- `true` 在边界处将所有可以被继承的属性都置为`initial`
 - `.applyAuthorStyles`
-	- `true` 使用作者在文档中定义的样式，可理解为“外部样式可以渗透到Shadow DOM内部“
+	- `true` 使用作者在文档中定义的样式，可理解为“外部样式可以渗透到Shadow DOM内部”
 	- `false` 默认值，外部样式不会被应用到Shadow DOM内部
 
-下面是一个demo，用于演示改变这两个值是Shadow DOM会有怎样的变化。
+下面是一个demo，用于演示改变这两个值时Shadow DOM会有怎样的变化。
 
 	<div><h3>Host title</h3></div>
 	<script>
 	var root = document.querySelector('div').webkitCreateShadowRoot();
 	root.applyAuthorStyles = true;
-	root.resetStyleInheritance = true;
+	root.resetStyleInheritance = false;
 	root.innerHTML = '<style>h3{ color: red; }</style>' + 
 									 '<h3>Shadow DOM Title</h3>' + 
 									 '<content select="h3"></content>';
 	</script>
 
+
 <div id="example4"><h3>Host title</h3></div>
+<button id="example4_applyAuthorStyles" data-boolean="true">applyAuthorStyles=true</button>
+<button id="example4_resetStyleInheritance" data-boolean="false">resetStyleInheritance=false</button>
 <script>
-var root = document.querySelector('div#example4').webkitCreateShadowRoot();
-root.applyAuthorStyles = true;
-root.resetStyleInheritance = true;
-root.innerHTML = '<style>h3{ color: red; }</style>' + 
-								 '<h3>Shadow DOM Title</h3>' + 
-								 '<content select="h3"></content>';
+~function(){
+	var root = document.querySelector('div#example4').webkitCreateShadowRoot();
+	root.applyAuthorStyles = true;
+	root.resetStyleInheritance = true;
+	root.innerHTML = '<style>h3{ color: red; }</style>' + 
+									 '<h3>Shadow DOM Title</h3>' + 
+									 '<content select="h3"></content>';
+	function example4(options){
+		if(typeof options.applyAuthorStyles === 'boolean'){
+			root.applyAuthorStyles = options.applyAuthorStyles;
+			$('#example4_applyAuthorStyles').text('applyAuthorStyles='+options.applyAuthorStyles);
+		}
+		if(typeof options.resetStyleInheritance === 'boolean'){
+			root.resetStyleInheritance = options.resetStyleInheritance;
+			$('#example4_resetStyleInheritance').text('resetStyleInheritance='+options.resetStyleInheritance);
+		}
+	}
+	$('#example4_applyAuthorStyles').click(function(){
+
+		var $this = $(this);
+		var targetBoolean = !$this.data('boolean');
+		example4({
+			applyAuthorStyles:targetBoolean
+		});
+		$this.data('boolean',targetBoolean);
+
+	});
+	$('#example4_resetStyleInheritance').click(function(){
+
+		var $this = $(this);
+		var targetBoolean = !$this.data('boolean');
+		example4({
+			resetStyleInheritance:targetBoolean
+		});
+		$this.data('boolean',targetBoolean);
+
+	});
+}();
 </script>
 
-上面的例子可以很容易地看到`.applyAuthorStyles`是怎样工作的。它使得Shadow DOM中的h3可以继承页面中h3元素的样式。
+<div class="helperimg" style="display:none;">
+	<p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+	<p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_4.gif" /></p>
+</div>
+
+上面的例子可以很容易地看到`.applyAuthorStyles`是怎样工作的。它使得Shadow DOM中的h3可以继承页面中h3元素的样式。（译注：你可能会奇怪为何这两个h3的样式不一样呢？不是继承了文档中的样式了吗？这是因为文档中的h3样式前面还有其它的选择器，不是直接写的`h3{...}`，而是类似`#container h3{...}`，这样的话因为h3在Shadow DOM中，而前面的选择器在文档中，导致CSS选择器产生跨越边界的行为，因此选择不到，见下段。）
 
 > 即使设置了`apply-author-styles`属性，在文档中定义的CSS选择器仍然无法超过shadow边界。*只有完全在Shadow DOM内部或者外部的样式规则才会被匹配。*
 
-理解`.resetStyleInheritance`有点麻烦，主要是因为它只在可以被继承的属性上才有效果。它的含义是：让你在寻找一个要被继承的属性时，在页面和Shadow Root之间的边界上，这些值不会被继承，而是使用`initial`代替（根据CSS标准）。
+理解`.resetStyleInheritance`有点麻烦，主要是因为它只在可以被继承的属性上才有效果。它的含义是：当浏览器在往上寻找某个可以继承的属性值时（比如`color`），在页面和Shadow Root之间的边界上，这些值不再被继承，而是使用`initial`代替（根据CSS标准）。（译注：举个例子，文档中定义了`body{color:red}`，此时如果是文档中有一个`p`元素，计算`color`属性值时就会往上寻找到`body`的`color`并继承，但如果是Shadow DOM中有一个`p`元素，则`color`值在浏览器寻找到shadow边界时被置为`initial`，而不是继续到Shadow DOM外部寻找继承。）
 
 如果你不确定哪个属性在CSS中会被继承，可以查看这个[手册](http://www.impressivewebs.com/inherit-value-css/)，或者在开发工具中的Element面板中切换“Show inherited”选项。
+
+![在调试工具中查看继承的样式](/images/shadow_dom_201_showinheritance.gif)
 
 ### 小抄
 
@@ -336,14 +372,28 @@ root.innerHTML = '<style>h3{ color: red; }</style>' +
 	<script>
 	var root = document.querySelector('div').webkitCreateShadowRoot();
 	root.innerHTML = '<style>' + 
-	                   'h3{ color: red; }' + 
-	                   'content::-webkit-distributed(h3) { color: green; }' + 
-	                 '</style>' + 
-	                 '<h3>Shadow DOM Title</h3>' +
-	                 '<content select="h3"></content>';
+					   'h3{ color: red; }' + 
+					   'content::-webkit-distributed(h3) { color: green; }' + 
+					 '</style>' + 
+					 '<h3>Shadow DOM Title</h3>' +
+					 '<content select="h3"></content>';
 	</script>
 
-TODO：代码
+<div id="example5"><h3>Host title</h3></div>
+<script>
+var root = document.querySelector('div#example5').webkitCreateShadowRoot();
+root.innerHTML = '<style>' + 
+				   'h3{ color: red; }' + 
+				   'content::-webkit-distributed(h3) { color: green; }' + 
+				 '</style>' + 
+				 '<h3>Shadow DOM Title</h3>' +
+				 '<content select="h3"></content>';
+</script>
+
+<div class="helperimg" style="display:none;">
+	<p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+	<p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_5.png" /></p>
+</div>
 
 你应该可以看到红色的“Shadow DOM Title”和绿色的“Host Title”。同时注意到，“Host Title”仍然保留了从文档（页面）中带来的样式。
 
@@ -353,6 +403,8 @@ TODO：代码
 
 - 对ShadowRoot或者是`<shadow>`插入点来说：`reset-style-inheritance`意味着，可继承的CSS属性在到达Shadow DOM之前，在shadow host处被置为`initial`。这个位置也就是熟知的“上边界”（upper boundary）。
 - 对`<content>`插入点来说：`reset-style-inheritance`意味着，可继承的CSS属性在shadow host的子元素被分配之前会被置为`initial`。这个位置也就是熟知的“下边界”（lower boundary）。
+
+（译注：其实没懂上下边界的差异在哪里，求指教……）
 
 > 特别注意：在文档中定义的样式会继续应用到它们选择到的那些节点，即使这些节点被分配到Shadow DOM内部。节点跑到Shadow DOM内部并不会改变那些已经应用的样式。
 
