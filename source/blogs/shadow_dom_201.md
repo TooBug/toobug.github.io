@@ -1,5 +1,5 @@
 Title: [译]Shadow DOM第二课
-Date: 2013-06-11 14:05:58
+Date: 2013-07-21 16:50:58
 Tags: "Shadow DOM" "Web Components"
 
 本文将会讨论Shadow DOM的更多神奇之处。本文是在[《Shadow DOM第一课》](http://www.toobug.net/article/shadow_dom_101.html)的基础之上讨论的，如果你需要基础介绍，请参看那篇。
