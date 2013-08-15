@@ -5,7 +5,7 @@
 a {
 	text-decoration: none;
 	color: #888;
-	-webkit-transition:color .5s;
+	-webkit-transition:color .3s;
 }
 a:hover {
 	color:#37B8FF;
@@ -121,7 +121,7 @@ header nav ul li a:hover {
 	letter-spacing: 0.1em;
 }
 #content #article p {
-	text-indent: 2.2em;
+	/*text-indent: 2.2em;*/
 }
 #content #article h1 {
 	padding-left: 20px;
@@ -136,11 +136,15 @@ header nav ul li a:hover {
 	line-height: 30px;
 	color: #888;
 }
-#content #article h3 {
-	background: #CCC;
+
+#content #article h2 {
+	border-left: 3px solid #ccc;
 	margin: 20px 0;
-	padding: 0 20px;
-	border-left: 2px solid #490;
+	padding: 0 10px;
+}
+#content #article h3 {
+	/*background: #CCC;*/
+	margin: 20px 0;
 }
 #content #article .articlemore {
 	text-align: right;
@@ -369,4 +373,22 @@ header nav ul li a:hover {
 	text-align: center;
 	/*border-top: 1px solid #dddddd;*/
 	padding: 50px 0 20px 0;
+}
+
+@media screen and (max-width: 1200px) {
+	body{
+		min-width: inherit;
+		margin:0;
+	}
+}
+@media screen and (max-width: 800px) {
+	#sidebar{
+		display:none;
+	}
+	#content{
+		margin-left:0;
+	}
+	header nav{
+		display:none;
+	}
 }
