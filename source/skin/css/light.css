@@ -5,7 +5,7 @@
 a {
 	text-decoration: none;
 	color: #888;
-	-webkit-transition:color .5s;
+	-webkit-transition:color .3s;
 }
 a:hover {
 	color:#37B8FF;
@@ -138,7 +138,7 @@ header nav ul li a:hover {
 }
 
 #content #article h2 {
-	border-left: 3px solid #490;
+	border-left: 3px solid #ccc;
 	margin: 20px 0;
 	padding: 0 10px;
 }
@@ -373,4 +373,22 @@ header nav ul li a:hover {
 	text-align: center;
 	/*border-top: 1px solid #dddddd;*/
 	padding: 50px 0 20px 0;
+}
+
+@media screen and (max-width: 1200px) {
+	body{
+		min-width: inherit;
+		margin:0;
+	}
+}
+@media screen and (max-width: 800px) {
+	#sidebar{
+		display:none;
+	}
+	#content{
+		margin-left:0;
+	}
+	header nav{
+		display:none;
+	}
 }
