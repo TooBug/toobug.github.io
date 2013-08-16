@@ -417,10 +417,10 @@ Shadow DOM为我们提供了样式封装（scoped style），以及一种可以�
 > 原文地址<http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/?redirect_from_locale=zh>
 
 <script>
-	var css = document.createElement('link');
+	/*var css = document.createElement('link');
 	css.setAttribute('rel','stylesheet');
 	css.setAttribute('href','/attachments/shadow_dom_101_style.css');
-	document.head.appendChild(css);
+	document.head.appendChild(css);*/
 
 	if(!window.WebKitShadowRoot){
 		$('.helperimg').css({
