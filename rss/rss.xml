@@ -273,8 +273,9 @@ var html = [];
 
 <p><embed src="http://player.youku.com/player.php/sid/XNTk2Njc3MDk2/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
 
-<pre><code>优酷不给超清，鄙视一下，原视频可以在这里下载&lt;http://url.cn/HQs1CS&gt;。
-</code></pre>
+<blockquote>
+  <p>优酷不给超清，鄙视一下，原视频可以在这里下载<a href="http://url.cn/HQs1CS">http://url.cn/HQs1CS</a>。</p>
+</blockquote>
 
 <h2>事件模型</h2>
 
