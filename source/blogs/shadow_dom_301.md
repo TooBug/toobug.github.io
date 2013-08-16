@@ -239,6 +239,8 @@ root2.innerHTML = '<div>Root 2 FTW</div><shadow></shadow>';
 
 <embed src="http://player.youku.com/player.php/sid/XNTk2Njc3MDk2/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
 
+	优酷不给超清，鄙视一下，原视频可以在这里下载<http://url.cn/HQs1CS>。
+
 ## 事件模型
 
 有一些事件会穿越shadow边界，有一些不会。在事件穿越边界的情况下，事件目标（event target）将会被调整，以保持shadow root上边界的封装性。具体地说，调整后的事件看起来是来自shadow host，而不是Shadow DOM内部。
