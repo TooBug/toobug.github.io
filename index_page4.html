@@ -51,6 +51,21 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/keyboard_event_of_html_elements.html">HTML元素的键盘事件</a><em class="pubDate">2011-12-06</em></h1><p>这篇文章里已经说得很清楚了：</p>
+
+<p><a href="http://yiminghe.iteye.com/blog/729265">http://yiminghe.iteye.com/blog/729265</a></p>
+
+<p>核心观点是：</p>
+
+<ul>
+<li>除了文中列出的元素，其他元素不能直接获得键盘事件，除非通过冒泡</li>
+<li>对不能直接获得键盘事件的元素，通过让它强制获得焦点可以响应键盘事件</li>
+</ul>
+
+<p>文中没有说到的一点是：document.body,document,window都可以直接响应键盘事件。</p>
+          <div class="articlemore"><a href="./article/keyboard_event_of_html_elements.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/iframe_same_origin_access_denied.html">同域iframe“拒绝访问”的问题</a><em class="pubDate">2011-12-01</em></h1><p>同事项目中用了一个iframe，父页和子页都设置了document.domain进行降域，结果在非IE下正常，IE下“拒绝访问”。</p>
 
 <p>跟大多数人想的一样，iframe遇到“拒绝访问”首先肯定考虑是document.domain的问题，但是这里父子页面都显式做了降域处理，应该不会。找不出其他原因，只好试了一下，结果屏蔽来屏蔽去调了半天，问题依旧。</p>
@@ -89,21 +104,6 @@
 
 <p>在基于类的语言中，对象是类的实例，并且类可以从另一个类继承。JS是一门基于原型的语言，这意味着对象直接从其他对象继承。</p>
           <div class="articlemore"><a href="./article/javascript_the_good_parts_notes_chapter_5.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/javascript_the_good_parts_notes_chapter_4.html">《JavaScript语言精粹》读书笔记 第四章 函数</a><em class="pubDate">2011-04-27</em></h1><h3>4.1函数对象</h3>
-
-<p>在Javascript中函数就是对象。</p>
-
-<pre><code>Function.prototype===Object
-</code></pre>
-
-<p>函数创建时有两个隐藏属性：上下文、实现函数行为的代码</p>
-
-<h3>4.2函数字面量</h3>
-
-<p>通过函数字面量创建的函数对象包含一个连到外部上下文的连接–闭包。</p>
-          <div class="articlemore"><a href="./article/javascript_the_good_parts_notes_chapter_4.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
         </div>
