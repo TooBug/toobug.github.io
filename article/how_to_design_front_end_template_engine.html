@@ -86,7 +86,7 @@ document.querySelector('#myDiv').innerHTML = tempHtml;
         ......
         '       &lt;td&gt;{%col1}&lt;/td&gt;' +
         '       &lt;td&gt;{%col2}&lt;/td&gt;' +
-        '       &lt;td&gt;{{if col3==='yes'}}!{{else}}?{{end if}}' +
+        '       &lt;td&gt;{{if col3==="yes"}}!{{else}}?{{end if}}' +
         ......
 
 document.querySelector('#myDiv').innerHTML = template(tmplHtml,myData);     
@@ -269,7 +269,7 @@ arr.forEach(function(dataItem){
 
 <h3>模板位置及提取</h3>
 
-<p>在文章开头的例子中，我们把模板写到了JS中，在最后也做了说明，模板文件是可以写到HTML中的。接下来就来看看模板文件可以如何放到HTML。</p>
+<p>在文章开头的例子中，我们把模板写到了JS中，在最后也做了说明，模板文件是可以写到HTML中的。接下来就来看看将模板放到HTML中的几种主要方法。（还有更多的方法，玉伯有一篇文章中有详述，由于原文被墙，可以CSDN转载的页面查看：<a href="http://www.csdn.net/article/2011-09-27/304989">《[浅析]淘宝详情页的BigRender优化的最佳方式》</a>）</p>
 
 <h4>直接放入文档流中的DOM</h4>
 
