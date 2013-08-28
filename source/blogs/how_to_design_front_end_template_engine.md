@@ -39,7 +39,7 @@ Tags: 模板引擎 Template
 			......
 			'		<td>{%col1}</td>' +
 			'		<td>{%col2}</td>' +
-			'		<td>{{if col3==='yes'}}!{{else}}?{{end if}}' +
+			'		<td>{{if col3==="yes"}}!{{else}}?{{end if}}' +
 			......
 	
 	document.querySelector('#myDiv').innerHTML = template(tmplHtml,myData);		
@@ -206,7 +206,7 @@ Tags: 模板引擎 Template
 
 ### 模板位置及提取
 
-在文章开头的例子中，我们把模板写到了JS中，在最后也做了说明，模板文件是可以写到HTML中的。接下来就来看看模板文件可以如何放到HTML。
+在文章开头的例子中，我们把模板写到了JS中，在最后也做了说明，模板文件是可以写到HTML中的。接下来就来看看将模板放到HTML中的几种主要方法。（还有更多的方法，玉伯有一篇文章中有详述，由于原文被墙，可以CSDN转载的页面查看：[《[浅析]淘宝详情页的BigRender优化的最佳方式》](http://www.csdn.net/article/2011-09-27/304989)）
 
 #### 直接放入文档流中的DOM
 
