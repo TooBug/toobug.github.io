@@ -205,7 +205,7 @@ var element = document.getElementById('element');
 // 创建shadow DOM子树
 element.shadow = document.createElement('div');
 element.shadow.innerHTML = '&lt;h1&gt;Think of the Children&lt;/h1&gt;' +
-    &lt;div class="children"&gt;{{children-go-here}}&lt;/div&gt;';
+    '&lt;div class="children"&gt;{{children-go-here}}&lt;/div&gt;';
 // Now add some children.
 var test = element.appendChild(document.createElement('p'));
 test.textContent = 'I see the light!';
