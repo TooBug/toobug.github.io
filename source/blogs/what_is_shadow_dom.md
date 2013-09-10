@@ -148,7 +148,7 @@ Shadow DOM是指浏览器的一种能力，它允许在文档（document）渲�
     // 创建shadow DOM子树
     element.shadow = document.createElement('div');
     element.shadow.innerHTML = '<h1>Think of the Children</h1>' +
-        <div class="children">{{children-go-here}}</div>';
+        '<div class="children">{{children-go-here}}</div>';
     // Now add some children.
     var test = element.appendChild(document.createElement('p'));
     test.textContent = 'I see the light!';
