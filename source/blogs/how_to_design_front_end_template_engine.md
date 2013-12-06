@@ -239,7 +239,7 @@ Tags: 模板引擎 Template
 		......
 	</template>
 
-目前Chrome和Firefox均已支持这个元素（移动端未没有浏览器支持）。
+目前Chrome和Firefox均已支持这个元素（移动端暂没有浏览器支持）。
 
 #### 模板提取方式
 
