@@ -269,7 +269,7 @@ arr.forEach(function(dataItem){
 &lt;/template&gt;
 </code></pre>
 
-<p>目前Chrome和Firefox均已支持这个元素（移动端未没有浏览器支持）。</p>
+<p>目前Chrome和Firefox均已支持这个元素（移动端暂没有浏览器支持）。</p>
 
 <h4>模板提取方式</h4>
 
