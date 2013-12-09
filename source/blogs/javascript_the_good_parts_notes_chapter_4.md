@@ -21,7 +21,7 @@ $$solo_more$$
 
 不同的模式在初始化this上有差异
 
-调用运算符：任何产生函数值（注：似乎应为”函数” ）的表达式后一对圆括号
+调用运算符：任何产生函数值（注：似乎应为“函数” ）的表达式后一对圆括号
 
 实参（arguments）与形参（parameters）个数不匹配时不会报错，多的会忽略，少的为undefined。
 
@@ -80,7 +80,7 @@ JS允许给基本类型增加方法。
 
 尾递归指在函数最后执行递归调用的递归。
 
-JS未做尾递归优化（变成循环），尝试递归可能因为堆栈溢出而运行失败。
+JS未做尾递归优化（变成循环），深度递归可能因为堆栈溢出而运行失败。
 
 ### 4.9作用域
 
@@ -96,9 +96,10 @@ JS不支持块级作用域。
 	    var value=0;
 	    return {
 	        getValue:function(){
-	        return value;
-	    };
-	}
+		        return value;
+		    };
+		}
+	};
 	 
 	var anotherObject = myObject(); //这里的anotherObject实际上等于getValue函数所在的对象
 	anotherObject.getValue(); //0
