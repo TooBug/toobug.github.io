@@ -69,7 +69,7 @@
 
 <p>不同的模式在初始化this上有差异</p>
 
-<p>调用运算符：任何产生函数值（注：似乎应为”函数” ）的表达式后一对圆括号</p>
+<p>调用运算符：任何产生函数值（注：似乎应为“函数” ）的表达式后一对圆括号</p>
 
 <p>实参（arguments）与形参（parameters）个数不匹配时不会报错，多的会忽略，少的为undefined。</p>
 
@@ -133,7 +133,7 @@
 
 <p>尾递归指在函数最后执行递归调用的递归。</p>
 
-<p>JS未做尾递归优化（变成循环），尝试递归可能因为堆栈溢出而运行失败。</p>
+<p>JS未做尾递归优化（变成循环），深度递归可能因为堆栈溢出而运行失败。</p>
 
 <h3>4.9作用域</h3>
 
@@ -149,9 +149,10 @@
     var value=0;
     return {
         getValue:function(){
-        return value;
-    };
-}
+            return value;
+        };
+    }
+};
 
 var anotherObject = myObject(); //这里的anotherObject实际上等于getValue函数所在的对象
 anotherObject.getValue(); //0
