@@ -62,6 +62,10 @@ wmic ENVIRONMENT where "name='path' and username='&lt;system&gt;'" set VariableV
 <p>把以上代码存为<code>setup.cmd</code>文件，然后双击，就可以啦。咦，没反应是不是？哦，对，忘了，还有两个依赖：wget和unzip，一个用于下载文件，一个用于解压。完整的文件可以在<a href="http://url.cn/PU9VLO">这里</a>下载。</p>
 
 <p>最后的最后，这个代码会依赖wmic，在XP下第一次使用会自动安装。Win7就没测了，印象中是默认支持的。</p>
+
+<blockquote>
+  <p>补充说明一下，文章中的图是盗来的，所以有神马乱入的名字，不一致的版本号之类的问题……</p>
+</blockquote>
         ]]>
       </description>
     </item>
