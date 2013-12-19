@@ -55,7 +55,7 @@ $$solo_more$$
 
 上述已经说过的特性都是iOS独有的（2012年8月27日，事实上有很多已经变成事实标准了，比如viewport控制），但是离线是HTML5的特性。
 
-要实现离线，首先得有一个先决条件：能修改web服务器的MIME（确切地讲，是MIME中有manifest类型）。关于MIME是什么就不详细介绍了。（2012年8月27日，关于这点也不太准确，在PC端的chrome中，并不关于.manifest文件的MIME，但是在iOS 4.3和5.0的safari中，都需要有准确的MIME才能使离线正常工作。）
+要实现离线，首先得有一个先决条件：能修改web服务器的MIME（确切地讲，是MIME中有manifest类型）。关于MIME是什么就不详细介绍了。（2012年8月27日，关于这点也不太准确，在PC端的chrome中，并不关注.manifest文件的MIME，但是在iOS 4.3和5.0的safari中，都需要有准确的MIME才能使离线正常工作。）
 
 首先，我们需要在web服务器中将.manifest后缀的MIME设为“text/cache-manifest”。对IIS，在站点属性中可以设置，对apache，则能直接通过修改.htaccess文件实现。不详述。
 
@@ -93,7 +93,7 @@ FALLBACK表示如果在线访问失败时，用什么文件替换。上面的代
 
 再接下来，就是告诉iOS，我们的程序需要离线，方法是在访问的页面中的html标签中加入一个属性标记上面说的manifest文件：
 
-<html manifest="cache.manifest">
+	<html manifest="cache.manifest">
 
 访问一次，只要文件传输完毕，我们的应用就成功离线啦！这时断开网络再次打开，依然可以使用！
 
