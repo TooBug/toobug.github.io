@@ -53,6 +53,14 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/manual_install_node_on_windows.html">在Windows上手工安装Node.js</a><em class="pubDate">2013-12-19</em></h1><p>时间已经到了2013年末，如果在这个时间点，你还没有接触过Node.js，那可能真的是有点跟不上时代步伐了。技术发展总是很快的，Node项目诞生不过才4年，在windows平台出现也才2年多的时间，却已如星星之火点起了燎原之势……</p>
+
+<p>没错，Node出现超过4年了，但在windows平台才2年多的历史，可见支持windows多少是个有点艰难的决定，好在背后有微软撑腰，一切顺利。至于说到这个标题，手工安装嘛，如果去搜索一下，也能找到一些文章，不过大部分已经是0.6之前版本的故事了，那时候Node还没有给windows的安装包，也没有集成包管理工具npm，用起来还是挺不方便的，而如今，只要去<a href="http://nodejs.org">http://nodejs.org</a>上下载对应的.msi文件再安装就万事大吉了。</p>
+
+<p>不过，微软家的东西总是会有些意料之外的状况，.msi也不例外……</p>
+          <div class="articlemore"><a href="./article/manual_install_node_on_windows.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/how_to_design_front_end_template_engine.html">如何设计一个前端模板引擎</a><em class="pubDate">2013-08-25</em></h1><p>前端模板引擎现在已经被广泛应用于前端开发了，几乎每个项目都会使用。微博上甚至出现了“不写个模板引擎就没办法在前端界混了”的言论。当然，这是玩笑话，却也能在一定程度上反映前端模板的普及程度。如果你还没有了解过前端模板引擎，赶紧去补补课吧。</p>
 
 <p>本文其实算不上是一篇讲模板引擎设计的文章，写这篇文章的动力来自于自己使用过一些模板引擎（jQuery Tmpl、jade、ejs、artTemplate以及ThinkPHP自带后端模板引擎）之后的心得，所以可能不会涉及到模板引擎设计的方方面面，更多地是讲模板引擎之间的一些有差异的细节以及我的思考和取舍。</p>
@@ -147,38 +155,6 @@ document.querySelector('#myDiv').innerHTML = tempHtml;
 
 <p>Shadow DOM目前只在Chrome 25+可用，API前面有一个<code>webkit</code>前缀。</p>
           <div class="articlemore"><a href="./article/shadow_dom_101.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/jlint_a_jslint_plugin_of_sublime.html">JLint——一个sublime的JSLint插件</a><em class="pubDate">2012-12-13</em></h1><p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
-
-<h3>为什么又造轮子？</h3>
-
-<p>Sublime Text 2是一款非常优秀的代码编辑器，前两天出于对它的喜爱，购买了license，从此走上正版的道路。</p>
-
-<p>恰逢最近在项目中看到了一些不是太好的前端代码，就想弄一个JSLint来辅助检查修改一下。在<a href="http://wbond.net/sublime_packages/community#sort-installs">http://wbond.net/sublime_packages/community#sort-installs</a>上搜索“JSLint”，可以找到三个插件，第一个甚至有2%的用户安装了。但是，仔细看去，这三个插件不是要依赖node就是要依赖java，这让我这种有系统洁癖的人觉得非常不爽。</p>
-
-<p>在找了大半天找不到的情况下，一个想法冒出来了——“逼我么？”</p>
-
-<p>于是有了这个插件。</p>
-
-<h3>说明</h3>
-
-<p>因为是业余作品，花的时间相当少，加之既没有python基础，也不会sublime text插件的开发，全部是现学现卖，因此质量上还有不少问题。</p>
-
-<p>第一个问题是我还不知道如何去打开sublime text 2的控制台，所以在检查完以后需要手工按ctrl+`打开控制台才能看到结果。</p>
-
-<p>第二个问题是不了解其它系统是否有自带的js引擎，所以目前仅支持windows。</p>
-
-<p>第三个问题是windows的脚本宿主（JScript）对连续空行的判断有bug，导致代码中遇到空行后显示的行数不正确。这个坑爹的问题连JSLint作者老道也不准备再搞了，悲剧。</p>
-
-<p>第四个问题是现在代码是同步执行的（还不会搞python子线程的异步执行），文件比较大时会有明显的卡顿现象。</p>
-
-<p>第五个问题是对JSLint的选项还不熟，因此不知道如何配置才最符合工程中的代码要求，这一点我也会自己一边用一边调整。</p>
-
-<h3>结束</h3>
-
-<p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
-          <div class="articlemore"><a href="./article/jlint_a_jslint_plugin_of_sublime.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
         </div>

@@ -4,8 +4,67 @@
     <title>TooBug</title>
     <link>http://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
-    <lastBuildDate>Sun, 25 Aug 2013 09:55:24 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Dec 2013 20:55:00 +0800</lastBuildDate>
     <generator>Solo 2.0</generator>
+    <item>
+      <title>在Windows上手工安装Node.js</title>
+      <link>http://www.toobug.net/article/manual_install_node_on_windows.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/manual_install_node_on_windows.html</guid>
+      <pubDate>Thu, 19 Dec 2013 20:55:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>时间已经到了2013年末，如果在这个时间点，你还没有接触过Node.js，那可能真的是有点跟不上时代步伐了。技术发展总是很快的，Node项目诞生不过才4年，在windows平台出现也才2年多的时间，却已如星星之火点起了燎原之势……</p>
+
+<p>没错，Node出现超过4年了，但在windows平台才2年多的历史，可见支持windows多少是个有点艰难的决定，好在背后有微软撑腰，一切顺利。至于说到这个标题，手工安装嘛，如果去搜索一下，也能找到一些文章，不过大部分已经是0.6之前版本的故事了，那时候Node还没有给windows的安装包，也没有集成包管理工具npm，用起来还是挺不方便的，而如今，只要去<a href="http://nodejs.org">http://nodejs.org</a>上下载对应的.msi文件再安装就万事大吉了。</p>
+
+<p>不过，微软家的东西总是会有些意料之外的状况，.msi也不例外……</p>
+
+<p>这周给咱组里的<a href="http://skpping.cdc.im">skpping</a>妹子安装Node的时候，就出现了这么一幕：</p>
+
+<p><img src="/images/manual_install_node_on_windows_1.jpg" alt="Node .msi安装出错" title="" /></p>
+
+<p>首先我想到的方案自然是修改.msi的安装，但经过近一个小时的努力，最终宣告失败，无奈之下，只能选择手工安装。</p>
+
+<h2>安装Node</h2>
+
+<p>其实手工安装Node是一件很简单的事情，我们的目标是在命令行中可以运行<code>node</code>命令即可。首先，我们需要建立一个用来存放node（以及接下来会讲到的npm）的目录，比如我把它建在了<code>C:\node</code>。然后，为了能在命令行中直接使用<code>node</code>，需要将这个目录添加到<code>path</code>环境变量中。具体的方案就不讲了，搜索一下可以找到一堆教程。</p>
+
+<p>再接下来，从Node.js官网下载二进制文件，即<code>node.exe</code>，然后将它放到<code>C:\node</code>，重新启动命令行，即可使用<code>node</code>命令了。</p>
+
+<p><img src="/images/manual_install_node_on_windows_2.png" alt="Node安装成功" title="" /></p>
+
+<h2>安装npm</h2>
+
+<p>其实Node官方推出windows版的.msi安装文件，除了会处理好环境变量之外，另外一个最重要的意义就是npm了。什么？你不知道什么是npm？好吧，比较官方的说法是，它是Node的模块管理软件，民间一点的说法就是，玩Node必备的东西，没有的话会让你玩得生不如死。</p>
+
+<p>目前Google搜索windows手工安装npm，排名第一的是<a href="http://www.cnblogs.com/seanlv/archive/2011/11/22/2258716.html">这篇</a>，但在这个时间点，其实有点误导人了。这篇文章中说的方法是需要下载npm的源码，然后执行手工安装。但按照npm的<a href="https://npmjs.org/doc/README.html">官方文档</a>，只需要下载二进制包，解压即可使用。</p>
+
+<p>具体的方法，先到<a href="https://npmjs.org/doc/README.html">https://npmjs.org/doc/README.html</a>下载二进制包，然后解压到我们刚刚建立的<code>C:\node</code>目录，注意解压后的<code>npm.cmd</code>和<code>node_modules</code>都要在<code>C:\node</code>目录下，而不是更深的子目录。再重启一次命令行，就可以使用npm啦！</p>
+
+<p><img src="/images/manual_install_node_on_windows_3.png" alt="npm安装成功" title="" /></p>
+
+<h2>小结</h2>
+
+<p>嗯，至此手工安装就完成啦。很水是不是？很水是不是？好吧，我也觉得很水，为了让它水得不那么彻底，我写了一个半自动化的脚本来完成所有的事情。直接上代码好了。</p>
+
+<pre><code>mkdir download
+wget http://nodejs.org/dist/v0.10.23/node.exe -O download\node.exe
+wget http://nodejs.org/dist/npm/npm-1.3.21.zip -O download\npm.zip
+unzip -o download\npm.zip -d download
+echo Y | del download\npm.zip
+mkdir c:\node
+move download\* c:\node
+move download\node_modules c:\node
+echo Y | del download
+wmic ENVIRONMENT where "name='path' and username='&lt;system&gt;'" set VariableValue="%path%;c:\node"
+</code></pre>
+
+<p>把以上代码存为<code>setup.cmd</code>文件，然后双击，就可以啦。咦，没反应是不是？哦，对，忘了，还有两个依赖：wget和unzip，一个用于下载文件，一个用于解压。完整的文件可以在<a href="http://url.cn/PU9VLO">这里</a>下载。</p>
+
+<p>最后的最后，这个代码会依赖wmic，在XP下第一次使用会自动安装。Win7就没测了，印象中是默认支持的。</p>
+        ]]>
+      </description>
+    </item>
     <item>
       <title>如何设计一个前端模板引擎</title>
       <link>http://www.toobug.net/article/how_to_design_front_end_template_engine.html</link>
@@ -2675,92 +2734,6 @@ if(ev&amp;&amp;
 <p>好吧，本来还想写下中间上报到服务器的代码的，想了想觉得也没什么很特别的地方。最多是把base64数据当成普通URL上报，然后服务端再解码成图片。</p>
 
 <p>嗯。就这样，当笔记了。</p>
-        ]]>
-      </description>
-    </item>
-    <item>
-      <title>《JavaScript语言精粹》读书笔记 第六章 数组</title>
-      <link>http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_6.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/javascript_the_good_parts_notes_chapter_6.html</guid>
-      <pubDate>Wed, 27 Apr 2011 17:16:00 +0800</pubDate>
-      <description>
-        <![CDATA[
-        <h3>6.0绪</h3>
-
-<p>数组可以是很快的数据结构，但是JS不是这种。</p>
-
-<p>JS提供了一种拥有一些类数组（array-like）特性的对象。把下标转变成字符串作为属性。</p>
-
-<p>比真正的数组慢，但很方便。</p>
-
-<p>检索和更新与对象一模一样，除了可以用整数作为属性名。</p>
-
-<h3>6.1数组字面量</h3>
-
-<p>数组字面量是在一对方括号中包围零个或多个用逗号分隔的表达式。</p>
-
-<p>JS数组允许包含任意混合类型的值！</p>
-
-<h3>6.2长度</h3>
-
-<p>每个数组有一个length，length没有上界，如果用大于或等于当前length的数字作为下标来保存一个元素，length将增大来容纳新元素。</p>
-
-<p>length属性的值是最大整数属性名加1，不一定等于数组里属性的个数！</p>
-
-<p>length可写，设置更大的值无须分配空间（注：貌似，JS数组是”稀疏“的），设置更小的值将删除多的属性。</p>
-
-<h3>6.3删除</h3>
-
-<p>delete numbers[2]可以删除，但是会留下undefined在原位置。</p>
-
-<pre><code>numbers.splice(index,num[,newitem[,newitem...]])
-</code></pre>
-
-<p>删除元素，后面的位置前移，如果newitem存在，则插入index。效率不高。</p>
-
-<h3>6.4枚举</h3>
-
-<p>可以用for in，但是顺序无法保证，而且不能排除原型链中的属性。</p>
-
-<p>可以用for循环。</p>
-
-<h3>6.5混淆的地方</h3>
-
-<p>typeof数组是”object”。</p>
-
-<p>typeof null是”object”。</p>
-
-<p>JS没有好的机制区分数组和对象。</p>
-
-<pre><code>var is_array = function(value){
-    return value &amp;&amp;
-        typeof value === "object" &amp;&amp;
-        value.constructor === Array;
-}
-</code></pre>
-
-<p>这段代码，如果识别从不同的window或者frame里构造的数据就会失败。</p>
-
-<pre><code>var is_array = function(value){
-    return value &amp;&amp;
-        typeof value === "object" &amp;&amp;
-        typeof value.length === "number" &amp;&amp; //对象不一定
-        typeof value.splice === "function" &amp;&amp; //所有数组有
-        !(value.propertyIsEnumerable("length")); //length不能用for in枚举
-}
-</code></pre>
-
-<p>（第一行拒绝了null，第三行确定了是数组，为什么要有其他行？对象也可能添加splice方法，也可能添加length属性。）</p>
-
-<h3>6.6方法</h3>
-
-<p>数组添加非数字属性名的属性时，不改变length。</p>
-
-<h3>6.7维度</h3>
-
-<p>JS数组中的属性值为数组，则构成二维数组。</p>
-
-<p>第二维的数组需要自己创建。</p>
         ]]>
       </description>
     </item>

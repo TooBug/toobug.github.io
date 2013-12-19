@@ -53,6 +53,38 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/jlint_a_jslint_plugin_of_sublime.html">JLint——一个sublime的JSLint插件</a><em class="pubDate">2012-12-13</em></h1><p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
+
+<h3>为什么又造轮子？</h3>
+
+<p>Sublime Text 2是一款非常优秀的代码编辑器，前两天出于对它的喜爱，购买了license，从此走上正版的道路。</p>
+
+<p>恰逢最近在项目中看到了一些不是太好的前端代码，就想弄一个JSLint来辅助检查修改一下。在<a href="http://wbond.net/sublime_packages/community#sort-installs">http://wbond.net/sublime_packages/community#sort-installs</a>上搜索“JSLint”，可以找到三个插件，第一个甚至有2%的用户安装了。但是，仔细看去，这三个插件不是要依赖node就是要依赖java，这让我这种有系统洁癖的人觉得非常不爽。</p>
+
+<p>在找了大半天找不到的情况下，一个想法冒出来了——“逼我么？”</p>
+
+<p>于是有了这个插件。</p>
+
+<h3>说明</h3>
+
+<p>因为是业余作品，花的时间相当少，加之既没有python基础，也不会sublime text插件的开发，全部是现学现卖，因此质量上还有不少问题。</p>
+
+<p>第一个问题是我还不知道如何去打开sublime text 2的控制台，所以在检查完以后需要手工按ctrl+`打开控制台才能看到结果。</p>
+
+<p>第二个问题是不了解其它系统是否有自带的js引擎，所以目前仅支持windows。</p>
+
+<p>第三个问题是windows的脚本宿主（JScript）对连续空行的判断有bug，导致代码中遇到空行后显示的行数不正确。这个坑爹的问题连JSLint作者老道也不准备再搞了，悲剧。</p>
+
+<p>第四个问题是现在代码是同步执行的（还不会搞python子线程的异步执行），文件比较大时会有明显的卡顿现象。</p>
+
+<p>第五个问题是对JSLint的选项还不熟，因此不知道如何配置才最符合工程中的代码要求，这一点我也会自己一边用一边调整。</p>
+
+<h3>结束</h3>
+
+<p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
+          <div class="articlemore"><a href="./article/jlint_a_jslint_plugin_of_sublime.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/hello_solo_and_github.html">你好，Solo &amp; GitHub!</a><em class="pubDate">2012-08-16</em></h1><p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
 
 <p>初中行将毕业时，因为一些突如其来的事情，突然觉得整个世界失去了色彩。那时候真切地觉得，别人都好好活着，我好好地看着就好了。那时候，也曾在心底暗暗标榜过，我的生活，无非是冷眼看世界而已。大半夜在教室睡不着的时候，偶尔也会想想人生。偶尔也会不经意地想到Solo，很好的名字，一个人的精神世界，也许并没有那么糟。</p>
@@ -104,18 +136,6 @@
   <p>2012年8月17日注：这种用法除了是因为规范外，还有一个原因，就是消除inline-block带来的间隙，详见<a href="http://ued.taobao.com/blog/2012/08/15/inline-block/">inline-block的前世今生</a>。</p>
 </blockquote>
           <div class="articlemore"><a href="./article/the_line_continuation_of_html.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/ie7_focus_method_invalid.html">IE7下focus方法失效（原因不明）</a><em class="pubDate">2011-12-28</em></h1><p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
-
-<p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
-
-<p>断点调试、打log也没什么结果，代码是走到那里了，但是input就是死活不focus。</p>
-
-<p>后来死马当活马医，开始试。结果发现将focus方法连续调用两次，居然生效了。</p>
-
-<p>原因不明，期待高人解释。</p>
-          <div class="articlemore"><a href="./article/ie7_focus_method_invalid.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
         </div>
