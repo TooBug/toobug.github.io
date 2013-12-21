@@ -14,7 +14,7 @@ Tags: 工具 Node Node.js windows
 
 ![Node .msi安装出错](/images/manual_install_node_on_windows_1.jpg)
 
-首先我想到的方案自然是修改.msi的安装，但经过近一个小时的努力，最终宣告失败，无奈之下，只能选择手工安装。
+首先我想到的方案自然是修复.msi的安装，但经过近一个小时的努力，最终宣告失败，无奈之下，只能选择手工安装。
 
 ## 安装Node
 
@@ -30,7 +30,7 @@ Tags: 工具 Node Node.js windows
 
 目前Google搜索windows手工安装npm，排名第一的是[这篇](http://www.cnblogs.com/seanlv/archive/2011/11/22/2258716.html)，但在这个时间点，其实有点误导人了。这篇文章中说的方法是需要下载npm的源码，然后执行手工安装。但按照npm的[官方文档](https://npmjs.org/doc/README.html)，只需要下载二进制包，解压即可使用。
 
-具体的方法，先到<https://npmjs.org/doc/README.html>下载二进制包，然后解压到我们刚刚建立的`C:\node`目录，注意解压后的`npm.cmd`和`node_modules`都要在`C:\node`目录下，而不是更深的子目录。再重启一次命令行，就可以使用npm啦！
+具体的方法，先到<http://nodejs.org/dist/npm/>下载二进制包，然后解压到我们刚刚建立的`C:\node`目录，注意解压后的`npm.cmd`和`node_modules`都要在`C:\node`目录下，而不是更深的子目录。再重启一次命令行，就可以使用npm啦！
 
 ![npm安装成功](/images/manual_install_node_on_windows_3.png)
 
