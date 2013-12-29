@@ -53,6 +53,31 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/the_line_continuation_of_html.html">HTML续行符</a><em class="pubDate">2012-02-01</em></h1><p>常识：</p>
+
+<ol>
+<li>HTML源码中夹在文字中连续的空白（空格、回车、TAB等）会在页面上形成一个空格</li>
+<li>大部分的代码规范会规定单行不得超过XX字符，超过必须做折行处理</li>
+<li>CSS可以按属性多行编写，JS的长字符串可以用“\”续行</li>
+</ol>
+
+<p>问题：HTML的长字符串怎么办？</p>
+
+<p>答案：使用注释</p>
+
+<p>例：</p>
+
+<pre><code>这是源码中的第一行文字，它很长，以至于达到了要折行的要求&lt;!--
+--&gt;接着写第二，不管它有多长都不怕了，因为在页面中，始终是&lt;!--
+--&gt;当成同一行处理。
+</code></pre>
+
+<blockquote>
+  <p>2012年8月17日注：这种用法除了是因为规范外，还有一个原因，就是消除inline-block带来的间隙，详见<a href="http://ued.taobao.com/blog/2012/08/15/inline-block/">inline-block的前世今生</a>。</p>
+</blockquote>
+          <div class="articlemore"><a href="./article/the_line_continuation_of_html.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/ie7_focus_method_invalid.html">IE7下focus方法失效（原因不明）</a><em class="pubDate">2011-12-28</em></h1><p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
 
 <p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
@@ -118,21 +143,7 @@
 <p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
           <div class="articlemore"><a href="./article/ie_position_absolute_link_display_block_invalid.html">继续阅读</a></div>
         </div>
-        <div class="indexarticle">
-          <h1><a href="./article/chrome_supports_zoom.html">Chrome也支持zoom了</a><em class="pubDate">2011-12-21</em></h1><p>查阅网上的中文资料，几乎每篇文章都在说，zoom是IE专有的属性，但事实是，chrome也支持。</p>
-
-<p>Demo：<a href="http://jsfiddle.net/toobug/9drpy/1/embedded/result/">http://jsfiddle.net/toobug/9drpy/1/embedded/result/</a></p>
-
-<p>所以在chrome下放大元素除了用css3之外，也可以用zoom这样简单的方法了。</p>
-
-<blockquote>
-  <p>2013-07-20更新1：现在网上再查已经可以查到有很多资料在讲chrome支持zoom属性了。顺带提一下，CSS3中用transform的写法：<code>transform:scale(0.5);</code>，但这个缩放是以中心点为原点来进行的，可以通过<code>transform-origin:top left</code>来修正。</p>
-  
-  <p>2013-07-20更新2：在IE中zoom被用于激活hasLayout属性的作用远大于它本身的缩放作用。但事实上，zoom在进行缩放时，部分低版本IE下（比如IE7）在遇到<code>position:relative</code>的元素时会有各种定位漂移的bug，因此，慎用为好。</p>
-</blockquote>
-          <div class="articlemore"><a href="./article/chrome_supports_zoom.html">继续阅读</a></div>
-        </div>
-        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
         </div>
       </div>
     </section>
