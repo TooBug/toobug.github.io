@@ -167,7 +167,7 @@ Tags: JavaScript ES6 Generator 生成器 回调
 		});
 	}
 
-我们使用jQuery中的getJSON方法还处理ajax请求，这个方法会返回一个Promise对象。然后，我们使用一个生成器来包装这个操作：
+我们使用jQuery中的getJSON方法来处理ajax请求，这个方法会返回一个Promise对象。然后，我们使用一个生成器来包装这个操作：
 
 	function * MyLogic(){
 		var serverData = yield myAjax1();
@@ -182,11 +182,19 @@ Tags: JavaScript ES6 Generator 生成器 回调
 		myLogic.next(serverData);
 	});
 
-可以看到，我们这里的`myAjax1()`以及`MyLogic()`函数中，并没有使用回调，就完成了异步操作。你一定会问，下面这个`promise.done`不就是回调操作么？Bingo！这正是精华所在！我们来看一下这段代码做了什么：
+可以看到，我们这里的`myAjax1()`以及`MyLogic()`函数中，并没有使用回调，就完成了异步操作。
 
-首先，`myLogic.next()`返回了一个Promise对象（`promise`），然后，`promise.done`中的回调函数所做的事情就是调用`next`方法就行了，除了调用`next`方法，其它的什么事情都没有。此时，我们就会想到一个程序员特别喜欢的词，叫“封装”！既然这个回调函数只是调用`next`方法，那为什么不把它封装起来？
+这里有几个值得注意的点：
 
-了解到这里，再去看[这篇](http://bg.biedalian.com/2013/12/21/harmony-generator.html)文章中所说的`co`函数，相信你就恍然大悟了！这个`co`函数正是在封装调用`next`方法这件事情！
+1. `myAjax()`函数返回的是一个Promise对象（jQuery1.5及以上版本的ajax操作返回的都是Promise对象）
+2. `myLogic`中的第一个语句，返回给外界的是`myAjax()`返回的Promise对象，等外界再次调用`next()`方法时将数据传进来，赋值给`serverDate`
+3. `promise`的状态是由第三段代码，在外部进行处理，完成的时候调用`next()`方法并将`serverData`再传回`MyLogic()`中
+
+你一定会问，下面这个`promise.done`不就是回调操作么？Bingo！这正是精华所在！我们来看一下这段代码做了什么：
+
+首先，`myLogic.next()`返回了一个Promise对象（`promise`），然后，`promise.done`中的回调函数所做的事情就是调用`next()`方法就行了，除了调用`next()`方法，其它的什么事情都没有。此时，我们就会想到一个程序员特别喜欢的词，叫“封装”！既然这个回调函数只是调用`next()`方法，那为什么不把它封装起来？
+
+了解到这里，再去看[这篇](http://bg.biedalian.com/2013/12/21/harmony-generator.html)文章中所说的`co()`函数，相信你就恍然大悟了！这个`co()`函数正是在封装调用`next()`方法这件事情！
 
 	function co(GenFunc) {
 		return function(cb) {
@@ -224,6 +232,6 @@ Tags: JavaScript ES6 Generator 生成器 回调
 	 
 	app.listen(8080);
 
-看到了吧，koa正是封装了对生成器返回值的处理和调用`next`方法的细节（这里的`app.use`就像前面的`co`函数），使得我们的逻辑代码看起来是如此简单，这正是koa的伟大之处，也是ES6生成器这一特性能迅速引起如此多轰动的真正原因。
+看到了吧，koa正是封装了对生成器返回值的处理和调用`next()`方法的细节（这里的`app.use()`就像前面的`co()`函数），使得我们的逻辑代码看起来是如此简单，这正是koa的伟大之处，也是ES6生成器这一特性能迅速引起如此多轰动的真正原因。
 
 > P.S: 本文中的“主动异步”和“被动异步”其实都可以用同样的方式来封装，中间加入“主动异步”的内容只是为了正好地理解异步场景。另外对Promise不了解的同学建议先了解Promise的基本用法再理解生成器比较好。
