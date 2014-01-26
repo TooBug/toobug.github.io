@@ -2,7 +2,7 @@ Title: 学习ES6生成器（Generator）
 Date: 2013-12-29 13:35:00
 Tags: JavaScript ES6 Generator 生成器 回调
 
-这几天，TJ大神的koa框架突然在国内火起来了，随之而来的，则是其使用的ES6生成器（Generator）引起了广大码农的强烈兴趣，各种文章也如寸后春笋般拔地而起，比如[这篇](https://www.imququ.com/post/generator-function-in-es6.html)、[这篇](http://bg.biedalian.com/2013/12/21/harmony-generator.html)、还有[这篇](https://developer.mozilla.org/zh-CN/docs/JavaScript/Guide/Iterators_and_Generators)。这个神奇的生成器被视为解决JS“回调恶魔金字塔”的利器。在动手实践之后，发现介绍ES6生成器的文章仍然有些疏漏，因此有了这篇文章，权当是对各位大大们的补充好了。
+这几天，TJ大神的koa框架突然在国内火起来了，随之而来的，则是其使用的ES6生成器（Generator）引起了广大码农的强烈兴趣，各种文章也如雨后春笋般拔地而起，比如[这篇](https://www.imququ.com/post/generator-function-in-es6.html)、[这篇](http://bg.biedalian.com/2013/12/21/harmony-generator.html)、还有[这篇](https://developer.mozilla.org/zh-CN/docs/JavaScript/Guide/Iterators_and_Generators)。这个神奇的生成器被视为解决JS“回调恶魔金字塔”的利器。在动手实践之后，发现介绍ES6生成器的文章仍然有些疏漏，因此有了这篇文章，权当是对各位大大们的补充好了。
 
 ## 背景
 
@@ -214,6 +214,8 @@ Tags: JavaScript ES6 Generator 生成器 回调
 	}
 
 当我们把这个细节屏蔽之后，再回头去看我们的异步代码，是不是就没有回调了？！哇噻，怎么办到的？好神奇啊！
+
+> 特别要提一下的是，这个`co()`函数并没有使用我们上面所说的`Promise`，因此你看不到它有处理`Promise`状态改变时的回调逻辑。这里的`co()`是使用的直接传递回调函数的方式，`ret.value(next)`即将`next()`这个回调函数作为参数传给了通过`yield`返回的函数。而在`Promise`中，则是通过`promise.done(next)`的方式来处理回调函数。两者在本质上没什么区别，都是在某个事件完成之后调用传入的`next()`函数。
 
 最后，以别人文章中的一段koa框架使用代码收尾吧：
 
