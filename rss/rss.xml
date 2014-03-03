@@ -2702,7 +2702,7 @@ func();
 
 <p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
 
-<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用url(about:blank)做背景。</p>
+<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用<code>url(about:blank)</code>做背景。</p>
 
 <p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
 
