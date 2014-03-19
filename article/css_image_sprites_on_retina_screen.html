@@ -5,23 +5,23 @@
     <meta name="description" content="TooBug - 专注前端开发">
     <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale:1.0,maximum-scale:2.0,user-scalable=yes">
-    <title>TooBug</title>
+    <title>Retina屏下的CSS雪碧图 - TooBug</title>
     <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
     <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
-    <link rel="alternate" type="application/rss+xml" title="TooBug" href="./rss/rss.xml">
-    <link rel="stylesheet" href="./css/light.css">
-    <link rel="stylesheet" href="./js/prettify/prettify.css">
-    <script src="./js/prettify/prettify.js"></script>
-    <script src="./js/jquery/jquery-1.7.2.min.js"></script>
-    <script src="./js/index.js"></script>
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="../rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
   </head>
   <body>
     <header>
-      <div id="logo"><a href="./index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <div id="logo"><a href="../index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
       <nav>
         <ul>
-          <li><a href="./index.html">Index<br />首页</a></li>
-          <li><a href="./page/about.html">About<br />关于</a></li>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
         </ul>
       </nav>
     </header>
@@ -52,8 +52,7 @@
     </section>
     <section id="content">
       <div id="article">
-        <div class="indexarticle">
-          <h1><a href="./article/css_image_sprites_on_retina_screen.html">Retina屏下的CSS雪碧图</a><em class="pubDate">2014-03-19</em></h1><p>CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至今日，可能很多人都觉得这一块已经没有什么东西可以再讲了的。但事实上雪碧图一直都可以引出新的话题，比如从最早的连接数和体积的平衡到格式之争到图像摆放位置的策略，再到合并图像的颗粒度，再到内存占用、CPU占用等性能问题……</p>
+        <h1>Retina屏下的CSS雪碧图<em class="pubDate">2014-03-19 13:39:00</em></h1><p>CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至今日，可能很多人都觉得这一块已经没有什么东西可以再讲了的。但事实上雪碧图一直都可以引出新的话题，比如从最早的连接数和体积的平衡到格式之争到图像摆放位置的策略，再到合并图像的颗粒度，再到内存占用、CPU占用等性能问题……</p>
 
 <p>没错，今天还要在这一古老的话题上展开，引入一个新的问题，那就是雪碧图在retina屏下存在的问题及应对方案。（值得注意的是，retina屏一般指分辨率为普通屏幕两倍的屏，这样按照普通尺寸开发出来的网站相当于被放大了2倍，会导致图像模糊之类的现象产生，理想的解决方案是为retina专门适配一套皮肤，但本文关注的问题是未适配retina屏幕的网站所出现的问题。）</p>
 
@@ -174,107 +173,19 @@
 </ol>
 
 <p>最后的最后，一句题外话，以上所有现象均可在部分浏览器放大页面时出现（我忘记是什么浏览器了，曾有项目因此被产品经理报bug，最终将所有图标周围留了2px空白解决）。</p>
-          <div class="articlemore"><a href="./article/css_image_sprites_on_retina_screen.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/learning_es6_generator.html">学习ES6生成器（Generator）</a><em class="pubDate">2013-12-29</em></h1><p>这几天，TJ大神的koa框架突然在国内火起来了，随之而来的，则是其使用的ES6生成器（Generator）引起了广大码农的强烈兴趣，各种文章也如雨后春笋般拔地而起，比如<a href="https://www.imququ.com/post/generator-function-in-es6.html">这篇</a>、<a href="http://bg.biedalian.com/2013/12/21/harmony-generator.html">这篇</a>、还有<a href="https://developer.mozilla.org/zh-CN/docs/JavaScript/Guide/Iterators_and_Generators">这篇</a>。这个神奇的生成器被视为解决JS“回调恶魔金字塔”的利器。在动手实践之后，发现介绍ES6生成器的文章仍然有些疏漏，因此有了这篇文章，权当是对各位大大们的补充好了。</p>
-
-<h2>背景</h2>
-
-<p>在JS的使用场景中，异步操作的处理是一个不可回避的问题，如果不做任何抽象、组织，只是“跟着感觉走”，那么面对“按顺序发起3个ajax请求”的需求，很容易就能写出如下代码（假设已引入jQuery）：</p>
-
-<pre><code>// 第1个ajax请求
-$.ajax({
-    url:'http://echo.113.im',
-    dateType:'json',
-    type:'get',
-    data:{
-        data:JSON.stringify({status:1,data:'hello world'}),
-        type:'json',
-        timeout:1000
-    },
-    success:function(data){
-        if(data.status === 1){
-            // 第2个ajax请求
-            $.ajax({
-                ......此处省略500字
-                success:function(data){
-                    if(data.status === 1){
-                        // 第3个ajax请求
-                        $.ajax({
-                            ......此处省略500字
-                            success:function(data){
-                                if(data.status === 1){
-
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
-});
-</code></pre>
-
-<p>当顺序执行的异步操作越来越多的时候，回调层级也就越多，这也就是传说中的“回调恶魔金字塔”，在本文章中，我们给它另一个名字“被动异步”。</p>
-
-<p>还有一种场景，比如老赵的Wind.js总喜欢用的经典例子，对一个数组进行排序，但要动态展示排序过程（<a href="http://windjs.org/cn/docs/async/samples/browser/sorting-animations/">详情</a>）。</p>
-
-<p>在这种情况下，为了使动画能够正确呈现，我们不得不对“排序”这一本来不涉及到异步操作的逻辑做些改动，强制添加延时操作，使它变成一个异步操作。（如不理解，请搜索“JavaScript动画原理”。）</p>
-
-<p>在本文中，我们给这种场景也起一个名字，叫“主动异步”。</p>
-          <div class="articlemore"><a href="./article/learning_es6_generator.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/manual_install_node_on_windows.html">在Windows上手工安装Node.js</a><em class="pubDate">2013-12-19</em></h1><p>时间已经到了2013年末，如果在这个时间点，你还没有接触过Node.js，那可能真的是有点跟不上时代步伐了。技术发展总是很快的，Node项目诞生不过才4年，在windows平台出现也才2年多的时间，却已如星星之火点起了燎原之势……</p>
-
-<p>没错，Node出现超过4年了，但在windows平台才2年多的历史，可见支持windows多少是个有点艰难的决定，好在背后有微软撑腰，一切顺利。至于说到这个标题，手工安装嘛，如果去搜索一下，也能找到一些文章，不过大部分已经是0.6之前版本的故事了，那时候Node还没有给windows的安装包，也没有集成包管理工具npm，用起来还是挺不方便的，而如今，只要去<a href="http://nodejs.org">http://nodejs.org</a>上下载对应的.msi文件再安装就万事大吉了。</p>
-
-<p>不过，微软家的东西总是会有些意料之外的状况，.msi也不例外……</p>
-          <div class="articlemore"><a href="./article/manual_install_node_on_windows.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/how_to_design_front_end_template_engine.html">如何设计一个前端模板引擎</a><em class="pubDate">2013-08-25</em></h1><p>前端模板引擎现在已经被广泛应用于前端开发了，几乎每个项目都会使用。微博上甚至出现了“不写个模板引擎就没办法在前端界混了”的言论。当然，这是玩笑话，却也能在一定程度上反映前端模板的普及程度。如果你还没有了解过前端模板引擎，赶紧去补补课吧。</p>
-
-<p>本文其实算不上是一篇讲模板引擎设计的文章，写这篇文章的动力来自于自己使用过一些模板引擎（jQuery Tmpl、jade、ejs、artTemplate以及ThinkPHP自带后端模板引擎）之后的心得，所以可能不会涉及到模板引擎设计的方方面面，更多地是讲模板引擎之间的一些有差异的细节以及我的思考和取舍。</p>
-
-<h2>来历</h2>
-
-<pre><code>var tempHtml = '&lt;table&gt;' +
-        '           &lt;tr&gt;' +
-        '               &lt;th&gt;Hello&lt;/th&gt;' +
-        '               &lt;th&gt;World&lt;/th&gt;' +
-        '               &lt;th&gt;!&lt;/th&gt;' +
-        '           &lt;/tr&gt;' +
-        '           &lt;tr&gt;' +
-        '               &lt;td&gt;' + myData.col1 + '&lt;/td&gt;' +
-        '               &lt;td&gt;' + myData.col2 +'&lt;/td&gt;' +
-        '               &lt;td&gt;' + (myData.col3 === 'yes'?'!':'?') + '&lt;/td&gt;' +
-        '           &lt;/tr&gt;' +
-        '       &lt;/table&gt;';
-
-document.querySelector('#myDiv').innerHTML = tempHtml;
-</code></pre>
-
-<p>相信上面的代码对哪怕做过一点点涉及界面开发的都应该很熟悉吧。当我们想把一段结构和一段数据组合起来，再放到页面上时，就会常常面临这样一段复杂的代码。</p>
-
-<p>这段代码相信不用我说你也会觉得它实在有点复杂：要处理结构中字符串本身的拼接，还要注意结构与数据的拼接，处理数据拼接时还要注意运算优先级（尤其在使用<code>?:</code>三元运算符时），还要为了可读性考虑纠结的缩进……</p>
-
-<p>当然，最麻烦的还不是这里，当我们想要对一个数据循环遍历并输出时，居然还要自己去写循环，再一圈一圈地把这些结构拼起来，最后再拼上首尾的结构。而当数据为空时，又要自己去写一个“暂无数据”之类的占位符……</p>
-          <div class="articlemore"><a href="./article/how_to_design_front_end_template_engine.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/shadow_dom_301.html">[译]Shadow DOM第三课</a><em class="pubDate">2013-08-10</em></h1><p>本文将会讨论Shadow DOM的更多神奇之处。本文是在<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>和<a href="http://www.toobug.net/article/shadow_dom_201.html">《Shadow DOM第二课》</a>的基础之上讨论的，如果你需要基础介绍，请参看那两篇。</p>
-
-<h2>使用多个shadow root</h2>
-
-<p>如果你要开个party，让所有人都呆在同一个房间，很快就会让这个房子变得很闷，你可能更希望将不同的人群分配到不同的房间。用于挂载shadow dom的元素（shadow host）也可以这样做，也就是说，它们可以同时挂载多个shadow root。</p>
-          <div class="articlemore"><a href="./article/shadow_dom_301.html">继续阅读</a></div>
-        </div>
-        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
-        </div>
       </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
     </section>
     <div id="foot">
       <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>

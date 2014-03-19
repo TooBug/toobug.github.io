@@ -4,8 +4,139 @@
     <title>TooBug</title>
     <link>http://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
-    <lastBuildDate>Sun, 29 Dec 2013 13:35:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 19 Mar 2014 13:39:00 +0800</lastBuildDate>
     <generator>Solo 2.0</generator>
+    <item>
+      <title>Retina屏下的CSS雪碧图</title>
+      <link>http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</guid>
+      <pubDate>Wed, 19 Mar 2014 13:39:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至今日，可能很多人都觉得这一块已经没有什么东西可以再讲了的。但事实上雪碧图一直都可以引出新的话题，比如从最早的连接数和体积的平衡到格式之争到图像摆放位置的策略，再到合并图像的颗粒度，再到内存占用、CPU占用等性能问题……</p>
+
+<p>没错，今天还要在这一古老的话题上展开，引入一个新的问题，那就是雪碧图在retina屏下存在的问题及应对方案。（值得注意的是，retina屏一般指分辨率为普通屏幕两倍的屏，这样按照普通尺寸开发出来的网站相当于被放大了2倍，会导致图像模糊之类的现象产生，理想的解决方案是为retina专门适配一套皮肤，但本文关注的问题是未适配retina屏幕的网站所出现的问题。）</p>
+
+<blockquote>
+  <p>雪碧图本身不是浏览器或者web标准中的技术，因此它的不少细节取决于浏览器的实现，本文中的讨论的内容正是如此，为避免争议，本文所有结论的得出场景限定为Mac OSX 10.9.1、Chrome浏览器V33。是否适用iPhone、iPad等场景未做相应测试。</p>
+</blockquote>
+
+<h2>无处不在的白边</h2>
+
+<p>如前文所述，在retina屏上浏览未做专门适配的网站，会出现图像模糊等问题，无法达到最佳效果，但一般情况下，仍然处于可以接受的范围。不过，在某些网站上，却出现了比图像模糊更糟糕的情况：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_1.png" alt="WebQQ在retina屏下出现白边" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_2.png" alt="财付通首页菜单在retina屏下出现白边" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_3.png" alt="支付宝的按钮在retina屏下出现白边" title="" /></p>
+
+<p>从上面三张图看到，不少的互联网产品在retina屏下都出现了白边。那么这些白边出现的原因是什么呢？通过查看这些出问题的页面，发现存在一个共同点，那就是这些白边所在的地方都使用了背景图，而且都是使用雪碧图合并的。于是问题就浮现出来了，正是由于雪碧图在retina屏上的放大导致了白边的产生。更为技术化的表达则是，<strong>图片放大过程中进行了插值运算，导致原来整齐的图片边界混入了插值后模糊的像素</strong>，从而导致原来整齐的边界处出现“白边”。</p>
+
+<p>打开WebQQ的雪碧图（<a href="http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/eqq_sprite.gif?t=20111011001">http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/eqq_sprite.gif?t=20111011001</a>），就可以验证这一结论。</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_4.gif" alt="WebQQ雪碧图" title="" /></p>
+
+<p>如果您在阅读本文时刚好使用的retina屏幕，可能已经能看到图标边上的白边了，为了统一说明，特放上图像编辑软件中局部放大的图片。</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_5.png" alt="WebQQ雪碧图局部放大" title="" /></p>
+
+<p>图中可以看到，边缘是非常整齐的，但我们在retina屏上截到的图却是这样：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_6.png" alt="WebQQ雪碧图局部放大" title="" /></p>
+
+<p>可以看到，由于retina屏下，图片被强制放大，导致了原本整齐的边界不再整齐，从而使得页面上出现“白边”。</p>
+
+<h2>真的是因为雪碧图吗</h2>
+
+<p>至此，我们已经推断出白边是因为图片被放大而导致，那么这跟雪碧图有关系吗？如果不用雪碧图会出现这样的现象么？为了验证这个结论，本文曾一度中断，最终还是拿到了比较令人信服的结果。</p>
+
+<p>首先，我们准备一张如下的图片：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_7.png" alt="实验用图1" title="" /></p>
+
+<p>这张图放了四个色块，其中左上和右下的色块有留白。接下来我们在浏览器中打开它，结果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_8.png" alt="实验用图1" title="" /></p>
+
+<p>可以看到，图片中有颜色交界的地方都有插值运算而导致模糊，但边缘却是清晰的！也就是说，如果没有拼图的话，浏览器是可以处理好图片的边缘的。为了保险起见，接下来又做了一个实验，准备了一张20*20的纯红色图片，并与CSS写的红色背景进行混合，看看是否有“白边”出现。</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_9.gif" alt="实验用图2" title="" /></p>
+
+<p>可以看到，在CSS背景色不断变化的过程中，图片与背景可以完全融合，没有任何奇怪的现象出现。</p>
+
+<p>至此，我们终于判定，导致“白边”的原因就是因为雪碧图中不同图像之间在拼合后产生了插值而导致边缘部分模糊。</p>
+
+<h2>解决之道</h2>
+
+<p>知道了原因就好解决了，既然白边的出现是因为插值，并且这个插值行为不可控，那就只好将插值的部分移出视野之外了。讲人话就是：切图的时候多留点“出血”。</p>
+
+<p>继续拿WebQQ为例，如上面所说，原文中聊天气泡图标的背景宽度是20px，两边各加1px，总共22px，效果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_10.png" alt="WebQQ图标改进1" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_11.png" alt="WebQQ图标改进1效果" title="" /></p>
+
+<p>可以看到白边已经减少了不少，但仍然存在。继续在两边各加1xp，总共24px，效果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_12.png" alt="WebQQ图标改进2" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_13.png" alt="WebQQ图标改进2效果" title="" /></p>
+
+<p>至此，问题完美解决，结论是：</p>
+
+<p><strong>切图时请为图标在各个方向上多留2px空间</strong>，即可保证retina屏下不出现意料之外的毛边（白边）。</p>
+
+<h2>The End?</h2>
+
+<p>这就完了？当然没有，还有另外一类案例解决不了，就是开头提到的支付宝的按钮。如果你不记得了，没关系，我再放一次图：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_3.png" alt="支付宝的按钮在retina屏下出现白边" title="" /></p>
+
+<p>看一下它的雪碧图(<a href="https://i.alipayobjects.com/e/201204/2vCVR5Bh4d.png">https://i.alipayobjects.com/e/201204/2vCVR5Bh4d.png</a>)和结构：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_14.png" alt="支付宝按钮雪碧图" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_15.png" alt="支付宝按钮结构" title="" /></p>
+
+<p>可以看出，这个按钮其实是由左边两边拼合而成（分别由内外两层元素组成），白边来自右边的结构。如果把左边的背景屏蔽掉，会看得更清楚：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_16.png" alt="支付宝按钮结构" title="" /></p>
+
+<p>这种情况下，背景图小于容器本身，因此无法将插值部分排除到视野外，也即上面说的多留2px也无法解决。（事实上左边已经留有N像素了……）那就只好再利用上面在验证是否是雪碧图才有问题时说的另外一个结论了：边缘部分是不会被插值的。</p>
+
+<p>于是，将这个雪碧图需要插值的部分改到边缘去，如下图（只改了上面的几个）：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_17.png" alt="支付宝雪碧图修改版" title="" /></p>
+
+<p>效果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_18.png" alt="支付宝雪碧图修改版效果" title="" /></p>
+
+<p>至此问题解决。</p>
+
+<blockquote>
+  <p>注：之所以会采用这样一种结构的按钮，是因为它可以根据文字长度进行自适应<code>background-size</code>的<code>x</code>值取<code>right</code>即可保证雪碧图是始终靠按钮右边对齐的。而修改版中改变雪碧图结构后，则需要手工指定<code>background-size</code>的<code>x</code>值。</p>
+  
+  <p>一种更好的解决方案则是直接使用CSS3来写按钮，在IE下进行降级。</p>
+</blockquote>
+
+<h2>结</h2>
+
+<p>这应该是博客中图片最多的一篇了，关注的也是一个非常非常非常小的点，起因只是因为支付宝的按钮在我发现这个问题一年后仍然没有改过，于是忍不住研究了一下这问题到底有多难解决。</p>
+
+<p>最后，根据上述实验和推断过程小结一下在应用雪碧图的过程中值得注意的点：</p>
+
+<ol>
+<li>雪碧图中请给背景留出足够的空间（出血），否则可能导致retina屏下产生毛边（白边）</li>
+<li>雪碧图如果图标排得太过密集，可能导致retina屏下出现“窜色”（与毛边一样，是由于插值导致）</li>
+<li>如果插值区域无法避免，请将它放在图片边缘位置</li>
+</ol>
+
+<p>最后的最后，一句题外话，以上所有现象均可在部分浏览器放大页面时出现（我忘记是什么浏览器了，曾有项目因此被产品经理报bug，最终将所有图标周围留了2px空白解决）。</p>
+        ]]>
+      </description>
+    </item>
     <item>
       <title>学习ES6生成器（Generator）</title>
       <link>http://www.toobug.net/article/learning_es6_generator.html</link>
@@ -2927,25 +3058,6 @@ m11,m12,m21,m22与前面说的一样。
 </ul>
 
 <p>文中没有说到的一点是：document.body,document,window都可以直接响应键盘事件。</p>
-        ]]>
-      </description>
-    </item>
-    <item>
-      <title>同域iframe“拒绝访问”的问题</title>
-      <link>http://www.toobug.net/article/iframe_same_origin_access_denied.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/iframe_same_origin_access_denied.html</guid>
-      <pubDate>Thu, 01 Dec 2011 16:57:00 +0800</pubDate>
-      <description>
-        <![CDATA[
-        <p>同事项目中用了一个iframe，父页和子页都设置了document.domain进行降域，结果在非IE下正常，IE下“拒绝访问”。</p>
-
-<p>跟大多数人想的一样，iframe遇到“拒绝访问”首先肯定考虑是document.domain的问题，但是这里父子页面都显式做了降域处理，应该不会。找不出其他原因，只好试了一下，结果屏蔽来屏蔽去调了半天，问题依旧。</p>
-
-<p>后来辗转找到了这篇文章<a href="http://www.cnblogs.com/shouzheng/archive/2008/07/07/1237245.html">http://www.cnblogs.com/shouzheng/archive/2008/07/07/1237245.html</a>，终于解决问题。</p>
-
-<p>问题产生的原因是IE的速度比较慢，在iframe还没有加载的时候是访问不到它的contentWindow,contentDocument之类的对象的，所以报“拒绝访问”。解决的办法很简单，加一个轮询，如果iframe的document.readyState == ‘complete’，再进行操作。</p>
-
-<p>猜测：其他的浏览器一定不出问题么？如果加载一个超级大的文件？还是原理不一样？（如果也有同样的问题的话，其它浏览器可以直接监听iframe的onload事件。）</p>
         ]]>
       </description>
     </item>
