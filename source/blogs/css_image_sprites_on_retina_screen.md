@@ -14,6 +14,8 @@ CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至�
 
 ![WebQQ在retina屏下出现白边](/images/css_image_sprites_on_retina_screen_1.png)
 
+<!-- $$solo_more$$ -->
+
 ![财付通首页菜单在retina屏下出现白边](/images/css_image_sprites_on_retina_screen_2.png)
 
 ![支付宝的按钮在retina屏下出现白边](/images/css_image_sprites_on_retina_screen_3.png)
