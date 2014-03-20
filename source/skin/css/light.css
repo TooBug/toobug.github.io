@@ -179,6 +179,7 @@ header nav ul li a:hover {
 #content #article fieldset,
 #content #article img {
 	border: 0;
+	max-width: 100%;
 }
 #content #article blockquote {
 	margin: 1em 4em 1em 2em;
@@ -267,13 +268,17 @@ header nav ul li a:hover {
 }
 #content #article pre,
 #content #article code {
-	font-family: "Courier New", Courier, monospace;
+	/*font-family: "Courier New", Courier, monospace;*/
 }
 #content #article pre {
-	border: 1px solid #ddd;
 	background: #000;
 	padding: 10px;
 	margin-left: 2.2em;
+}
+#content #article p code {
+	background: #DFDDDD;
+	padding: 3px 5px;
+	border-radius: 2px;
 }
 #content #article small {
 	font-size: 12px;

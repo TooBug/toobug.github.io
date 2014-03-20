@@ -66,7 +66,7 @@ CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至�
 
 ![WebQQ图标改进1效果](/images/css_image_sprites_on_retina_screen_11.png)
 
-可以看到白边已经减少了不少，但仍然存在。继续在两边各加1xp，总共24px，效果如下：
+可以看到白边已经减少了不少，但仍然存在。继续在两边各加1px，总共24px，效果如下：
 
 ![WebQQ图标改进2](/images/css_image_sprites_on_retina_screen_12.png)
 
