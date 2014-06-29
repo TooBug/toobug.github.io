@@ -4,8 +4,144 @@
     <title>TooBug</title>
     <link>http://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
-    <lastBuildDate>Wed, 19 Mar 2014 13:39:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Jun 2014 12:19:00 +0800</lastBuildDate>
     <generator>Solo 2.0</generator>
+    <item>
+      <title>如何高效debug</title>
+      <link>http://www.toobug.net/article/how_to_debug_efficiently.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/how_to_debug_efficiently.html</guid>
+      <pubDate>Sun, 29 Jun 2014 12:19:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <blockquote>
+  <p>这是一个公司内网上的问题，原意是题主觉得debug非常费时，影响了项目的效率，问如何改进。当时也在内网随手码了几点，回头又看了一遍觉得很有共性，可以再扩展一下单独写写，于是诞生此文。因为专业所限，本文的部分细节也只限于web前端，但思路和其它语言是相通的。</p>
+</blockquote>
+
+<p>首先，程序员要调整好心态。</p>
+
+<p>事实上，debug是程序员工作的重要组成部分，甚至在产品的某些阶段是唯一的组成部分，所以不用把调bug看成是拖累产品进度、降低效率的凶手，这是一件必须要花时间认真去做的事情，它就是你的工作，也是整个项目进度过程中必不可少的组成部分。所以在debug的时候也可以更加平心静气一些，不用那么急躁。</p>
+
+<p>当然，这个心态的改变也会涉及到项目进度安排上的一些调整，比如在排期的时候就要预估debug的时间，而不能仅仅只安排编码的时间。此外，还需要给自己做好时间管理，尽量能长排比较大段的不被打扰的时间来debug。</p>
+
+<p>把心态放平之后，有的bug可能解决起来真的就没那么耗时了。在心态平和、思路清晰、无人打扰的情况下，一般修起bug来都有如神助，效率高得连自己都不太敢相信。相反，往往越是着急的时候越是难定位到bug的真正原因。</p>
+
+<p>然后说提高调试效率的一些办法：</p>
+
+<h2>练好基础</h2>
+
+<p>这个不论对开发还是调试效率都有决定性影响，一旦基础扎实了，在编写代码的过程中就能避免非常多的bug，在调试过程中也很敏锐地察觉到异常之处。</p>
+
+<p>这里所指的基础其实包含了两个部分：一部分是编程语言的基础知识，只有掌握好才能知道一个问题如何用最低成本、最正统、最能扛住需求变更、最不容易出问题的方式写出来。另一个部分则是良好的编码习惯，基本上各个语言都有各家总结的一些编码规范和习惯，并且也会有解释为什么建议这么写，如果掌握好的编码习惯，一般而言可以避免非常多编码细节导致的bug。</p>
+
+<p>比如，关于数组去重，如果你去网上随便找一段代码，很有可能找到利用对象的key来去重的代码：</p>
+
+<p><code>javascript
+Array.prototype.delRepeat=function(){
+    var newArray=[];
+    var provisionalTable = {};
+    for (var i = 0, item; (item= this[i]) != null; i++) {
+        if (!provisionalTable[item]) {
+            newArray.push(item);
+            provisionalTable[item] = true;
+        }
+    }
+    return newArray;
+};
+</code></p>
+
+<p>如果你直接去用的话一般不会有问题，但如果你的数组是<code>[1,'1']</code>就会发现这个方法秀逗了，根本原因是数组的key必须是字符串，<code>1</code>在被当作key时会被转成<code>'1'</code>，导致二者无法区分。如果你不了解这对象的相关机制，就很难发现这个bug。</p>
+
+<p>再比如，如果你习惯花括号另起一行，那么在函数中返回一个对象就很容易写成这样：</p>
+
+<p><code>javascript
+function A()
+{
+    return
+    {};
+}
+</code></p>
+
+<p>但事实上由于JavaScript的分号补全机制，这里最后返回的是<code>undefined</code>，而如果将花括号根在<code>return</code>后面则不会存在问题。这就是典型的编码习惯可以避免的bug。</p>
+
+<p>练好基础的工夫必然是在工作之外的时间，因为基本上工作时间是满负荷输出，不太能有时间去接触新东西，如果你每行代码都需要先Google一下再写，那想必你的老板也会不乐意。所以给自己充电的时间就只能是在工作之外，这是件非常考验人的事情。</p>
+
+<h2>用好工具</h2>
+
+<p>工具包括三个方面：</p>
+
+<h3>质量工具</h3>
+
+<p>质量工具对于前端来说是特别必要的，甚至比其它语言更必要，因为HTML、CSS、JS都是没有语法检查没有编译过程的，基本上编写完就直接丢上线了。所以为了保证代码质量，我们可以引入一些检查工具来辅助控制代码质量。</p>
+
+<p>至于具体的工具，可能是IDE，可能是命令行下的各种lint，也可能是集成构建过程中的语法检查过程，还可能是在线的语法检查器等，方法不一而足，但做的事情都是差不多的。</p>
+
+<p>HTML检查的话主要是W3C的标准验证（<a href="http://validator.w3.org/">http://validator.w3.org/</a>），也有各种牛人编写的HTML Lint之类的工具。</p>
+
+<p>CSS检查的话主要是CSSLint，此外不规范（无效）的属性在Chrome开发者工具的console中会显示警告。</p>
+
+<p>JS检查的话主要是JSLint/JSHint。</p>
+
+<p>此外还有一些针对特殊文件、语法而做的工具，比如用于检查json语法的jsonlint之类，种类繁多，不一一列出。</p>
+
+<p>以上这些工具基本都有对应的grunt、gulp插件，也有IDE插件，可以直接集成到编码过程或者构建过程中。</p>
+
+<p>质量工具除了语法检查类的之外，还有一类是属于“规范”类的，即用来统一项目的编码规范，比如editorconfig，建议每个项目都能引入，它可以更好地控制项目的缩进、换行符、编码之类的规范。</p>
+
+<h3>调试工具</h3>
+
+<p>其实调试工具不仅仅是一个工具，要用好的话还得掌握调试方法。这一节的核心思想就只有一句话“代码调试真的要靠调试，而不能靠猜”。见过非常多的前端同学，在某个逻辑与预期不一致的时候基本都是对着源代码猜，是不是这个地方单词写错了？是不是这里循环少了一次？是不是后台返回的数据是空的？然后用各种奇葩的方法一遍遍地改代码，直到终于让结果符合预期了，才算“调试”完毕了。</p>
+
+<p>怎么样才算是“调试”呢？那就是你可以看到你写的每一句代码最终跑起来是什么样的。具体而言，HTML主要检查生成的DOM树结构，CSS主要看样式的层叠关系及最后应用的样式来自哪里，JS主要看代码每一行的结果和预期是否相符。</p>
+
+<p>以Chrome dev tool为例，看HTML的问题主要在Elements面板，看CSS的问题主要也在Elements面板（有时候也需要在Resource面板），看JS的问题则主要在Source面板。</p>
+
+<p>比如一句简单的代码：</p>
+
+<p><code>javascript
+var words = location.hash;
+$('#test').append(words);
+</code></p>
+
+<p>如果页面上没有出现你想要的文字，该怎么样？很多人这个时候就开始猜了，是不是<code>location.hash</code>兼容有问题？是不是jQuery没引入？是不是<code>$</code>被覆盖了？是不是不支持取ID？是不是<code>append</code>用法不对？</p>
+
+<p>很有可能你拿调试工具断一下点，看看每个表达式的结果，你就会发现，其实原因是<code>$('#test')</code>取不到。然后恍然大悟，原来没有把DOM操作放在DOM Ready中！</p>
+
+<p>因为不是调试工具教程，所以细节不多说，放个截图，我说的就是这一堆。</p>
+
+<p>!<a href="">调试工具截图</a></p>
+
+<p>另外强烈建议将画圈的设计高亮一下，这样可以在代码报错之前立即自动断点下来，避免因为报错而导致页面刷新、表单提交之类的动作，使得调试变得困难。</p>
+
+<blockquote>
+  <p>如果看不懂上面一堆在说什么，那么这一段的目标读者就是你了，你需要好好学习一下前端调试方法和工具的使用了。</p>
+</blockquote>
+
+<p>与上面说的类似，移动端的调试也有很多方案，比如weinre、MIH Tools之类，iOS和Android也有各自的USB调试方案。</p>
+
+<p>多多掌握这些调试方法和工具能够真正在你想找问题的时候事半功倍。</p>
+
+<h3>生成工具</h3>
+
+<p>有时候我们的代码中还会有一些假数据或者写死的数据，或者是一些根据数据生成的代码（比如拼接HTML），或者是一些模板化的代码，此时如果借助工具来生成数据或者代码，会比手工编写靠谱得多，也可以避免很多错误产生。</p>
+
+<p>比如<a href="http://www.json-generator.com/">http://www.json-generator.com/</a>、<a href="http://shancarter.github.io/mr-data-converter/">http://shancarter.github.io/mr-data-converter/</a>、<a href="http://www.colorzilla.com/gradient-editor/">http://www.colorzilla.com/gradient-editor/</a>、<a href="http://matthewlein.com/ceaser/">http://matthewlein.com/ceaser/</a>都是非常好的生成工具。</p>
+
+<h2>用好搜索</h2>
+
+<p>如果在调试之后定位到某个很诡异的地方，实在无法解释或者找不到原因的话，不妨搜索一下看看，一般这种诡异的问题都已经有前人碰到了，在stackoverflow或者是开源代码的官方讨论区基本上都能找到答案，绝大部分也可以找到规避方法或者替代方案。</p>
+
+<p>这里值得注意的是，你仍然需要先调试再搜索，因为在你调试之前，你对问题的描述只能是“现象”，但是调试之后一般可以定位到某个具体的代码或者对象或者API，去搜索对象或者API的行为比搜索“现象”得到的答案往往会更接近真相。</p>
+
+<h2>多总结</h2>
+
+<p>每调完一个重大bug就会有比较大的成就感，一般这也是进行总结的最佳时机。</p>
+
+<p>每个程序员都应该有总结bug和原因的习惯，比如为什么会造成这个bug，如果是编码习惯的问题能否规避，能否利用工具在编码阶段就解决掉？如果是逻辑上的问题，能否推给产品、交互去重新梳理，避免类似问题？</p>
+
+<p>总结之后最好还要有提炼和分享，比如bug是由于不为人知的特性或者API导致的，能否对与之相关的任务进行封装，或者能否将这个坑埋掉，然后共享给组员让大家避开这个坑，甚至回馈给组件作者让更多人避免这些坑？如果能将你的成果分享给大家，就避免其它人再掉入同一个坑，而如果将这个坑埋掉，就可以让地球上的程序员永远不再掉进这个坑，想想都是一件很幸福的事情。</p>
+        ]]>
+      </description>
+    </item>
     <item>
       <title>Retina屏下的CSS雪碧图</title>
       <link>http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</link>
@@ -3036,28 +3172,6 @@ m11,m12,m21,m22与前面说的一样。
 <p>哦哦，对了，微软官方说了<a href="http://msdn.microsoft.com/en-us/library/ms532872(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/ms532872(v=vs.85).aspx</a>，如果sizingMethod=”auto expand”，那么Dx、Dy是无效的哦。所以去掉就好啦。</p>
 
 <p>最后的最后，sizingMethod是什么意思呢，如果不设它的话，旋转对象的容器大小会是固定的，所以可能有遮挡的情况，自己要调整好大小，而如果它被设为auto expand，就是自动扩展的意思，即旋转时外面的容器大小会自动调整，以便不遮挡正在旋转的元素。</p>
-        ]]>
-      </description>
-    </item>
-    <item>
-      <title>HTML元素的键盘事件</title>
-      <link>http://www.toobug.net/article/keyboard_event_of_html_elements.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/keyboard_event_of_html_elements.html</guid>
-      <pubDate>Tue, 06 Dec 2011 16:30:00 +0800</pubDate>
-      <description>
-        <![CDATA[
-        <p>这篇文章里已经说得很清楚了：</p>
-
-<p><a href="http://yiminghe.iteye.com/blog/729265">http://yiminghe.iteye.com/blog/729265</a></p>
-
-<p>核心观点是：</p>
-
-<ul>
-<li>除了文中列出的元素，其他元素不能直接获得键盘事件，除非通过冒泡</li>
-<li>对不能直接获得键盘事件的元素，通过让它强制获得焦点可以响应键盘事件</li>
-</ul>
-
-<p>文中没有说到的一点是：document.body,document,window都可以直接响应键盘事件。</p>
         ]]>
       </description>
     </item>

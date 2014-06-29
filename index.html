@@ -55,6 +55,20 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/how_to_debug_efficiently.html">如何高效debug</a><em class="pubDate">2014-06-29</em></h1><blockquote>
+  <p>这是一个公司内网上的问题，原意是题主觉得debug非常费时，影响了项目的效率，问如何改进。当时也在内网随手码了几点，回头又看了一遍觉得很有共性，可以再扩展一下单独写写，于是诞生此文。因为专业所限，本文的部分细节也只限于web前端，但思路和其它语言是相通的。</p>
+</blockquote>
+
+<p>首先，程序员要调整好心态。</p>
+
+<p>事实上，debug是程序员工作的重要组成部分，甚至在产品的某些阶段是唯一的组成部分，所以不用把调bug看成是拖累产品进度、降低效率的凶手，这是一件必须要花时间认真去做的事情，它就是你的工作，也是整个项目进度过程中必不可少的组成部分。所以在debug的时候也可以更加平心静气一些，不用那么急躁。</p>
+
+<p>当然，这个心态的改变也会涉及到项目进度安排上的一些调整，比如在排期的时候就要预估debug的时间，而不能仅仅只安排编码的时间。此外，还需要给自己做好时间管理，尽量能长排比较大段的不被打扰的时间来debug。</p>
+
+<p>把心态放平之后，有的bug可能解决起来真的就没那么耗时了。在心态平和、思路清晰、无人打扰的情况下，一般修起bug来都有如神助，效率高得连自己都不太敢相信。相反，往往越是着急的时候越是难定位到bug的真正原因。</p>
+          <div class="articlemore"><a href="./article/how_to_debug_efficiently.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/css_image_sprites_on_retina_screen.html">Retina屏下的CSS雪碧图</a><em class="pubDate">2014-03-19</em></h1><p>CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至今日，可能很多人都觉得这一块已经没有什么东西可以再讲了的。但事实上雪碧图一直都可以引出新的话题，比如从最早的连接数和体积的平衡到格式之争到图像摆放位置的策略，再到合并图像的颗粒度，再到内存占用、CPU占用等性能问题……</p>
 
 <p>没错，今天还要在这一古老的话题上展开，引入一个新的问题，那就是雪碧图在retina屏下存在的问题及应对方案。（值得注意的是，retina屏一般指分辨率为普通屏幕两倍的屏，这样按照普通尺寸开发出来的网站相当于被放大了2倍，会导致图像模糊之类的现象产生，理想的解决方案是为retina专门适配一套皮肤，但本文关注的问题是未适配retina屏幕的网站所出现的问题。）</p>
@@ -157,14 +171,6 @@ document.querySelector('#myDiv').innerHTML = tempHtml;
 
 <p>当然，最麻烦的还不是这里，当我们想要对一个数据循环遍历并输出时，居然还要自己去写循环，再一圈一圈地把这些结构拼起来，最后再拼上首尾的结构。而当数据为空时，又要自己去写一个“暂无数据”之类的占位符……</p>
           <div class="articlemore"><a href="./article/how_to_design_front_end_template_engine.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/shadow_dom_301.html">[译]Shadow DOM第三课</a><em class="pubDate">2013-08-10</em></h1><p>本文将会讨论Shadow DOM的更多神奇之处。本文是在<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>和<a href="http://www.toobug.net/article/shadow_dom_201.html">《Shadow DOM第二课》</a>的基础之上讨论的，如果你需要基础介绍，请参看那两篇。</p>
-
-<h2>使用多个shadow root</h2>
-
-<p>如果你要开个party，让所有人都呆在同一个房间，很快就会让这个房子变得很闷，你可能更希望将不同的人群分配到不同的房间。用于挂载shadow dom的元素（shadow host）也可以这样做，也就是说，它们可以同时挂载多个shadow root。</p>
-          <div class="articlemore"><a href="./article/shadow_dom_301.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
         </div>
