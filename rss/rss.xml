@@ -15,13 +15,13 @@
         <![CDATA[
         <p>按照官方介绍，PM2是一款用于生产环境Node.js应用进程管理的工具。按照民间介绍，它主要有这样几个功能：保证Node.js应用永远在线（挂掉自动重启）、自动负载均衡、零中断重启应用等。</p>
 
-<p>鉴于它是如何优秀，这里还是简要介绍一下前两个功能。</p>
+<p>鉴于它是如此优秀，这里还是简要介绍一下前两个功能。</p>
 
 <h2>安装</h2>
 
 <p>首先，它是一个Node.js写的工具，使用npm即可安装使用：</p>
 
-<p><code>bash
+<p><code>
 npm install -g pm2
 </code></p>
 
@@ -29,13 +29,13 @@ npm install -g pm2
 
 <p>如果不使用pm2，运行Node.js程序是这样：</p>
 
-<p><code>bash
+<p><code>
 node xxx.js
 </code></p>
 
 <p>使用pm2，是这样：</p>
 
-<p><code>bash
+<p><code>
 pm2 start xxx.js
 </code></p>
 
@@ -43,7 +43,7 @@ pm2 start xxx.js
 
 <p>如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上<code>--watch</code>即可：</p>
 
-<p><code>bash
+<p><code>
 pm2 start xxx.js --watch
 </code></p>
 
@@ -51,7 +51,7 @@ pm2 start xxx.js --watch
 
 <p>默认情况下pm2是以fork模式启动应用的，如果以cluster模式启动的话，则可以使用pm2自带的负载均衡、零间断重启等功能。</p>
 
-<p><code>bash
+<p><code>
 pm2 start xxx.js -i 4
 </code></p>
 
@@ -71,7 +71,7 @@ pm2 start xxx.js -i 4
 
 <p>部署功能是在新版本（0.12？）中才添加进来的。如果你使用的是旧版本的，需要先升级：</p>
 
-<p><code>bash
+<p><code>
 npm install -g pm2@latest
 pm2 updatePM2
 </code></p>
@@ -80,13 +80,13 @@ pm2 updatePM2
 
 <p>切换到项目目录下，然后执行</p>
 
-<p><code>bash
+<p><code>
 pm2 ecosystem
 </code></p>
 
 <p>即可得到一个示例json文件（例如我得到的是<code>ecosystem.json5</code>），将它做对应的修改，大致如下：</p>
 
-<p>```JSON
+<p>```
 {
     "apps" : [{
         "name" : "xxx", //项目的名字
@@ -123,13 +123,13 @@ pm2 ecosystem
 
 <p>然后就可以使用</p>
 
-<p><code>bash
+<p><code>
 pm2 deploy ecosystem.json production
 </code></p>
 
 <p>自动发布网站项目了，非常方便。</p>
 
-<p><code>``bash
+<p><code>``
 $&gt;pm2 deploy dev
 --&gt; Deploying to production environment
 --&gt; on host server.toobug.net

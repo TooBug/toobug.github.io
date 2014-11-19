@@ -57,13 +57,13 @@
         <div class="indexarticle">
           <h1><a href="./article/using_pm2_deploy.html">使用PM2 Deploy部署基于Git版本管理的网站应用</a><em class="pubDate">2014-11-19</em></h1><p>按照官方介绍，PM2是一款用于生产环境Node.js应用进程管理的工具。按照民间介绍，它主要有这样几个功能：保证Node.js应用永远在线（挂掉自动重启）、自动负载均衡、零中断重启应用等。</p>
 
-<p>鉴于它是如何优秀，这里还是简要介绍一下前两个功能。</p>
+<p>鉴于它是如此优秀，这里还是简要介绍一下前两个功能。</p>
 
 <h2>安装</h2>
 
 <p>首先，它是一个Node.js写的工具，使用npm即可安装使用：</p>
 
-<p><code>bash
+<p><code>
 npm install -g pm2
 </code></p>
 
@@ -71,13 +71,13 @@ npm install -g pm2
 
 <p>如果不使用pm2，运行Node.js程序是这样：</p>
 
-<p><code>bash
+<p><code>
 node xxx.js
 </code></p>
 
 <p>使用pm2，是这样：</p>
 
-<p><code>bash
+<p><code>
 pm2 start xxx.js
 </code></p>
 
@@ -85,7 +85,7 @@ pm2 start xxx.js
 
 <p>如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上<code>--watch</code>即可：</p>
 
-<p><code>bash
+<p><code>
 pm2 start xxx.js --watch
 </code></p>
           <div class="articlemore"><a href="./article/using_pm2_deploy.html">继续阅读</a></div>
