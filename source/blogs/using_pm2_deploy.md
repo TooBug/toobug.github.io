@@ -138,7 +138,6 @@ Now using node v0.11.13
   ○ hook test
   ○ successfully deployed origin/master
 --> Success
-
 ```
 
 在使用过程中还有几个值得注意的点：
