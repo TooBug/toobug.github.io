@@ -98,7 +98,6 @@ pm2 ecosystem
 		}
 	}
 }
-
 ```
 
 需要注意：
@@ -126,7 +125,7 @@ $>pm2 deploy dev
 Fetching origin
   ○ resetting HEAD to origin/master
 HEAD is now at eda2cdd xxx
-  ○ executing post-deploy `npm install && pm2 startOrRestart ecosystem.json --env production`
+  ○ executing post-deploy npm install && pm2 startOrRestart ecosystem.json --env production
 manpath: can't set the locale; make sure $LC_* and $LANG are correct
 Now using node v0.11.13
 [PM2] restartProcessId process id 0
@@ -135,7 +134,7 @@ Now using node v0.11.13
 ├──────────┼────┼──────┼──────┼────────┼───────────┼────────┼─────────────┼──────────┤
 │ xxx      │ 0  │ fork │ 7384 │ online │        33 │ 0s     │ 12.438 MB   │ disabled │
 └──────────┴────┴──────┴──────┴────────┴───────────┴────────┴─────────────┴──────────┘
- Use `pm2 info <id|name>` to get more details about an app
+ Use pm2 info <id|name> to get more details about an app
   ○ hook test
   ○ successfully deployed origin/master
 --> Success
