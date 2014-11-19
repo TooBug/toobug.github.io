@@ -63,31 +63,27 @@
 
 <p>首先，它是一个Node.js写的工具，使用npm即可安装使用：</p>
 
-<p><code>
-npm install -g pm2
-</code></p>
+<pre><code>npm install -g pm2
+</code></pre>
 
 <h2>运行Node.js程序</h2>
 
 <p>如果不使用pm2，运行Node.js程序是这样：</p>
 
-<p><code>
-node xxx.js
-</code></p>
+<pre><code>node xxx.js
+</code></pre>
 
 <p>使用pm2，是这样：</p>
 
-<p><code>
-pm2 start xxx.js
-</code></p>
+<pre><code>pm2 start xxx.js
+</code></pre>
 
 <h3>监视模式</h3>
 
 <p>如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上<code>--watch</code>即可：</p>
 
-<p><code>
-pm2 start xxx.js --watch
-</code></p>
+<pre><code>pm2 start xxx.js --watch
+</code></pre>
           <div class="articlemore"><a href="./article/using_pm2_deploy.html">继续阅读</a></div>
         </div>
         <div class="indexarticle">
