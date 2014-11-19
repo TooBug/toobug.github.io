@@ -55,6 +55,34 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/javascript_patterns_note_chapter_2.html">《Javascript Patterns》读书笔记 第二章 概要（1）</a><em class="pubDate">2011-12-24</em></h1><p>这一章概要地介绍了一些最佳实践、模式还有编码习惯。</p>
+
+<h3>一、编写可维护的代码</h3>
+
+<p>发现bug时最好能立马修复，延迟可能导致你需要更多的时间去重新理解问题，还有可以解决问题的代码。</p>
+
+<p>代码经常会被阅读，因为以下原因：</p>
+
+<ol>
+<li>Bugs</li>
+<li>新功能要添加</li>
+<li>程序需要在新环境下运行</li>
+<li>代码的功能被改变</li>
+<li>代码完全被重写</li>
+</ol>
+
+<p>可维护的代码表示代码具有以下特性：</p>
+
+<ol>
+<li>可读的</li>
+<li>一致的</li>
+<li>可预测的</li>
+<li>看起来像同一个人编写的</li>
+<li>有文档的</li>
+</ol>
+          <div class="articlemore"><a href="./article/javascript_patterns_note_chapter_2.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/the_little_book_on_coffee_script.html">The Little Book on Coffee Script</a><em class="pubDate">2011-12-23</em></h1><p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
 
 <p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
@@ -101,21 +129,6 @@
 
 <p>以下为读书笔记，中文为本人根据意思大致整理，不保证完全跟原文一样准确。</p>
           <div class="articlemore"><a href="./article/javascript_patterns_note_chapter_1.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/ie_matrix_rotation.html">IE下利用Matrix滤镜实现绕中心点旋转</a><em class="pubDate">2011-12-15</em></h1><p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
-
-<p>在IE下旋转一个元素，则只能靠滤镜了。</p>
-
-<p>如果只是以90度为单位旋转的话，简单地使用这个滤镜就好：</p>
-
-<pre><code>filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=i)
-</code></pre>
-
-<p>其中i取0，1，2，3，分别代表旋转90度、180度、270度、360度。</p>
-
-<p>而如果要实现任意角度旋转，则要使用Matrix（矩阵）滤镜。</p>
-          <div class="articlemore"><a href="./article/ie_matrix_rotation.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
         </div>

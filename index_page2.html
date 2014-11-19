@@ -55,6 +55,36 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/how_to_design_front_end_template_engine.html">如何设计一个前端模板引擎</a><em class="pubDate">2013-08-25</em></h1><p>前端模板引擎现在已经被广泛应用于前端开发了，几乎每个项目都会使用。微博上甚至出现了“不写个模板引擎就没办法在前端界混了”的言论。当然，这是玩笑话，却也能在一定程度上反映前端模板的普及程度。如果你还没有了解过前端模板引擎，赶紧去补补课吧。</p>
+
+<p>本文其实算不上是一篇讲模板引擎设计的文章，写这篇文章的动力来自于自己使用过一些模板引擎（jQuery Tmpl、jade、ejs、artTemplate以及ThinkPHP自带后端模板引擎）之后的心得，所以可能不会涉及到模板引擎设计的方方面面，更多地是讲模板引擎之间的一些有差异的细节以及我的思考和取舍。</p>
+
+<h2>来历</h2>
+
+<pre><code>var tempHtml = '&lt;table&gt;' +
+        '           &lt;tr&gt;' +
+        '               &lt;th&gt;Hello&lt;/th&gt;' +
+        '               &lt;th&gt;World&lt;/th&gt;' +
+        '               &lt;th&gt;!&lt;/th&gt;' +
+        '           &lt;/tr&gt;' +
+        '           &lt;tr&gt;' +
+        '               &lt;td&gt;' + myData.col1 + '&lt;/td&gt;' +
+        '               &lt;td&gt;' + myData.col2 +'&lt;/td&gt;' +
+        '               &lt;td&gt;' + (myData.col3 === 'yes'?'!':'?') + '&lt;/td&gt;' +
+        '           &lt;/tr&gt;' +
+        '       &lt;/table&gt;';
+
+document.querySelector('#myDiv').innerHTML = tempHtml;
+</code></pre>
+
+<p>相信上面的代码对哪怕做过一点点涉及界面开发的都应该很熟悉吧。当我们想把一段结构和一段数据组合起来，再放到页面上时，就会常常面临这样一段复杂的代码。</p>
+
+<p>这段代码相信不用我说你也会觉得它实在有点复杂：要处理结构中字符串本身的拼接，还要注意结构与数据的拼接，处理数据拼接时还要注意运算优先级（尤其在使用<code>?:</code>三元运算符时），还要为了可读性考虑纠结的缩进……</p>
+
+<p>当然，最麻烦的还不是这里，当我们想要对一个数据循环遍历并输出时，居然还要自己去写循环，再一圈一圈地把这些结构拼起来，最后再拼上首尾的结构。而当数据为空时，又要自己去写一个“暂无数据”之类的占位符……</p>
+          <div class="articlemore"><a href="./article/how_to_design_front_end_template_engine.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/shadow_dom_301.html">[译]Shadow DOM第三课</a><em class="pubDate">2013-08-10</em></h1><p>本文将会讨论Shadow DOM的更多神奇之处。本文是在<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>和<a href="http://www.toobug.net/article/shadow_dom_201.html">《Shadow DOM第二课》</a>的基础之上讨论的，如果你需要基础介绍，请参看那两篇。</p>
 
 <h2>使用多个shadow root</h2>
@@ -151,14 +181,6 @@
 
 <p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
           <div class="articlemore"><a href="./article/jlint_a_jslint_plugin_of_sublime.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/hello_solo_and_github.html">你好，Solo &amp; GitHub!</a><em class="pubDate">2012-08-16</em></h1><p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
-
-<p>初中行将毕业时，因为一些突如其来的事情，突然觉得整个世界失去了色彩。那时候真切地觉得，别人都好好活着，我好好地看着就好了。那时候，也曾在心底暗暗标榜过，我的生活，无非是冷眼看世界而已。大半夜在教室睡不着的时候，偶尔也会想想人生。偶尔也会不经意地想到Solo，很好的名字，一个人的精神世界，也许并没有那么糟。</p>
-
-<p>大学进了乐团，终于知道，原来solo还有独奏的意思。那时候跟着一堆朋友们在乐队中瞎混，觉得能抢到一段solo来让自己演奏真的是莫大的荣幸。也是这段经历，让我知道，solo很精彩，solo不孤单。</p>
-          <div class="articlemore"><a href="./article/hello_solo_and_github.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
         </div>

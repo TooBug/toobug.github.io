@@ -55,6 +55,21 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/ie_matrix_rotation.html">IE下利用Matrix滤镜实现绕中心点旋转</a><em class="pubDate">2011-12-15</em></h1><p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
+
+<p>在IE下旋转一个元素，则只能靠滤镜了。</p>
+
+<p>如果只是以90度为单位旋转的话，简单地使用这个滤镜就好：</p>
+
+<pre><code>filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=i)
+</code></pre>
+
+<p>其中i取0，1，2，3，分别代表旋转90度、180度、270度、360度。</p>
+
+<p>而如果要实现任意角度旋转，则要使用Matrix（矩阵）滤镜。</p>
+          <div class="articlemore"><a href="./article/ie_matrix_rotation.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/keyboard_event_of_html_elements.html">HTML元素的键盘事件</a><em class="pubDate">2011-12-06</em></h1><p>这篇文章里已经说得很清楚了：</p>
 
 <p><a href="http://yiminghe.iteye.com/blog/729265">http://yiminghe.iteye.com/blog/729265</a></p>
@@ -100,14 +115,6 @@
 
 <p>检索和更新与对象一模一样，除了可以用整数作为属性名。</p>
           <div class="articlemore"><a href="./article/javascript_the_good_parts_notes_chapter_6.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/javascript_the_good_parts_notes_chapter_5.html">《JavaScript语言精粹》读书笔记 第五章 继承</a><em class="pubDate">2011-04-27</em></h1><h3>5.0绪</h3>
-
-<p>JS是一门弱类型语言。对象的起源无关紧要。</p>
-
-<p>在基于类的语言中，对象是类的实例，并且类可以从另一个类继承。JS是一门基于原型的语言，这意味着对象直接从其他对象继承。</p>
-          <div class="articlemore"><a href="./article/javascript_the_good_parts_notes_chapter_5.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
         </div>

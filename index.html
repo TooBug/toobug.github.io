@@ -55,6 +55,42 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/using_pm2_deploy.html">使用PM2 Deploy部署基于Git版本管理的网站应用</a><em class="pubDate">2014-11-19</em></h1><p>按照官方介绍，PM2是一款用于生产环境Node.js应用进程管理的工具。按照民间介绍，它主要有这样几个功能：保证Node.js应用永远在线（挂掉自动重启）、自动负载均衡、零中断重启应用等。</p>
+
+<p>鉴于它是如何优秀，这里还是简要介绍一下前两个功能。</p>
+
+<h2>安装</h2>
+
+<p>首先，它是一个Node.js写的工具，使用npm即可安装使用：</p>
+
+<p><code>bash
+npm install -g pm2
+</code></p>
+
+<h2>运行Node.js程序</h2>
+
+<p>如果不使用pm2，运行Node.js程序是这样：</p>
+
+<p><code>bash
+node xxx.js
+</code></p>
+
+<p>使用pm2，是这样：</p>
+
+<p><code>bash
+pm2 start xxx.js
+</code></p>
+
+<h3>监视模式</h3>
+
+<p>如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上<code>--watch</code>即可：</p>
+
+<p><code>bash
+pm2 start xxx.js --watch
+</code></p>
+          <div class="articlemore"><a href="./article/using_pm2_deploy.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/how_to_debug_efficiently.html">如何高效debug</a><em class="pubDate">2014-06-29</em></h1><blockquote>
   <p>这是一个公司内网上的问题，原意是题主觉得debug非常费时，影响了项目的效率，问如何改进。当时也在内网随手码了几点，回头又看了一遍觉得很有共性，可以再扩展一下单独写写，于是诞生此文。因为专业所限，本文的部分细节也只限于web前端，但思路和其它语言是相通的。</p>
 </blockquote>
@@ -141,36 +177,6 @@ $.ajax({
 
 <p>不过，微软家的东西总是会有些意料之外的状况，.msi也不例外……</p>
           <div class="articlemore"><a href="./article/manual_install_node_on_windows.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/how_to_design_front_end_template_engine.html">如何设计一个前端模板引擎</a><em class="pubDate">2013-08-25</em></h1><p>前端模板引擎现在已经被广泛应用于前端开发了，几乎每个项目都会使用。微博上甚至出现了“不写个模板引擎就没办法在前端界混了”的言论。当然，这是玩笑话，却也能在一定程度上反映前端模板的普及程度。如果你还没有了解过前端模板引擎，赶紧去补补课吧。</p>
-
-<p>本文其实算不上是一篇讲模板引擎设计的文章，写这篇文章的动力来自于自己使用过一些模板引擎（jQuery Tmpl、jade、ejs、artTemplate以及ThinkPHP自带后端模板引擎）之后的心得，所以可能不会涉及到模板引擎设计的方方面面，更多地是讲模板引擎之间的一些有差异的细节以及我的思考和取舍。</p>
-
-<h2>来历</h2>
-
-<pre><code>var tempHtml = '&lt;table&gt;' +
-        '           &lt;tr&gt;' +
-        '               &lt;th&gt;Hello&lt;/th&gt;' +
-        '               &lt;th&gt;World&lt;/th&gt;' +
-        '               &lt;th&gt;!&lt;/th&gt;' +
-        '           &lt;/tr&gt;' +
-        '           &lt;tr&gt;' +
-        '               &lt;td&gt;' + myData.col1 + '&lt;/td&gt;' +
-        '               &lt;td&gt;' + myData.col2 +'&lt;/td&gt;' +
-        '               &lt;td&gt;' + (myData.col3 === 'yes'?'!':'?') + '&lt;/td&gt;' +
-        '           &lt;/tr&gt;' +
-        '       &lt;/table&gt;';
-
-document.querySelector('#myDiv').innerHTML = tempHtml;
-</code></pre>
-
-<p>相信上面的代码对哪怕做过一点点涉及界面开发的都应该很熟悉吧。当我们想把一段结构和一段数据组合起来，再放到页面上时，就会常常面临这样一段复杂的代码。</p>
-
-<p>这段代码相信不用我说你也会觉得它实在有点复杂：要处理结构中字符串本身的拼接，还要注意结构与数据的拼接，处理数据拼接时还要注意运算优先级（尤其在使用<code>?:</code>三元运算符时），还要为了可读性考虑纠结的缩进……</p>
-
-<p>当然，最麻烦的还不是这里，当我们想要对一个数据循环遍历并输出时，居然还要自己去写循环，再一圈一圈地把这些结构拼起来，最后再拼上首尾的结构。而当数据为空时，又要自己去写一个“暂无数据”之类的占位符……</p>
-          <div class="articlemore"><a href="./article/how_to_design_front_end_template_engine.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
         </div>

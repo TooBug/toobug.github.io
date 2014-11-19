@@ -4,8 +4,170 @@
     <title>TooBug</title>
     <link>http://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
-    <lastBuildDate>Sun, 29 Jun 2014 12:19:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 19 Nov 2014 13:29:00 +0800</lastBuildDate>
     <generator>Solo 2.0</generator>
+    <item>
+      <title>使用PM2 Deploy部署基于Git版本管理的网站应用</title>
+      <link>http://www.toobug.net/article/using_pm2_deploy.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/using_pm2_deploy.html</guid>
+      <pubDate>Wed, 19 Nov 2014 13:29:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>按照官方介绍，PM2是一款用于生产环境Node.js应用进程管理的工具。按照民间介绍，它主要有这样几个功能：保证Node.js应用永远在线（挂掉自动重启）、自动负载均衡、零中断重启应用等。</p>
+
+<p>鉴于它是如何优秀，这里还是简要介绍一下前两个功能。</p>
+
+<h2>安装</h2>
+
+<p>首先，它是一个Node.js写的工具，使用npm即可安装使用：</p>
+
+<p><code>bash
+npm install -g pm2
+</code></p>
+
+<h2>运行Node.js程序</h2>
+
+<p>如果不使用pm2，运行Node.js程序是这样：</p>
+
+<p><code>bash
+node xxx.js
+</code></p>
+
+<p>使用pm2，是这样：</p>
+
+<p><code>bash
+pm2 start xxx.js
+</code></p>
+
+<h3>监视模式</h3>
+
+<p>如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上<code>--watch</code>即可：</p>
+
+<p><code>bash
+pm2 start xxx.js --watch
+</code></p>
+
+<h3>cluster模式</h3>
+
+<p>默认情况下pm2是以fork模式启动应用的，如果以cluster模式启动的话，则可以使用pm2自带的负载均衡、零间断重启等功能。</p>
+
+<p><code>bash
+pm2 start xxx.js -i 4
+</code></p>
+
+<p>上面的命令会以cluster模式启动4个应用进程，并自动为它们提供负载均衡，并且可以使用gracefulReload达到更新应用时不中断服务的效果。</p>
+
+<blockquote>
+  <p>关于cluster模式，可参见朴灵《深入浅出Node.js》一书。</p>
+  
+  <p>pm2低版本默认是以cluster模式启动的。</p>
+</blockquote>
+
+<h2>部署应用</h2>
+
+<p>这才是本文的重点。PM2的部署功能可以实现网站应用的半自动部署功能。注意本文标题没有加“Node.js”，意味着这个功能并不只适用于Node.js网站应用，事实上它部署功能是用shell写的，跟网站使用什么语言没什么关系。</p>
+
+<p>PM2的部署功能与版本管理工具（Git，不确定是否支持SVN，下文以Git为例）结合比较紧，因此需要保证网站项目使用版本管理工具管理代码，并且服务器可以访问到版本管理服务器。</p>
+
+<p>部署功能是在新版本（0.12？）中才添加进来的。如果你使用的是旧版本的，需要先升级：</p>
+
+<p><code>bash
+npm install -g pm2@latest
+pm2 updatePM2
+</code></p>
+
+<p>接下来需要建立一个部署的配置文件，这个文件在本机（操作发布的机器）和服务器上都需要有，因此最好放入Git版本管理中，并且推送到远程代码库（Git服务器）。</p>
+
+<p>切换到项目目录下，然后执行</p>
+
+<p><code>bash
+pm2 ecosystem
+</code></p>
+
+<p>即可得到一个示例json文件（例如我得到的是<code>ecosystem.json5</code>），将它做对应的修改，大致如下：</p>
+
+<p>```JSON
+{
+    "apps" : [{
+        "name" : "xxx", //项目的名字
+        "script" : "xxx.js",  //项目主入口（Node.js）
+        "env": {
+            "COMMON<em>VARIABLE": "true"
+        },
+        "env</em>production" : {
+            "NODE_ENV": "production"
+        }
+    }],
+    "deploy" : {
+        "production" : {
+            "user" : "toobug",
+            "host" : "server.toobug.net",
+            "ref"  : "origin/master", //需要部署的分支
+            "repo" : "git@github.com:TooBug/xxx.git",
+            "path" : "/var/www/xxx", //web目录
+            "post-deploy" : "npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production"
+        }
+    }
+}</p>
+
+<p>```</p>
+
+<p>需要注意：</p>
+
+<ol>
+<li><code>apps.name</code>和<code>apps.script</code>应该与PM2识别应用有关，后续执行<code>pm2 restart</code>的时候可以对应到进程（未证实）</li>
+<li><code>deploy</code>中可以含有多个环境，需要能够通过SSH（公钥认证）登录服务器</li>
+<li>web目录并不是真正的放版本库文件的目录，PM2会再建立一个<code>source</code>子目录，这个才是真正放代码的目录</li>
+<li><code>post-deploy</code>是指代码部署完之后执行的命令，这里以Node.js为例子，执行依赖安装，然后重启PM2中的进程</li>
+</ol>
+
+<p>然后就可以使用</p>
+
+<p><code>bash
+pm2 deploy ecosystem.json production
+</code></p>
+
+<p>自动发布网站项目了，非常方便。</p>
+
+<p><code>``bash
+$&gt;pm2 deploy dev
+--&gt; Deploying to production environment
+--&gt; on host server.toobug.net
+  ○ deploying
+  ○ hook pre-deploy
+  ○ fetching updates
+Fetching origin
+  ○ resetting HEAD to origin/master
+HEAD is now at eda2cdd xxx
+  ○ executing post-deploy</code>npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production<code>
+manpath: can't set the locale; make sure $LC_* and $LANG are correct
+Now using node v0.11.13
+[PM2] restartProcessId process id 0
+┌──────────┬────┬──────┬──────┬────────┬───────────┬────────┬─────────────┬──────────┐
+│ App name │ id │ mode │ PID  │ status │ restarted │ uptime │      memory │ watching │
+├──────────┼────┼──────┼──────┼────────┼───────────┼────────┼─────────────┼──────────┤
+│ xxx      │ 0  │ fork │ 7384 │ online │        33 │ 0s     │ 12.438 MB   │ disabled │
+└──────────┴────┴──────┴──────┴────────┴───────────┴────────┴─────────────┴──────────┘
+ Use</code>pm2 info <id|name>` to get more details about an app
+  ○ hook test
+  ○ successfully deployed origin/master
+--> Success</p>
+
+<p>```</p>
+
+<p>在使用过程中还有几个值得注意的点：</p>
+
+<ul>
+<li>在部署过程中，PM2会执行一次<code>git reset --hard</code>，意味着如果你修改了配置文件之类的，会被还原，因此最好使用环境变量或者新建文件（不在管理库中）的方式来指定服务器专用的配置项（比如数据库连接信息等）</li>
+<li>执行服务器命令时需要关注环境变量，比如使用nvm来管理node版本的话，有可能导致PM2连接后找不到node（以及npm/pm2）所在路径，解决办法是在脚本最前面加上指定环境变量的脚本，例如<code>source ~/.bashrc</code></li>
+</ul>
+
+<h2>End</h2>
+
+<p>就是这样，水文一篇，你要是当成PM2的广告读也行，主要是这个功能真的是很方便。尤其是有多个环境的话，几条命令就能搞定，再也不用登录服务器手工做一堆事情了。</p>
+        ]]>
+      </description>
+    </item>
     <item>
       <title>如何高效debug</title>
       <link>http://www.toobug.net/article/how_to_debug_efficiently.html</link>
@@ -3078,97 +3240,6 @@ number,string,boolean的值很容易转变成对象，不管是被编程者还�
   
   <p>2012年8月20日注：目前我正在参与翻译该书，<a href="https://github.com/TooooBug/javascript.patterns">翻译稿</a>可以在GitHub上找到。</p>
 </blockquote>
-        ]]>
-      </description>
-    </item>
-    <item>
-      <title>IE下利用Matrix滤镜实现绕中心点旋转</title>
-      <link>http://www.toobug.net/article/ie_matrix_rotation.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/ie_matrix_rotation.html</guid>
-      <pubDate>Thu, 15 Dec 2011 13:16:00 +0800</pubDate>
-      <description>
-        <![CDATA[
-        <p>旋转一个元素算是一个比较常见的需求了吧，在支持CSS3的浏览器中可以使用transform很容易地实现，这里有介绍：<a href="http://www.css88.com/archives/2168">http://www.css88.com/archives/2168</a>，这里有演示<a href="http://www.css88.com/tool/css3Preview/Transform.html">http://www.css88.com/tool/css3Preview/Transform.html</a>，就不再介绍了。</p>
-
-<p>在IE下旋转一个元素，则只能靠滤镜了。</p>
-
-<p>如果只是以90度为单位旋转的话，简单地使用这个滤镜就好：</p>
-
-<pre><code>filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=i)
-</code></pre>
-
-<p>其中i取0，1，2，3，分别代表旋转90度、180度、270度、360度。</p>
-
-<p>而如果要实现任意角度旋转，则要使用Matrix（矩阵）滤镜。</p>
-
-<p>网上介绍的方法都是这样：</p>
-
-<pre><code>filter:progid:DXImageTransform.Microsoft.Matrix(M11=m11,M12=m12,M21=m21,M22=m22,sizingMethod="auto expand");
-</code></pre>
-
-<p>设旋转角为x，用弧度表示。那么m11=cos(x),m12=-sin(x),m21=sin(x),m22=cos(x)</p>
-
-<p>实测这个方法有效，但是它会绕元素原来轮廓的左边和上边转动，还是画个图示意一下：</p>
-
-<p><img src="../images/ie_matrix_rotation_1.jpg" alt="IE非中心点旋转" title="" /></p>
-
-<p>如图所示，图形会贴着上边和左边旋转。</p>
-
-<p>那如果我们要绕中间点旋转的话要怎么做呢？这就说来话长了，得讲到几何的向量方法。</p>
-
-<p>坐标系中，每个点有一个坐标，比如点p(3,4)，横坐标为3，纵坐标为4。</p>
-
-<p>接下来，向量：简单理解为有方向的线段。</p>
-
-<p>将点和原点连接起来，方向从原点指向点，即构成一个向量op。</p>
-
-<p>通过这样的方式，我们就将向量与点一一映射起来了，研究点的时候就可以用向量来研究啦。</p>
-
-<p><img src="../images/ie_matrix_rotation_2.jpg" alt="点到坐标映射" title="" /></p>
-
-<p>接下来，研究旋转的实质，P点绕原点O（顺时针）旋转角度α，即向量OP旋转α，新的点P‘坐标变为(3<em>cosα-4</em>sinα,4<em>sinα+3</em>cosα).</p>
-
-<p>为什么会是这个值，请参阅<a href="http://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC">http://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC</a>（数学里面以逆时针为正方向，所以公式在符号上略有不同）</p>
-
-<p>上面新坐标中，在原坐标上进行的计算的数cosα,-sinα,sinα,cosα刚好就是上上面IE的matrix中的参数m11,m12,m21,m22！</p>
-
-<p>事实上，上面的计算一般会写成矩阵的方式来进行，见<a href="http://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC">维基百科</a>的表示方法。</p>
-
-<p>所以，matrix滤镜的实质是对图形进行坐标的矩阵运算。</p>
-
-<p>上面说的是绕原点O旋转，如果绕的是非原点呢？情况比较复杂，详见<a href="http://hi.baidu.com/windsion/blog/item/b4a41951699aa0c9b645ae4f.html">http://hi.baidu.com/windsion/blog/item/b4a41951699aa0c9b645ae4f.html</a>。</p>
-
-<p>大致分为三步：</p>
-
-<ol>
-<li>整体位移，即把中心点和向量做相应位移，使旋转点变为原点</li>
-<li>绕原点旋转，和上面说的一样</li>
-<li>整体位移，再将中心点移回原来的地方去</li>
-</ol>
-
-<p>这个时候，计算的矩阵就变得复杂了（<a href="http://hi.baidu.com/windsion/blog/item/b4a41951699aa0c9b645ae4f.html">上面文章</a>的最下方）。</p>
-
-<p>而事实上，这个矩阵是可以化简的，详见这里<a href="http://stackoverflow.com/questions/5051451/javascript-ie-rotation-transform-maths">http://stackoverflow.com/questions/5051451/javascript-ie-rotation-transform-maths</a></p>
-
-<p>最终，我们得到除了上面的m11,m12,m21,m22之外的另外两个数，这两个数在IE的matrix滤镜中表示为Dx,Dy。</p>
-
-<p>将这六个参数写入matrix滤镜，即可绕中心点旋转了。</p>
-
-<p>完整的写法：</p>
-
-<pre><code>progid:DXImageTransform.Microsoft.Matrix(Dx=dx,Dy=dy,M11=m11,M12=m12,M21=m21,M22=m22);
-</code></pre>
-
-<p>其中</p>
-
-<pre><code>dx=-width/2*cosdeg+height/2*sindeg+width/2,
-dy=-width/2*sindeg-height/2*cosdeg+height/2
-m11,m12,m21,m22与前面说的一样。
-</code></pre>
-
-<p>哦哦，对了，微软官方说了<a href="http://msdn.microsoft.com/en-us/library/ms532872(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/ms532872(v=vs.85).aspx</a>，如果sizingMethod=”auto expand”，那么Dx、Dy是无效的哦。所以去掉就好啦。</p>
-
-<p>最后的最后，sizingMethod是什么意思呢，如果不设它的话，旋转对象的容器大小会是固定的，所以可能有遮挡的情况，自己要调整好大小，而如果它被设为auto expand，就是自动扩展的意思，即旋转时外面的容器大小会自动调整，以便不遮挡正在旋转的元素。</p>
         ]]>
       </description>
     </item>
