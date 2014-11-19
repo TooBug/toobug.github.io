@@ -75,30 +75,28 @@ pm2 ecosystem
 
 即可得到一个示例json文件（例如我得到的是`ecosystem.json5`），将它做对应的修改，大致如下：
 
-```
-{
-	"apps" : [{
-		"name" : "xxx", //项目的名字
-		"script" : "xxx.js",  //项目主入口（Node.js）
-		"env": {
-			"COMMON_VARIABLE": "true"
-		},
-		"env_production" : {
-			"NODE_ENV": "production"
-		}
-	}],
-	"deploy" : {
-		"production" : {
-			"user" : "toobug",
-			"host" : "server.toobug.net",
-			"ref"  : "origin/master", //需要部署的分支
-			"repo" : "git@github.com:TooBug/xxx.git",
-			"path" : "/var/www/xxx", //web目录
-			"post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+	{
+		"apps" : [{
+			"name" : "xxx", //项目的名字
+			"script" : "xxx.js",  //项目主入口（Node.js）
+			"env": {
+				"COMMON_VARIABLE": "true"
+			},
+			"env_production" : {
+				"NODE_ENV": "production"
+			}
+		}],
+		"deploy" : {
+			"production" : {
+				"user" : "toobug",
+				"host" : "server.toobug.net",
+				"ref"  : "origin/master", //需要部署的分支
+				"repo" : "git@github.com:TooBug/xxx.git",
+				"path" : "/var/www/xxx", //web目录
+				"post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+			}
 		}
 	}
-}
-```
 
 需要注意：
 
@@ -115,30 +113,28 @@ pm2 deploy ecosystem.json production
 
 自动发布网站项目了，非常方便。
 
-```
-$>pm2 deploy dev
---> Deploying to production environment
---> on host server.toobug.net
-  ○ deploying
-  ○ hook pre-deploy
-  ○ fetching updates
-Fetching origin
-  ○ resetting HEAD to origin/master
-HEAD is now at eda2cdd xxx
-  ○ executing post-deploy npm install && pm2 startOrRestart ecosystem.json --env production
-manpath: can't set the locale; make sure $LC_* and $LANG are correct
-Now using node v0.11.13
-[PM2] restartProcessId process id 0
-┌──────────┬────┬──────┬──────┬────────┬───────────┬────────┬─────────────┬──────────┐
-│ App name │ id │ mode │ PID  │ status │ restarted │ uptime │      memory │ watching │
-├──────────┼────┼──────┼──────┼────────┼───────────┼────────┼─────────────┼──────────┤
-│ xxx      │ 0  │ fork │ 7384 │ online │        33 │ 0s     │ 12.438 MB   │ disabled │
-└──────────┴────┴──────┴──────┴────────┴───────────┴────────┴─────────────┴──────────┘
- Use pm2 info <id|name> to get more details about an app
-  ○ hook test
-  ○ successfully deployed origin/master
---> Success
-```
+	$>pm2 deploy dev
+	--> Deploying to production environment
+	--> on host server.toobug.net
+	  ○ deploying
+	  ○ hook pre-deploy
+	  ○ fetching updates
+	Fetching origin
+	  ○ resetting HEAD to origin/master
+	HEAD is now at eda2cdd xxx
+	  ○ executing post-deploy npm install && pm2 startOrRestart ecosystem.json --env production
+	manpath: can't set the locale; make sure $LC_* and $LANG are correct
+	Now using node v0.11.13
+	[PM2] restartProcessId process id 0
+	┌──────────┬────┬──────┬──────┬────────┬───────────┬────────┬─────────────┬──────────┐
+	│ App name │ id │ mode │ PID  │ status │ restarted │ uptime │      memory │ watching │
+	├──────────┼────┼──────┼──────┼────────┼───────────┼────────┼─────────────┼──────────┤
+	│ xxx      │ 0  │ fork │ 7384 │ online │        33 │ 0s     │ 12.438 MB   │ disabled │
+	└──────────┴────┴──────┴──────┴────────┴───────────┴────────┴─────────────┴──────────┘
+	 Use pm2 info <id|name> to get more details about an app
+	  ○ hook test
+	  ○ successfully deployed origin/master
+	--> Success
 
 在使用过程中还有几个值得注意的点：
 
