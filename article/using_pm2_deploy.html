@@ -127,15 +127,15 @@ pm2 ecosystem
 
 <p>即可得到一个示例json文件（例如我得到的是<code>ecosystem.json5</code>），将它做对应的修改，大致如下：</p>
 
-<p>```
+<p><code>
 {
     "apps" : [{
         "name" : "xxx", //项目的名字
         "script" : "xxx.js",  //项目主入口（Node.js）
         "env": {
-            "COMMON<em>VARIABLE": "true"
+            "COMMON_VARIABLE": "true"
         },
-        "env</em>production" : {
+        "env_production" : {
             "NODE_ENV": "production"
         }
     }],
@@ -149,9 +149,8 @@ pm2 ecosystem
             "post-deploy" : "npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production"
         }
     }
-}</p>
-
-<p>```</p>
+}
+</code></p>
 
 <p>需要注意：</p>
 
@@ -170,17 +169,17 @@ pm2 deploy ecosystem.json production
 
 <p>自动发布网站项目了，非常方便。</p>
 
-<p><code>``
-$&gt;pm2 deploy dev
---&gt; Deploying to production environment
---&gt; on host server.toobug.net
+<p>```
+$>pm2 deploy dev
+--> Deploying to production environment
+--> on host server.toobug.net
   ○ deploying
   ○ hook pre-deploy
   ○ fetching updates
 Fetching origin
   ○ resetting HEAD to origin/master
 HEAD is now at eda2cdd xxx
-  ○ executing post-deploy</code>npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production<code>
+  ○ executing post-deploy npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production
 manpath: can't set the locale; make sure $LC_* and $LANG are correct
 Now using node v0.11.13
 [PM2] restartProcessId process id 0
@@ -189,7 +188,7 @@ Now using node v0.11.13
 ├──────────┼────┼──────┼──────┼────────┼───────────┼────────┼─────────────┼──────────┤
 │ xxx      │ 0  │ fork │ 7384 │ online │        33 │ 0s     │ 12.438 MB   │ disabled │
 └──────────┴────┴──────┴──────┴────────┴───────────┴────────┴─────────────┴──────────┘
- Use</code>pm2 info <id|name>` to get more details about an app
+ Use pm2 info <id|name> to get more details about an app
   ○ hook test
   ○ successfully deployed origin/master
 --> Success</p>
