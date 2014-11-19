@@ -10,31 +10,23 @@ Tags: Node.js PM2 部署
 
 首先，它是一个Node.js写的工具，使用npm即可安装使用：
 
-```
-npm install -g pm2
-```
+	npm install -g pm2
 
 ## 运行Node.js程序
 
 如果不使用pm2，运行Node.js程序是这样：
 
-```
-node xxx.js
-```
+	node xxx.js
 
 使用pm2，是这样：
 
-```
-pm2 start xxx.js
-```
+	pm2 start xxx.js
 
 ### 监视模式
 
 如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上`--watch`即可：
 
-```
-pm2 start xxx.js --watch
-```
+	pm2 start xxx.js --watch
 
 <!-- $$solo_more$$ -->
 
@@ -42,9 +34,7 @@ pm2 start xxx.js --watch
 
 默认情况下pm2是以fork模式启动应用的，如果以cluster模式启动的话，则可以使用pm2自带的负载均衡、零间断重启等功能。
 
-```
-pm2 start xxx.js -i 4
-```
+	pm2 start xxx.js -i 4
 
 上面的命令会以cluster模式启动4个应用进程，并自动为它们提供负载均衡，并且可以使用gracefulReload达到更新应用时不中断服务的效果。
 
@@ -60,18 +50,14 @@ PM2的部署功能与版本管理工具（Git，不确定是否支持SVN，下�
 
 部署功能是在新版本（0.12？）中才添加进来的。如果你使用的是旧版本的，需要先升级：
 
-```
-npm install -g pm2@latest
-pm2 updatePM2
-```
+	npm install -g pm2@latest
+	pm2 updatePM2
 
 接下来需要建立一个部署的配置文件，这个文件在本机（操作发布的机器）和服务器上都需要有，因此最好放入Git版本管理中，并且推送到远程代码库（Git服务器）。
 
 切换到项目目录下，然后执行
 
-```
-pm2 ecosystem
-```
+	pm2 ecosystem
 
 即可得到一个示例json文件（例如我得到的是`ecosystem.json5`），将它做对应的修改，大致如下：
 
@@ -107,9 +93,7 @@ pm2 ecosystem
 
 然后就可以使用
 
-```
-pm2 deploy ecosystem.json production
-```
+	pm2 deploy ecosystem.json production
 
 自动发布网站项目了，非常方便。
 
