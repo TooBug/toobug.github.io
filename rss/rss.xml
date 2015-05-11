@@ -1,0 +1,3274 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>TooBug</title>
+    <link>http://www.toobug.net</link>
+    <description>TooBug - 专注前端开发</description>
+    <lastBuildDate>Mon, 11 May 2015 14:23:00 +0800</lastBuildDate>
+    <generator>Solo 2.0</generator>
+    <item>
+      <title>团队使用Git和Git-Flow手记</title>
+      <link>http://www.toobug.net/article/git_and_gitflow.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/git_and_gitflow.html</guid>
+      <pubDate>Mon, 11 May 2015 14:23:00 +0800</pubDate>
+      <category>Git</category>
+      <category>Git-Flow</category>
+      <description>
+        <![CDATA[
+        <p>去年10月份，在我们被产品节奏逼到墙角无路可走的时候，我们在几乎没有准备的情况下，在团队中引入了Git。目前时间已经过去半年，回顾这半年的时间，基本还是运作得比较顺利。当然过程中也少不了踩坑，因此记录一些心得。</p>
+
+<h2>Why Git?</h2>
+
+<p>如果用一句话来说的话，我们是冲“分支”而来的。背景如下：</p>
+
+<p>团队的固定版本节奏为两周一个版本，一周半的时间开发，半周时间测试发布。如果使用软件工程中的概念来说的话，这是一个比较典型的瀑布式流程，即“需求->设计->开发->测试->发布”，然后周而复始，过程中几乎没有重叠。</p>
+
+<p>伴随着瀑布式的流程，代码也只有一份，“开发->改bug->发布”，周而复始。</p>
+
+<p>直到去年10月，公司做了一场声势浩大的营销活动，灾难开始了：一方面需要以并不确定的研发周期支持各种运营活动（运营时间不等人，必须快速写快速发），一方面是运营活动带来大量客户，与客户相关的流程也陷入频繁修改发布的过程。此外支持各种终端需求也集中爆发，需要web侧快速跟进上线。当然，还有一个东西，就是上面瀑布流程中两周发布一次的“主版本”。当这么多版本交叠在一起时，我们发现必须要引入分支来管理研发过程。于是果断切Git。</p>
+
+<h2>困扰</h2>
+
+<p>引入Git的过程并非一帆风顺，中间也有不少困扰。</p>
+
+<h3>概念和特性</h3>
+
+<p>首先是Git的概念繁多，而且很多命令并不直观。尤其是有一些和svn很像的命令，需要一段时间去理解。比如svn的<code>commit</code>会推送到服务器，而Git不会，这会导致解释Git的<code>push</code>命令并不是那么容易。</p>
+
+<p>另外Git会在操作可能导致修改丢失时拒绝操作。</p>
+
+<p>比如当前分支上有个文件A，当前状态为A1，我们将它做一点修改，并没提交，此时状态为A2。切换到另一分支的状态B1，如果A1和B1不一致，就需要覆盖当前文件，从A2切到B1，此时就会导致状态A1到A2的改动丢失，Git会拒绝操作。</p>
+
+<p>类似的场景很多，只要Git发现有改动会丢失就会拒绝操作，而如果改动不会丢失，才允许操作。这种是否允许操作的不一致性也会困扰团队成员。解决的方案是引入stash操作，或者鼓励成员多提交。</p>
+
+<h3>分支思维</h3>
+
+<p>然后是从单线开发转入多线开发的思维转变。</p>
+
+<p>在切Git之前，我们的代码都是只有一个主线的（其实有另外一份代码，但是是以Copy文件夹的形式存在，更多的意义在于“备份”）。而在切换Git之后，一方面概念繁多，一方面还要时刻去关注代码所处的分支状态。甚至会有很多成员在一开始很怀疑分支的有效性，总会担心自己辛苦写的代码一不小心切完就再也找不回来。这个问题也同样需要一段时间来适应。</p>
+
+<h3>日常操作</h3>
+
+<p>另外就是对于日常操作的困扰。</p>
+
+<p>对比svn，Git的日常代码提交增加了add和push的过程，略显繁琐。但繁琐并不是很大的问题。真正的问题在于Git对版本和文件完整性的要求导致不允许对未提交的文件进行合并。直观的表现就是本机修改了文件无法直接与远程合并，必须要先提交，再合并远程，最后再推送。如果本机有部分文件无法提交的话，还需要增加stash相关的动作，整个流程就变为“add->commit->stash->pull(merge或rebase)->push->stash pop”，而svn的则是“update->commit”，光看看路径的长度就懂了。</p>
+
+<p>这个问题并没有什么好的解决办法，只能是让成员不断练习、练习、实践、实践，然后习惯。</p>
+
+<p>当然也有部分Git客户端会简化这个操作，比如Github客户端（<a href="https://mac.github.com">Mac</a> <a href="https://windows.github.com">Windows</a>）和<a href="http://www.syntevo.com/smartgit/">SmartGit</a>还有命令行工具<a href="https://github.com/kennethreitz/legit">LeGit</a>都提供了一个操作叫<code>sync</code>，就是把上面列的这一长串流程放到一起了。</p>
+
+<h3>二进制文件</h3>
+
+<p>在从单线开发转到多线并行的开发后，一般情况下可以在各个分支独立处理自己的事情，最后由Git来进行合并。但是如果碰到二进制文件，事情就变得完全不一样，比较典型的案例就是雪碧图。</p>
+
+<p>当多个分支都要修改雪碧图的时候，如果独立在各分支中修改，最后再合并，场景一定很壮观。因为Git没法处理二进制文件的合并。</p>
+
+<p>对这个问题，短期的解决方案是，涉及到二进制文件改动时，在各个分支同步修改。</p>
+
+<p>是的，一点都不优雅，所以长期的方案是，干掉二进制文件合并的场景。比如对于雪碧图来说，如果将图都拆开，在开发阶段不作合并，则代码合并也不会出问题。因为改动都是“增加了icon1.png”“删除了icon2.png”，只有两个分支同时增加或者修改同名文件才会出问题，如果不合并雪碧图，则几乎不存在这样的场景。因此这个问题较好的解决办法是将雪碧图放到构建阶段，由自动化打包工具来完成。</p>
+
+<h2>经验</h2>
+
+<h3>使用Git-Flow</h3>
+
+<p>在没有分支管理经验的时候，全盘引入别人的成功经验是可取的。我们一开始也是全盘引入了<a href="http://www.oschina.net/translate/a-successful-git-branching-model">Git-Flow</a>，虽然并不是100%完美，但很大程度上避免了前期刚切入Git时的混乱期。</p>
+
+<p>期间我们发现Git-Flow并没有对测试介绍做出指导（何时在哪个分支做测试），导致 我们唯一的测试服务器上经常出现版本混乱，于是我们尝试加入了tests分支，但事实证明这个分支并不能很好地与其它分支协作，于是作罢，仍然基本采用Git-Flow的流程来做。（回想起来，当时测试服务器上出的问题并不是Git-Flow带来的。测试应该是在release分支拉出后再做，而如果是单独测试特性，则直接在feature分支做。如果需要同时测多个东西，则需要多台测试服务器，于是后来我们也增加了很多测试服务器来解决这个问题。）</p>
+
+<p>公司内也有其它团队使用Git，但是不采用Git-Flow，结果就会经常为拉分支和合并分支的事情而困扰。</p>
+
+<h3>有关release分支</h3>
+
+<p>在一开始看到Git-Flow的时候，我以为release分支是一个存活期非常短的分支，只是拉出来打打版本号，然后立马就消失了。但是后来逐渐认识到，release分支其实相当于对develop分支的一个冻结副本，release拉出来的时候就意味着上面的需求都已经冻结，在release上唯一可以继续做的改动只有这些需求的bug修复。而release一旦拉出后，develop上就可以继续执行新功能开发，这样新功能开发和版本测试发布可以并行，所以测试的介入的理想节点是release版本。</p>
+
+<p>如果是瀑布式模型，测试和新功能开发不重合，则可以不需要release版本。目前我们团队内还没有使用到release分支。</p>
+
+<h3>有关develop分支</h3>
+
+<p>在理想情况下，一个版本开始的时候develop和master是完全一样的。此时开始在develop上做开发，相当于这是一个大版本，上面拉出来的各种feature分支都是在做这个大版本开发的一部分（它们最后也合回develop，和直接在develop上开发的效果是一样的）。而如果一个大版本正在开发，则时需要再来一个并行的大版本（比如碰到了长线需求），也即正在开发的独立大版本不止一个，则理论上需要并行的多个develop分支。这是Git-Flow的各种介绍文章中均没有提到的问题。</p>
+
+<p>所以，当碰到有多个并行大版本的需求时，如果要准备开发第二个大版本的需求（也可以简化为“独立发布的需求”），则必须<strong>不能</strong>使用Git-Flow从develop拉出feature分支。此时应该使用hotfix分支（相当于另一个develop分支）。</p>
+
+<h3>有关hotfix</h3>
+
+<p>在看过上面一段后，应该能明白，hotfix的地位和develop其实是一样的，只是develop存在的时间更久一些（“大”版本嘛），还会拉出功能分支，接受功能分支合并。简单说，他们的区别就是develop更“重”一些，hotfix更轻量一些，本质上都是从master来，回master去。</p>
+
+<h3>有关master</h3>
+
+<p>在有紧急bug的时候，Git-Flow要求拉出一个hotfix分支来处理，而不能直接改动master。但从我们实践的经验来看，master上并不是不能做修改，有时候为简单起见，也可以在master上直接改，只是做完修改需要合并回develop，合并完之后和拉hotfix分支再完成等效。</p>
+
+<h2>一些习惯</h2>
+
+<h3>rebase和merge</h3>
+
+<p>建议本机和远程分支（相同分支）同步必须用rebase，因为不用rebase就会使用merge，这样会导致（逻辑上的）同一分支在版本记录中变成分叉的多个分支（然后这些分支合并的消息全是<code>merge xxx branch of http://remote.server/xxx.git</code>），不利于追踪版本记录。</p>
+
+<p>但是，从实践的经验来看，rebase在发生冲突时解决方案并不是那么友好。首先是此时的“my version”和“theirs version”并不和想象的一样。（详情可参考rebase文档，很可能“theirs”其实是自己的代码。）然后，在极端情况下rebase会导致代码丢失（目前原因未知）。</p>
+
+<p>上面说的是本机和远程的相同分支使用rebase。如果是不同分支的合并则必须用merge，否则会导致历史记录不可读，因为再也找不到合并之前各个分支到底是在哪里。</p>
+
+<p>另外还有一个需要注意的点，假设有这样的场景：现在有两个分支A和B，本机A的状态为A1，远程的比A1新，为A2，此时需要将B合并到A。按照上方所说，本机和远程的A分支同步使用rebase，B合并到A使用merge。</p>
+
+<p>如果先将B merge到A，则本机的状态为A1，然后是B。此时再拉远程的A2，会导致B合并过来的记录丢失（在分支图中看不到合并的痕迹。）因此碰到这种情况，既需要和远程同步，又需要合并其它分支的情况，一定要先rebase再merge，否则会丢失merge记录。</p>
+
+<h3>commit和stash</h3>
+
+<p>如前文所述，svn的习惯（update->commit）行不通，因此需要先stash或者commit。鼓励团队成员多commit，即使没写完，也可以在下次提交时使用<code>--amend</code>将两次提交进行合并。</p>
+
+<p>之所以鼓励commit而不是stash，是因为stash并不在版本记录中，理解起来并不那么容易，对比和合并也不是特别方便。</p>
+
+<p>此外就是前文说的，Git sync是个好功能，但是从实践的情况来看，sync时并不一定会选择rebase，而merge会导致版本记录可读性变差。</p>
+
+<h3>有关tags</h3>
+
+<p>如果有需要从Git中提取代码的情况，则通过tags来操作是非常好的，因为可以很方便地追踪代码版本情况。如果不打tags，也可以使用提交的hash值，也可以追踪，只是人眼看起来没有那么直观了。而如果使用分支名，技术上也可行，但是会导致追踪困难。（试想，你能很轻易地找到前天晚上master在哪里么？）</p>
+
+<p>而如果有发布系统来记录每一次发布的情况，则可以不用tags，因为发布系统可以记录当时提交的hash值，追踪起来也很方便。</p>
+
+<h2>小结</h2>
+
+<p>坑都是要自己踩的，认真踩下来，结果还不错。谨以此文献给正被Git团队协作困扰的团队，希望能提供一些参考。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>使用PM2 Deploy部署基于Git版本管理的网站应用</title>
+      <link>http://www.toobug.net/article/using_pm2_deploy.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/using_pm2_deploy.html</guid>
+      <pubDate>Wed, 19 Nov 2014 13:29:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>按照官方介绍，PM2是一款用于生产环境Node.js应用进程管理的工具。按照民间介绍，它主要有这样几个功能：保证Node.js应用永远在线（挂掉自动重启）、自动负载均衡、零中断重启应用等。</p>
+
+<p>鉴于它是如此优秀，这里还是简要介绍一下前两个功能。</p>
+
+<h2>安装</h2>
+
+<p>首先，它是一个Node.js写的工具，使用npm即可安装使用：</p>
+
+<pre><code>npm install -g pm2
+</code></pre>
+
+<h2>运行Node.js程序</h2>
+
+<p>如果不使用pm2，运行Node.js程序是这样：</p>
+
+<pre><code>node xxx.js
+</code></pre>
+
+<p>使用pm2，是这样：</p>
+
+<pre><code>pm2 start xxx.js
+</code></pre>
+
+<h3>监视模式</h3>
+
+<p>如果你正在开发Node.js应用，需要在代码变更后自动重启应用，只需要在pm2的参数中加上<code>--watch</code>即可：</p>
+
+<pre><code>pm2 start xxx.js --watch
+</code></pre>
+
+<h3>cluster模式</h3>
+
+<p>默认情况下pm2是以fork模式启动应用的，如果以cluster模式启动的话，则可以使用pm2自带的负载均衡、零间断重启等功能。</p>
+
+<pre><code>pm2 start xxx.js -i 4
+</code></pre>
+
+<p>上面的命令会以cluster模式启动4个应用进程，并自动为它们提供负载均衡，并且可以使用gracefulReload达到更新应用时不中断服务的效果。</p>
+
+<blockquote>
+  <p>关于cluster模式，可参见朴灵《深入浅出Node.js》一书。</p>
+  
+  <p>pm2低版本默认是以cluster模式启动的。</p>
+</blockquote>
+
+<h2>部署应用</h2>
+
+<p>这才是本文的重点。PM2的部署功能可以实现网站应用的半自动部署功能。注意本文标题没有加“Node.js”，意味着这个功能并不只适用于Node.js网站应用，事实上它部署功能是用shell写的，跟网站使用什么语言没什么关系。</p>
+
+<p>PM2的部署功能与版本管理工具（Git，不确定是否支持SVN，下文以Git为例）结合比较紧，因此需要保证网站项目使用版本管理工具管理代码，并且服务器可以访问到版本管理服务器。</p>
+
+<p>部署功能是在新版本（0.12？）中才添加进来的。如果你使用的是旧版本的，需要先升级：</p>
+
+<pre><code>npm install -g pm2@latest
+pm2 updatePM2
+</code></pre>
+
+<p>接下来需要建立一个部署的配置文件，这个文件在本机（操作发布的机器）和服务器上都需要有，因此最好放入Git版本管理中，并且推送到远程代码库（Git服务器）。</p>
+
+<p>切换到项目目录下，然后执行</p>
+
+<pre><code>pm2 ecosystem
+</code></pre>
+
+<p>即可得到一个示例json文件（例如我得到的是<code>ecosystem.json5</code>），将它做对应的修改，大致如下：</p>
+
+<pre><code>{
+    "apps" : [{
+        "name" : "xxx", //项目的名字
+        "script" : "xxx.js",  //项目主入口（Node.js）
+        "env": {
+            "COMMON_VARIABLE": "true"
+        },
+        "env_production" : {
+            "NODE_ENV": "production"
+        }
+    }],
+    "deploy" : {
+        "production" : {
+            "user" : "toobug",
+            "host" : "server.toobug.net",
+            "ref"  : "origin/master", //需要部署的分支
+            "repo" : "git@github.com:TooBug/xxx.git",
+            "path" : "/var/www/xxx", //web目录
+            "post-deploy" : "npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production"
+        }
+    }
+}
+</code></pre>
+
+<p>需要注意：</p>
+
+<ol>
+<li><code>apps.name</code>和<code>apps.script</code>应该与PM2识别应用有关，后续执行<code>pm2 restart</code>的时候可以对应到进程（未证实）</li>
+<li><code>deploy</code>中可以含有多个环境，需要能够通过SSH（公钥认证）登录服务器</li>
+<li>web目录并不是真正的放版本库文件的目录，PM2会再建立一个<code>source</code>子目录，这个才是真正放代码的目录</li>
+<li><code>post-deploy</code>是指代码部署完之后执行的命令，这里以Node.js为例子，执行依赖安装，然后重启PM2中的进程</li>
+</ol>
+
+<p>然后就可以使用</p>
+
+<pre><code>pm2 deploy ecosystem.json production
+</code></pre>
+
+<p>自动发布网站项目了，非常方便。</p>
+
+<pre><code>$&gt;pm2 deploy dev
+--&gt; Deploying to production environment
+--&gt; on host server.toobug.net
+  ○ deploying
+  ○ hook pre-deploy
+  ○ fetching updates
+Fetching origin
+  ○ resetting HEAD to origin/master
+HEAD is now at eda2cdd xxx
+  ○ executing post-deploy npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production
+manpath: can't set the locale; make sure $LC_* and $LANG are correct
+Now using node v0.11.13
+[PM2] restartProcessId process id 0
+┌──────────┬────┬──────┬──────┬────────┬───────────┬────────┬─────────────┬──────────┐
+│ App name │ id │ mode │ PID  │ status │ restarted │ uptime │      memory │ watching │
+├──────────┼────┼──────┼──────┼────────┼───────────┼────────┼─────────────┼──────────┤
+│ xxx      │ 0  │ fork │ 7384 │ online │        33 │ 0s     │ 12.438 MB   │ disabled │
+└──────────┴────┴──────┴──────┴────────┴───────────┴────────┴─────────────┴──────────┘
+ Use pm2 info &lt;id|name&gt; to get more details about an app
+  ○ hook test
+  ○ successfully deployed origin/master
+--&gt; Success
+</code></pre>
+
+<p>在使用过程中还有几个值得注意的点：</p>
+
+<ul>
+<li>在部署过程中，PM2会执行一次<code>git reset --hard</code>，意味着如果你修改了配置文件之类的，会被还原，因此最好使用环境变量或者新建文件（不在管理库中）的方式来指定服务器专用的配置项（比如数据库连接信息等）</li>
+<li>执行服务器命令时需要关注环境变量，比如使用nvm来管理node版本的话，有可能导致PM2连接后找不到node（以及npm/pm2）所在路径，解决办法是在脚本最前面加上指定环境变量的脚本，例如<code>source ~/.bashrc</code></li>
+</ul>
+
+<h2>End</h2>
+
+<p>就是这样，水文一篇，你要是当成PM2的广告读也行，主要是这个功能真的是很方便。尤其是有多个环境的话，几条命令就能搞定，再也不用登录服务器手工做一堆事情了。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>如何高效debug</title>
+      <link>http://www.toobug.net/article/how_to_debug_efficiently.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/how_to_debug_efficiently.html</guid>
+      <pubDate>Sun, 29 Jun 2014 12:19:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <blockquote>
+  <p>这是一个公司内网上的问题，原意是题主觉得debug非常费时，影响了项目的效率，问如何改进。当时也在内网随手码了几点，回头又看了一遍觉得很有共性，可以再扩展一下单独写写，于是诞生此文。因为专业所限，本文的部分细节也只限于web前端，但思路和其它语言是相通的。</p>
+</blockquote>
+
+<p>首先，程序员要调整好心态。</p>
+
+<p>事实上，debug是程序员工作的重要组成部分，甚至在产品的某些阶段是唯一的组成部分，所以不用把调bug看成是拖累产品进度、降低效率的凶手，这是一件必须要花时间认真去做的事情，它就是你的工作，也是整个项目进度过程中必不可少的组成部分。所以在debug的时候也可以更加平心静气一些，不用那么急躁。</p>
+
+<p>当然，这个心态的改变也会涉及到项目进度安排上的一些调整，比如在排期的时候就要预估debug的时间，而不能仅仅只安排编码的时间。此外，还需要给自己做好时间管理，尽量能排比较大段的不被打扰的时间来debug。</p>
+
+<p>把心态放平之后，有的bug可能解决起来真的就没那么耗时了。在心态平和、思路清晰、无人打扰的情况下，一般修起bug来都有如神助，效率高得连自己都不太敢相信。相反，往往越是着急的时候越是难定位到bug的真正原因。</p>
+
+<p>然后说提高调试效率的一些办法：</p>
+
+<h2>练好基础</h2>
+
+<p>这个不论对开发还是调试效率都有决定性影响，一旦基础扎实了，在编写代码的过程中就能避免非常多的bug，在调试过程中也很敏锐地察觉到异常之处。</p>
+
+<p>这里所指的基础其实包含了两个部分：一部分是编程语言的基础知识，只有掌握好才能知道一个问题如何用最低成本、最正统、最能扛住需求变更、最不容易出问题的方式写出来。另一个部分则是良好的编码习惯，基本上各个语言都有各家总结的一些编码规范和习惯，并且也会解释为什么建议这么写，如果掌握好的编码习惯，一般而言可以避免非常多编码细节导致的bug。</p>
+
+<p>比如，关于数组去重，如果你去网上随便找一段代码，很有可能找到利用对象的key来去重的代码：</p>
+
+<pre><code>Array.prototype.delRepeat=function(){
+    var newArray=[];
+    var provisionalTable = {};
+    for (var i = 0, item; (item= this[i]) != null; i++) {
+        if (!provisionalTable[item]) {
+            newArray.push(item);
+            provisionalTable[item] = true;
+        }
+    }
+    return newArray;
+};
+</code></pre>
+
+<p>如果你直接去用的话一般不会有问题，但如果你的数组是<code>[1,'1']</code>就会发现这个方法秀逗了，根本原因是数组的key必须是字符串，<code>1</code>在被当作key时会被转成<code>'1'</code>，导致二者无法区分。如果你不了解对象的相关机制，就很难发现这个bug。</p>
+
+<p>再比如，如果你习惯花括号另起一行，那么在函数中返回一个对象就很容易写成这样：</p>
+
+<pre><code>function A()
+{
+    return
+    {};
+}
+</code></pre>
+
+<p>但事实上由于JavaScript的分号补全机制，这里最后返回的是<code>undefined</code>，而如果将花括号跟在<code>return</code>后面则不会存在问题。这就是典型的编码习惯可以避免的bug。</p>
+
+<p>练好基础的工夫必然是在工作之外的时间，因为基本上工作时间是满负荷输出，不太有时间去接触新东西，如果你每行代码都需要先Google一下再写，那想必你的老板也会不乐意。所以给自己充电的时间就只能是在工作之外，这是件非常考验人的事情。</p>
+
+<h2>用好工具</h2>
+
+<p>工具包括三个方面：</p>
+
+<h3>质量工具</h3>
+
+<p>质量工具对于前端来说是特别必要的，甚至比其它语言更必要，因为HTML、CSS、JS都是没有语法检查没有编译过程的，基本上编写完就直接丢上线了。所以为了保证代码质量，我们可以引入一些检查工具来辅助控制代码质量。</p>
+
+<p>至于具体的工具，可能是IDE，可能是命令行下的各种lint，也可能是集成构建过程中的语法检查过程，还可能是在线的语法检查器等，方法不一而足，但做的事情都是差不多的。</p>
+
+<p>HTML检查的话主要是W3C的标准验证（<a href="http://validator.w3.org/">http://validator.w3.org/</a>），也有各种牛人编写的HTML Lint之类的工具。</p>
+
+<p>CSS检查的话主要是CSSLint，此外不规范（无效）的属性在Chrome开发者工具的console中会显示警告。</p>
+
+<p>JS检查的话主要是JSLint/JSHint。</p>
+
+<p>此外还有一些针对特殊文件、语法而做的工具，比如用于检查json语法的jsonlint之类，种类繁多，不一一列出。</p>
+
+<p>以上这些工具基本都有对应的grunt、gulp插件，也有IDE插件，可以直接集成到编码过程或者构建过程中。</p>
+
+<p>质量工具除了语法检查类的之外，还有一类是属于“规范”类的，即用来统一项目的编码规范，比如editorconfig，建议每个项目都能引入，它可以更好地控制项目的缩进、换行符、编码之类的规范。</p>
+
+<h3>调试工具</h3>
+
+<p>其实调试工具不仅仅是一个工具，要用好的话还得掌握调试方法。这一节的核心思想就只有一句话“代码调试真的要靠调试，而不能靠猜”。见过非常多的前端同学，在某个逻辑与预期不一致的时候基本都是对着源代码猜，是不是这个地方单词写错了？是不是这里循环少了一次？是不是后台返回的数据是空的？然后用各种奇葩的方法一遍遍地改代码，直到终于让结果符合预期了，才算“调试”完毕了。</p>
+
+<p>怎么样才算是“调试”呢？那就是你可以看到你写的每一句代码最终跑起来是什么样的。具体而言，HTML主要检查生成的DOM树结构，CSS主要看样式的层叠关系及最后应用的样式来自哪里，JS主要看代码每一行的结果和预期是否相符。</p>
+
+<p>以Chrome dev tool为例，看HTML的问题主要在Elements面板，看CSS的问题主要也在Elements面板（有时候也需要在Resource面板），看JS的问题则主要在Source面板。</p>
+
+<p>比如两句简单的代码：</p>
+
+<pre><code>var words = location.hash;
+$('#test').append(words);
+</code></pre>
+
+<p>如果页面上没有出现你想要的文字，该怎么样？很多人这个时候就开始猜了，是不是<code>location.hash</code>兼容有问题？是不是jQuery没引入？是不是<code>$</code>被覆盖了？是不是不支持取ID？是不是<code>append</code>用法不对？</p>
+
+<p>很有可能你拿调试工具断一下点，看看每个表达式的结果，你就会发现，其实原因是<code>$('#test')</code>取不到。然后恍然大悟，原来没有把DOM操作放在DOM Ready中！</p>
+
+<p>因为不是调试工具教程，所以细节不多说，放个截图，我说的就是这一堆。</p>
+
+<p><img src="/images/how_to_debug_efficiently_1.png" alt="调试工具截图" title="" /></p>
+
+<p>另外强烈建议将画圈的按钮点一下让它高亮，这样可以在代码报错之前立即自动断点下来，避免因为报错而导致页面刷新、表单提交之类的动作，使得调试变得困难。</p>
+
+<blockquote>
+  <p>如果看不懂上面一堆在说什么，那么这一段的目标读者就是你了，你需要好好学习一下前端调试方法和工具的使用了。</p>
+</blockquote>
+
+<p>与上面说的类似，移动端的调试也有很多方案，比如weinre、MIH Tools之类，iOS和Android也有各自的USB调试方案。</p>
+
+<p>多多掌握这些调试方法和工具能够真正在你想找问题的时候事半功倍。</p>
+
+<h3>生成工具</h3>
+
+<p>有时候我们的代码中还会有一些假数据或者写死的数据，或者是一些根据数据生成的代码（比如拼接HTML），或者是一些模板化的代码，此时如果借助工具来生成数据或者代码，会比手工编写靠谱得多，也可以避免很多错误产生。</p>
+
+<p>比如<a href="http://www.json-generator.com/">http://www.json-generator.com/</a>、<a href="http://shancarter.github.io/mr-data-converter/">http://shancarter.github.io/mr-data-converter/</a>、<a href="http://www.colorzilla.com/gradient-editor/">http://www.colorzilla.com/gradient-editor/</a>、<a href="http://matthewlein.com/ceaser/">http://matthewlein.com/ceaser/</a>都是非常好的生成工具。</p>
+
+<h2>用好搜索</h2>
+
+<p>如果在调试之后定位到某个很诡异的地方，实在无法解释或者找不到原因的话，不妨搜索一下看看，一般这种诡异的问题都已经有前人碰到了，在stackoverflow或者是开源代码的官方讨论区基本上都能找到答案，绝大部分也可以找到规避方法或者替代方案。</p>
+
+<p>这里值得注意的是，你仍然需要先调试再搜索，因为在你调试之前，你对问题的描述只能是“现象”，但是调试之后一般可以定位到某个具体的代码或者对象或者API，去搜索对象或者API的行为比搜索“现象”得到的答案往往会更接近真相。</p>
+
+<h2>多总结</h2>
+
+<p>每调完一个重大bug就会有比较大的成就感，一般这也是进行总结的最佳时机。</p>
+
+<p>每个程序员都应该有总结bug和原因的习惯，比如为什么会造成这个bug，如果是编码习惯的问题能否规避，能否利用工具在编码阶段就解决掉？如果是逻辑上的问题，能否推给产品、交互去重新梳理，避免类似问题？</p>
+
+<p>总结之后最好还要有提炼和分享，比如bug是由于不为人知的特性或者API导致的，能否对与之相关的任务进行封装，或者能否将这个坑埋掉，然后共享给组员让大家避开这个坑，甚至回馈给组件作者让更多人避免这些坑？如果能将你的成果分享给大家，就避免其它人再掉入同一个坑，而如果将这个坑埋掉，就可以让地球上的程序员永远不再掉进这个坑，想想都是一件很幸福的事情。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>Retina屏下的CSS雪碧图</title>
+      <link>http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</guid>
+      <pubDate>Wed, 19 Mar 2014 13:39:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至今日，可能很多人都觉得这一块已经没有什么东西可以再讲了的。但事实上雪碧图一直都可以引出新的话题，比如从最早的连接数和体积的平衡到格式之争到图像摆放位置的策略，再到合并图像的颗粒度，再到内存占用、CPU占用等性能问题……</p>
+
+<p>没错，今天还要在这一古老的话题上展开，引入一个新的问题，那就是雪碧图在retina屏下存在的问题及应对方案。（值得注意的是，retina屏一般指分辨率为普通屏幕两倍的屏，这样按照普通尺寸开发出来的网站相当于被放大了2倍，会导致图像模糊之类的现象产生，理想的解决方案是为retina专门适配一套皮肤，但本文关注的问题是未适配retina屏幕的网站所出现的问题。）</p>
+
+<blockquote>
+  <p>雪碧图本身不是浏览器或者web标准中的技术，因此它的不少细节取决于浏览器的实现，本文中的讨论的内容正是如此，为避免争议，本文所有结论的得出场景限定为Mac OSX 10.9.1、Chrome浏览器V33。是否适用iPhone、iPad等场景未做相应测试。</p>
+</blockquote>
+
+<h2>无处不在的白边</h2>
+
+<p>如前文所述，在retina屏上浏览未做专门适配的网站，会出现图像模糊等问题，无法达到最佳效果，但一般情况下，仍然处于可以接受的范围。不过，在某些网站上，却出现了比图像模糊更糟糕的情况：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_1.png" alt="WebQQ在retina屏下出现白边" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_2.png" alt="财付通首页菜单在retina屏下出现白边" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_3.png" alt="支付宝的按钮在retina屏下出现白边" title="" /></p>
+
+<p>从上面三张图看到，不少的互联网产品在retina屏下都出现了白边。那么这些白边出现的原因是什么呢？通过查看这些出问题的页面，发现存在一个共同点，那就是这些白边所在的地方都使用了背景图，而且都是使用雪碧图合并的。于是问题就浮现出来了，正是由于雪碧图在retina屏上的放大导致了白边的产生。更为技术化的表达则是，<strong>图片放大过程中进行了插值运算，导致原来整齐的图片边界混入了插值后模糊的像素</strong>，从而导致原来整齐的边界处出现“白边”。</p>
+
+<p>打开WebQQ的雪碧图（<a href="http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/eqq_sprite.gif?t=20111011001">http://0.web.qstatic.com/webqqpic/pubapps/0/50/images/eqq_sprite.gif?t=20111011001</a>），就可以验证这一结论。</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_4.gif" alt="WebQQ雪碧图" title="" /></p>
+
+<p>如果您在阅读本文时刚好使用的retina屏幕，可能已经能看到图标边上的白边了，为了统一说明，特放上图像编辑软件中局部放大的图片。</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_5.png" alt="WebQQ雪碧图局部放大" title="" /></p>
+
+<p>图中可以看到，边缘是非常整齐的，但我们在retina屏上截到的图却是这样：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_6.png" alt="WebQQ雪碧图局部放大" title="" /></p>
+
+<p>可以看到，由于retina屏下，图片被强制放大，导致了原本整齐的边界不再整齐，从而使得页面上出现“白边”。</p>
+
+<h2>真的是因为雪碧图吗</h2>
+
+<p>至此，我们已经推断出白边是因为图片被放大而导致，那么这跟雪碧图有关系吗？如果不用雪碧图会出现这样的现象么？为了验证这个结论，本文曾一度中断，最终还是拿到了比较令人信服的结果。</p>
+
+<p>首先，我们准备一张如下的图片：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_7.png" alt="实验用图1" title="" /></p>
+
+<p>这张图放了四个色块，其中左上和右下的色块有留白。接下来我们在浏览器中打开它，结果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_8.png" alt="实验用图1" title="" /></p>
+
+<p>可以看到，图片中有颜色交界的地方都有插值运算而导致模糊，但边缘却是清晰的！也就是说，如果没有拼图的话，浏览器是可以处理好图片的边缘的。为了保险起见，接下来又做了一个实验，准备了一张20*20的纯红色图片，并与CSS写的红色背景进行混合，看看是否有“白边”出现。</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_9.gif" alt="实验用图2" title="" /></p>
+
+<p>可以看到，在CSS背景色不断变化的过程中，图片与背景可以完全融合，没有任何奇怪的现象出现。</p>
+
+<p>至此，我们终于判定，导致“白边”的原因就是因为雪碧图中不同图像之间在拼合后产生了插值而导致边缘部分模糊。</p>
+
+<h2>解决之道</h2>
+
+<p>知道了原因就好解决了，既然白边的出现是因为插值，并且这个插值行为不可控，那就只好将插值的部分移出视野之外了。讲人话就是：切图的时候多留点“出血”。</p>
+
+<p>继续拿WebQQ为例，如上面所说，原文中聊天气泡图标的背景宽度是20px，两边各加1px，总共22px，效果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_10.png" alt="WebQQ图标改进1" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_11.png" alt="WebQQ图标改进1效果" title="" /></p>
+
+<p>可以看到白边已经减少了不少，但仍然存在。继续在两边各加1px，总共24px，效果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_12.png" alt="WebQQ图标改进2" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_13.png" alt="WebQQ图标改进2效果" title="" /></p>
+
+<p>至此，问题完美解决，结论是：</p>
+
+<p><strong>切图时请为图标在各个方向上多留2px空间</strong>，即可保证retina屏下不出现意料之外的毛边（白边）。</p>
+
+<h2>The End?</h2>
+
+<p>这就完了？当然没有，还有另外一类案例解决不了，就是开头提到的支付宝的按钮。如果你不记得了，没关系，我再放一次图：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_3.png" alt="支付宝的按钮在retina屏下出现白边" title="" /></p>
+
+<p>看一下它的雪碧图(<a href="https://i.alipayobjects.com/e/201204/2vCVR5Bh4d.png">https://i.alipayobjects.com/e/201204/2vCVR5Bh4d.png</a>)和结构：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_14.png" alt="支付宝按钮雪碧图" title="" /></p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_15.png" alt="支付宝按钮结构" title="" /></p>
+
+<p>可以看出，这个按钮其实是由左边两边拼合而成（分别由内外两层元素组成），白边来自右边的结构。如果把左边的背景屏蔽掉，会看得更清楚：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_16.png" alt="支付宝按钮结构" title="" /></p>
+
+<p>这种情况下，背景图小于容器本身，因此无法将插值部分排除到视野外，也即上面说的多留2px也无法解决。（事实上左边已经留有N像素了……）那就只好再利用上面在验证是否是雪碧图才有问题时说的另外一个结论了：边缘部分是不会被插值的。</p>
+
+<p>于是，将这个雪碧图需要插值的部分改到边缘去，如下图（只改了上面的几个）：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_17.png" alt="支付宝雪碧图修改版" title="" /></p>
+
+<p>效果如下：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_18.png" alt="支付宝雪碧图修改版效果" title="" /></p>
+
+<p>至此问题解决。</p>
+
+<blockquote>
+  <p>注：之所以会采用这样一种结构的按钮，是因为它可以根据文字长度进行自适应，<code>background-position</code>的<code>x</code>值取<code>right</code>即可保证雪碧图是始终靠按钮右边对齐的。而修改版中改变雪碧图结构后，则需要手工指定<code>background-position</code>的<code>x</code>值。</p>
+  
+  <p>一种更好的解决方案则是直接使用CSS3来写按钮，在IE下进行降级。</p>
+</blockquote>
+
+<h2>结</h2>
+
+<p>这应该是博客中图片最多的一篇了，关注的也是一个非常非常非常小的点，起因只是因为支付宝的按钮在我发现这个问题一年后仍然没有改过，于是忍不住研究了一下这问题到底有多难解决。</p>
+
+<p>最后，根据上述实验和推断过程小结一下在应用雪碧图的过程中值得注意的点：</p>
+
+<ol>
+<li>雪碧图中请给背景留出足够的空间（出血），否则可能导致retina屏下产生毛边（白边）</li>
+<li>雪碧图如果图标排得太过密集，可能导致retina屏下出现“窜色”（与毛边一样，是由于插值导致）</li>
+<li>如果插值区域无法避免，请将它放在图片边缘位置</li>
+</ol>
+
+<p>最后的最后，一句题外话，以上所有现象均可在部分浏览器放大页面时出现（我忘记是什么浏览器了，曾有项目因此被产品经理报bug，最终将所有图标周围留了2px空白解决）。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>学习ES6生成器（Generator）</title>
+      <link>http://www.toobug.net/article/learning_es6_generator.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/learning_es6_generator.html</guid>
+      <pubDate>Sun, 29 Dec 2013 13:35:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>这几天，TJ大神的koa框架突然在国内火起来了，随之而来的，则是其使用的ES6生成器（Generator）引起了广大码农的强烈兴趣，各种文章也如雨后春笋般拔地而起，比如<a href="https://www.imququ.com/post/generator-function-in-es6.html">这篇</a>、<a href="http://bg.biedalian.com/2013/12/21/harmony-generator.html">这篇</a>、还有<a href="https://developer.mozilla.org/zh-CN/docs/JavaScript/Guide/Iterators_and_Generators">这篇</a>。这个神奇的生成器被视为解决JS“回调恶魔金字塔”的利器。在动手实践之后，发现介绍ES6生成器的文章仍然有些疏漏，因此有了这篇文章，权当是对各位大大们的补充好了。</p>
+
+<h2>背景</h2>
+
+<p>在JS的使用场景中，异步操作的处理是一个不可回避的问题，如果不做任何抽象、组织，只是“跟着感觉走”，那么面对“按顺序发起3个ajax请求”的需求，很容易就能写出如下代码（假设已引入jQuery）：</p>
+
+<pre><code>// 第1个ajax请求
+$.ajax({
+    url:'http://echo.113.im',
+    dateType:'json',
+    type:'get',
+    data:{
+        data:JSON.stringify({status:1,data:'hello world'}),
+        type:'json',
+        timeout:1000
+    },
+    success:function(data){
+        if(data.status === 1){
+            // 第2个ajax请求
+            $.ajax({
+                ......此处省略500字
+                success:function(data){
+                    if(data.status === 1){
+                        // 第3个ajax请求
+                        $.ajax({
+                            ......此处省略500字
+                            success:function(data){
+                                if(data.status === 1){
+
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+});
+</code></pre>
+
+<p>当顺序执行的异步操作越来越多的时候，回调层级也就越多，这也就是传说中的“回调恶魔金字塔”，在本文章中，我们给它另一个名字“被动异步”。</p>
+
+<p>还有一种场景，比如老赵的Wind.js总喜欢用的经典例子，对一个数组进行排序，但要动态展示排序过程（<a href="http://windjs.org/cn/docs/async/samples/browser/sorting-animations/">详情</a>）。</p>
+
+<p>在这种情况下，为了使动画能够正确呈现，我们不得不对“排序”这一本来不涉及到异步操作的逻辑做些改动，强制添加延时操作，使它变成一个异步操作。（如不理解，请搜索“JavaScript动画原理”。）</p>
+
+<p>在本文中，我们给这种场景也起一个名字，叫“主动异步”。</p>
+
+<h2>生成器的卢山真面目</h2>
+
+<p>所谓“生成器”，其实是一个函数，但是这个函数的行为会比较特殊：</p>
+
+<ol>
+<li>它并不直接执行逻辑，而是用来生成另一个对象（这也正是“生成器”的含义）</li>
+<li>它所生成的对象中的函数可以把逻辑拆开来，一片一片调用执行，而不是像普通的函数，只能从头到尾一次执行完毕</li>
+</ol>
+
+<p>生成器的语法和普通函数类似，特殊之处在于：</p>
+
+<ol>
+<li>字面量（函数声明/函数表达式）的关键字<code>function</code>后面多了一个<code>*</code>，而且这个<code>*</code>前后允许有空白字符</li>
+<li>函数体中多了<code>yield</code>运算符</li>
+</ol>
+
+<p>举个粟子：</p>
+
+<pre><code>function * GenA(){
+    console.log('from GenA, first.');
+    yield 1;
+    console.log('from GenA, second.');
+    var value3 = yield 2;
+    console.log('from GenA, third.',value3);
+    return 3;
+}
+
+var a = new GenA();
+</code></pre>
+
+<p>接下来依次执行：</p>
+
+<pre><code>a.next();
+// from GenA, first.
+// Object {value:1,done:false}
+
+a.next();
+// from GenA, second.
+// Object {value:2,done:false}
+
+a.next(333);
+// from GenA, third.
+// 333
+// Object {value:3,done:true}
+
+a.next();
+// Error: Generator has already finished
+</code></pre>
+
+<p>这个例子反映了生成器的基本用法，有以下几点值得注意：</p>
+
+<ol>
+<li>在调用<code>GenA()</code>时，函数体中的逻辑并不会执行（控制台没有输出），直接调用a.next()时才会执行</li>
+<li><code>a</code>是一个对象，它由生成器<code>GenA()</code>实例化而来（事实上，不需要<code>new</code>运算符也是一样的结果）</li>
+<li>调用<code>a.next()</code>时，函数体中的逻辑才开始真正执行，每次调用时会到<code>yield</code>语句结束，并将<code>yield</code>的运算数作为结果返回</li>
+<li><code>a.next()</code>返回的结果是一个对象，对<code>yield</code>的运算数做了包装，并带上了<code>done</code>属性</li>
+<li>当<code>done</code>属性为<code>false</code>时，表示该函数逻辑还未执行完，可以调用<code>a.next()</code>继续执行，否则不可继续调用</li>
+<li>最后一次返回的结果为<code>return</code>语句返回的结果，且<code>done</code>值为<code>true</code>。如果不写<code>return</code>，则值为<code>undefined</code></li>
+<li><code>value3 = yield 2</code>这句是指，这一段逻辑返回2，在下一次调用<code>a.next()</code>时，将参数赋给value3。换句话说，这句只执行了后面半段就暂停了，等到再次调用<code>a.next()</code>时才会将参数赋给value3并继续执行下面的逻辑</li>
+</ol>
+
+<h2>同步场景下生成器的使用</h2>
+
+<p>来看看同步场景下，如何使用生成器：</p>
+
+<pre><code>function * Square(){
+    for(var i=1;;i++){
+        yield i*i;
+    }
+}
+
+var square = new Square();
+
+square.next(); // 1
+square.next(); // 4
+square.next(); // 9
+......
+</code></pre>
+
+<p>同步场景下大概就是这么用的，很无趣是吧？我也这么觉得，其实和直接函数调用差别不大。不过值得注意的是，我们在循环中并没有设中止条件，因为调用一个<code>square.next()</code>方法，它才会执行一次，不调用则不执行，所以不用担心死循环的问题。</p>
+
+<h2>主动异步场景下生成器的使用</h2>
+
+<p>如前文所说，“主动异步”这个概念是在本文中提出来的，指那些因为某些原因需要手工延时，将同步操作变成异步操作的场景。举个简单的例子，以秒为单位，依次在console中输出1、2、3……的平方值：</p>
+
+<pre><code>function doSquare(number){
+    console.log(number * number);
+    setTimeout(function(){
+        doSquare(number+1);
+    },1000);
+}
+
+doSquare(1);
+</code></pre>
+
+<p>如果换用生成器来做，可以这么写：</p>
+
+<pre><code>function * Square(){
+    for(var i=1;;i++){
+        yield i*i;
+    }
+}
+
+var square = new Square();
+console.log(square.next().value);
+setInterval(function(){
+    console.log(square.next().value);
+},1000);
+</code></pre>
+
+<p>是不是觉得和同步的场景很像呀？其实就生成器<code>Square()</code>来讲，几乎是一样的，只是在调用的时候加了一个延时。这是因为生成器的特性中，并不包含异步的支持（唯一有点关联的就是上面提到的<code>var varible = yield value</code>了），所以异步的操作仍然要在其它地方处理。就这个具体的例子而言，生成器并未为我们带来任何惊喜。</p>
+
+<h2>被动异步场景下的生成器使用</h2>
+
+<p>如前文所说，“被动异步”是本文中约定的概念，指那些操作本身就是异步的，没有办法将延时和操作本身分享开来的操作，比如ajax请求，没办法将请求和延时分离开处理。（上例“主动异步”中的延时则是手工加的，既可以放在<code>Square</code>中，也可以放在<code>Square</code>外。）</p>
+
+<p>那么，如何用生成器解决这种被动异步场景下的“回调恶魔金字塔”呢？满心期待对吧，很遗憾，它并不能那么简单地解决……</p>
+
+<p>从前面的例子中，其实已经可以体会出来了，生成器的用法中并不包含对异步的处理，所以其实没有办法帮助我们对异步回调进行封闭。那么为什么大家将它视为解决回调嵌套的神器呢？在翻阅了不少资料后找到<a href="http://blog.stevensanderson.com/2013/12/21/experiments-with-koa-and-javascript-generators/">这篇文章</a>，文章作者一开始也认为生成器并不能解决回调嵌套的问题，但下面自己做了解释，如果生成器的返回的是一系列的Promise对象的话，情况就会不一样了，举个粟子：</p>
+
+<pre><code>function myAjax1(){
+    return $.getJSON('http://echo.113.im',{
+        data:JSON.stringify({data:1}),
+        type:'json'
+    });
+}
+</code></pre>
+
+<p>我们使用jQuery中的getJSON方法来处理ajax请求，这个方法会返回一个Promise对象。然后，我们使用一个生成器来包装这个操作：</p>
+
+<pre><code>function * MyLogic(){
+    var serverData = yield myAjax1();
+    console.log(serverData)
+}
+</code></pre>
+
+<p>使用的时候这样用：</p>
+
+<pre><code>var myLogic = new MyLogic();
+var promise = myLogic.next().value;
+promise.done(function(serverData){
+    myLogic.next(serverData);
+});
+</code></pre>
+
+<p>可以看到，我们这里的<code>myAjax1()</code>以及<code>MyLogic()</code>函数中，并没有使用回调，就完成了异步操作。</p>
+
+<p>这里有几个值得注意的点：</p>
+
+<ol>
+<li><code>myAjax()</code>函数返回的是一个Promise对象（jQuery1.5及以上版本的ajax操作返回的都是Promise对象）</li>
+<li><code>myLogic</code>中的第一个语句，返回给外界的是<code>myAjax()</code>返回的Promise对象，等外界再次调用<code>next()</code>方法时将数据传进来，赋值给<code>serverDate</code></li>
+<li><code>promise</code>的状态是由第三段代码，在外部进行处理，完成的时候调用<code>next()</code>方法并将<code>serverData</code>再传回<code>MyLogic()</code>中</li>
+</ol>
+
+<p>你一定会问，下面这个<code>promise.done</code>不就是回调操作么？Bingo！这正是精华所在！我们来看一下这段代码做了什么：</p>
+
+<p>首先，<code>myLogic.next()</code>返回了一个Promise对象（<code>promise</code>），然后，<code>promise.done</code>中的回调函数所做的事情就是调用<code>next()</code>方法就行了，除了调用<code>next()</code>方法，其它的什么事情都没有。此时，我们就会想到一个程序员特别喜欢的词，叫“封装”！既然这个回调函数只是调用<code>next()</code>方法，那为什么不把它封装起来？</p>
+
+<p>了解到这里，再去看<a href="http://bg.biedalian.com/2013/12/21/harmony-generator.html">这篇</a>文章中所说的<code>co()</code>函数，相信你就恍然大悟了！这个<code>co()</code>函数正是在封装调用<code>next()</code>方法这件事情！</p>
+
+<pre><code>function co(GenFunc) {
+    return function(cb) {
+        var gen = GenFunc()
+        next()
+        function next() {
+            if (gen.next) {
+                var ret = gen.next()
+                if (ret.done) { // 如果结束就执行cb
+                    cb &amp;&amp; cb()
+                } else { // 继续next
+                    ret.value(next)
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>当我们把这个细节屏蔽之后，再回头去看我们的异步代码，是不是就没有回调了？！哇噻，怎么办到的？好神奇啊！</p>
+
+<blockquote>
+  <p>特别要提一下的是，这个<code>co()</code>函数并没有使用我们上面所说的<code>Promise</code>，因此你看不到它有处理<code>Promise</code>状态改变时的回调逻辑。这里的<code>co()</code>是使用的直接传递回调函数的方式，<code>ret.value(next)</code>即将<code>next()</code>这个回调函数作为参数传给了通过<code>yield</code>返回的函数。而在<code>Promise</code>中，则是通过<code>promise.done(next)</code>的方式来处理回调函数。两者在本质上没什么区别，都是在某个事件完成之后调用传入的<code>next()</code>函数。</p>
+</blockquote>
+
+<p>最后，以别人文章中的一段koa框架使用代码收尾吧：</p>
+
+<pre><code>var koa = require('koa'),
+    app = koa();
+
+app.use(function *() {
+
+    // 这是这个例子中最重要的部分，我们进行了一系列异步操作，却没有回调
+    var city = yield geolocation.getCityAsync(this.req.ip);
+    var forecast = yield weather.getForecastAsync(city);
+
+    this.body = 'Today, ' + city + ' will be ' + forecast.temperature + ' degrees.';
+
+});
+
+app.listen(8080);
+</code></pre>
+
+<p>看到了吧，koa正是封装了对生成器返回值的处理和调用<code>next()</code>方法的细节（这里的<code>app.use()</code>就像前面的<code>co()</code>函数），使得我们的逻辑代码看起来是如此简单，这正是koa的伟大之处，也是ES6生成器这一特性能迅速引起如此多轰动的真正原因。</p>
+
+<blockquote>
+  <p>P.S: 本文中的“主动异步”和“被动异步”其实都可以用同样的方式来封装，中间加入“主动异步”的内容只是为了正好地理解异步场景。另外对Promise不了解的同学建议先了解Promise的基本用法再理解生成器比较好。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>在Windows上手工安装Node.js</title>
+      <link>http://www.toobug.net/article/manual_install_node_on_windows.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/manual_install_node_on_windows.html</guid>
+      <pubDate>Thu, 19 Dec 2013 20:55:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>时间已经到了2013年末，如果在这个时间点，你还没有接触过Node.js，那可能真的是有点跟不上时代步伐了。技术发展总是很快的，Node项目诞生不过才4年，在windows平台出现也才2年多的时间，却已如星星之火点起了燎原之势……</p>
+
+<p>没错，Node出现超过4年了，但在windows平台才2年多的历史，可见支持windows多少是个有点艰难的决定，好在背后有微软撑腰，一切顺利。至于说到这个标题，手工安装嘛，如果去搜索一下，也能找到一些文章，不过大部分已经是0.6之前版本的故事了，那时候Node还没有给windows的安装包，也没有集成包管理工具npm，用起来还是挺不方便的，而如今，只要去<a href="http://nodejs.org">http://nodejs.org</a>上下载对应的.msi文件再安装就万事大吉了。</p>
+
+<p>不过，微软家的东西总是会有些意料之外的状况，.msi也不例外……</p>
+
+<p>这周给咱组里的<a href="http://skpping.cdc.im">skpping</a>妹子安装Node的时候，就出现了这么一幕：</p>
+
+<p><img src="/images/manual_install_node_on_windows_1.jpg" alt="Node .msi安装出错" title="" /></p>
+
+<p>首先我想到的方案自然是修复.msi的安装，但经过近一个小时的努力，最终宣告失败，无奈之下，只能选择手工安装。</p>
+
+<h2>安装Node</h2>
+
+<p>其实手工安装Node是一件很简单的事情，我们的目标是在命令行中可以运行<code>node</code>命令即可。首先，我们需要建立一个用来存放node（以及接下来会讲到的npm）的目录，比如我把它建在了<code>C:\node</code>。然后，为了能在命令行中直接使用<code>node</code>，需要将这个目录添加到<code>path</code>环境变量中。具体的方案就不讲了，搜索一下可以找到一堆教程。</p>
+
+<p>再接下来，从Node.js官网下载二进制文件，即<code>node.exe</code>，然后将它放到<code>C:\node</code>，重新启动命令行，即可使用<code>node</code>命令了。</p>
+
+<p><img src="/images/manual_install_node_on_windows_2.png" alt="Node安装成功" title="" /></p>
+
+<h2>安装npm</h2>
+
+<p>其实Node官方推出windows版的.msi安装文件，除了会处理好环境变量之外，另外一个最重要的意义就是npm了。什么？你不知道什么是npm？好吧，比较官方的说法是，它是Node的模块管理软件，民间一点的说法就是，玩Node必备的东西，没有的话会让你玩得生不如死。</p>
+
+<p>目前Google搜索windows手工安装npm，排名第一的是<a href="http://www.cnblogs.com/seanlv/archive/2011/11/22/2258716.html">这篇</a>，但在这个时间点，其实有点误导人了。这篇文章中说的方法是需要下载npm的源码，然后执行手工安装。但按照npm的<a href="https://npmjs.org/doc/README.html">官方文档</a>，只需要下载二进制包，解压即可使用。</p>
+
+<p>具体的方法，先到<a href="http://nodejs.org/dist/npm/">http://nodejs.org/dist/npm/</a>下载二进制包，然后解压到我们刚刚建立的<code>C:\node</code>目录，注意解压后的<code>npm.cmd</code>和<code>node_modules</code>都要在<code>C:\node</code>目录下，而不是更深的子目录。再重启一次命令行，就可以使用npm啦！</p>
+
+<p><img src="/images/manual_install_node_on_windows_3.png" alt="npm安装成功" title="" /></p>
+
+<h2>小结</h2>
+
+<p>嗯，至此手工安装就完成啦。很水是不是？很水是不是？好吧，我也觉得很水，为了让它水得不那么彻底，我写了一个半自动化的脚本来完成所有的事情。直接上代码好了。</p>
+
+<pre><code>mkdir download
+wget http://nodejs.org/dist/v0.10.23/node.exe -O download\node.exe
+wget http://nodejs.org/dist/npm/npm-1.3.21.zip -O download\npm.zip
+unzip -o download\npm.zip -d download
+echo Y | del download\npm.zip
+mkdir c:\node
+move download\* c:\node
+move download\node_modules c:\node
+echo Y | del download
+wmic ENVIRONMENT where "name='path' and username='&lt;system&gt;'" set VariableValue="%path%;c:\node"
+</code></pre>
+
+<p>把以上代码存为<code>setup.cmd</code>文件，然后双击，就可以啦。咦，没反应是不是？哦，对，忘了，还有两个依赖：wget和unzip，一个用于下载文件，一个用于解压。完整的文件可以在<a href="http://url.cn/PU9VLO">这里</a>下载。</p>
+
+<p>最后的最后，这个代码会依赖wmic，在XP下第一次使用会自动安装。Win7就没测了，印象中是默认支持的。</p>
+
+<blockquote>
+  <p>补充说明一下，文章中的图是盗来的，所以有神马乱入的名字，不一致的版本号之类的问题……</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>如何设计一个前端模板引擎</title>
+      <link>http://www.toobug.net/article/how_to_design_front_end_template_engine.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/how_to_design_front_end_template_engine.html</guid>
+      <pubDate>Sun, 25 Aug 2013 09:55:24 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>前端模板引擎现在已经被广泛应用于前端开发了，几乎每个项目都会使用。微博上甚至出现了“不写个模板引擎就没办法在前端界混了”的言论。当然，这是玩笑话，却也能在一定程度上反映前端模板的普及程度。如果你还没有了解过前端模板引擎，赶紧去补补课吧。</p>
+
+<p>本文其实算不上是一篇讲模板引擎设计的文章，写这篇文章的动力来自于自己使用过一些模板引擎（jQuery Tmpl、jade、ejs、artTemplate以及ThinkPHP自带后端模板引擎）之后的心得，所以可能不会涉及到模板引擎设计的方方面面，更多地是讲模板引擎之间的一些有差异的细节以及我的思考和取舍。</p>
+
+<h2>来历</h2>
+
+<pre><code>var tempHtml = '&lt;table&gt;' +
+        '           &lt;tr&gt;' +
+        '               &lt;th&gt;Hello&lt;/th&gt;' +
+        '               &lt;th&gt;World&lt;/th&gt;' +
+        '               &lt;th&gt;!&lt;/th&gt;' +
+        '           &lt;/tr&gt;' +
+        '           &lt;tr&gt;' +
+        '               &lt;td&gt;' + myData.col1 + '&lt;/td&gt;' +
+        '               &lt;td&gt;' + myData.col2 +'&lt;/td&gt;' +
+        '               &lt;td&gt;' + (myData.col3 === 'yes'?'!':'?') + '&lt;/td&gt;' +
+        '           &lt;/tr&gt;' +
+        '       &lt;/table&gt;';
+
+document.querySelector('#myDiv').innerHTML = tempHtml;
+</code></pre>
+
+<p>相信上面的代码对哪怕做过一点点涉及界面开发的都应该很熟悉吧。当我们想把一段结构和一段数据组合起来，再放到页面上时，就会常常面临这样一段复杂的代码。</p>
+
+<p>这段代码相信不用我说你也会觉得它实在有点复杂：要处理结构中字符串本身的拼接，还要注意结构与数据的拼接，处理数据拼接时还要注意运算优先级（尤其在使用<code>?:</code>三元运算符时），还要为了可读性考虑纠结的缩进……</p>
+
+<p>当然，最麻烦的还不是这里，当我们想要对一个数据循环遍历并输出时，居然还要自己去写循环，再一圈一圈地把这些结构拼起来，最后再拼上首尾的结构。而当数据为空时，又要自己去写一个“暂无数据”之类的占位符……</p>
+
+<p>为了解决这些问题，前端模板引擎应运而生。</p>
+
+<p>使用了模板引擎之后，上面的例子可能是类似这样：</p>
+
+<pre><code>var tmpl = '&lt;table&gt;' +
+        ......
+        '       &lt;td&gt;{%col1}&lt;/td&gt;' +
+        '       &lt;td&gt;{%col2}&lt;/td&gt;' +
+        '       &lt;td&gt;{{if col3==="yes"}}!{{else}}?{{end if}}' +
+        ......
+
+document.querySelector('#myDiv').innerHTML = template(tmplHtml,myData);     
+</code></pre>
+
+<p>这个例子看起来跟上面也没啥区别呀？字符串拼接一点没见少。没错，但这里有了一个变化，即字符串拼接不再是必须行为（为了可读性而换行拼接另算），因此将这段模板存放到别的地方成为可能，比如直接放入HTML中，使用时用js提取过来即可。这样，代码的复杂度就大大降低了。</p>
+
+<h2>职责</h2>
+
+<p>上面的例子我们看到了模板引擎带来的好处，可以极大简化代码的编写，自然也可以减少出错的可能性。那具体说来，模板引擎到底应该做些什么事情？套用一下重构中的结构、表现、行为分离的概念，模板引擎在做的事情也无非是几个分离，但对应的对象是结构、数据、逻辑和表现：</p>
+
+<ul>
+<li>结构：最终要展现出来的结构框架，也即“模板”本身，比如上例中的表格。</li>
+<li>数据：不用多解释，要展现出来的数据。</li>
+<li>逻辑：即业务逻辑代码，不包含可能存在于模板引擎中的逻辑处理。</li>
+<li>表现：数据的具体表现，比如日期可以有各种不同的格式。</li>
+</ul>
+
+<h3>数据和结构分离</h3>
+
+<p>这是一个模板引擎最最基本的功能，即将结构框架和要展现的数据完全独立开来，不让它们直接进行拼接。比如上例中，在使用了模板引擎之后，<code>tmpl</code>和<code>myData</code>就已经不存在直接拼接的行为，而是最后使用模板引擎将它们两者组合起来。如果这一点做不到，实在不能称为“模板引擎”。</p>
+
+<h3>数据和逻辑分离</h3>
+
+<p>所谓数据和逻辑分离，是指数据处理应该和业务逻辑分离开来。业务逻辑应该只专业于数据读写、用户交互等与业务具体相关的事情，至于数据展现上的一些抉择，比如这里是显示“Yes”还是显示“是”，应该交给处理数据的部分来进行。这样的分工可以有效保持数据处理部分的完整性，使业务逻辑和数据处理部分的耦合减少。对这两部分来说，都是既便于复用，也便于后期维护。</p>
+
+<h4>分支逻辑</h4>
+
+<p>在上例中，我们可以看到在处理的处理中有一个分支逻辑，用于判断<code>col3</code>的值是否为<code>yes</code>，然后生成不同的内容。很明显的是，这个逻辑是因为数据而存在，因而应该被放到数据处理部分，因而上例将它写入了模板中。</p>
+
+<p>反过来，如果我们使用了一个无逻辑模板引擎，即逻辑引擎无力处理这种简单的逻辑，我们就只能将这个判断写到业务逻辑中，先判断<code>col3 === yes</code>，然后根据这个结构在<code>myData</code>中写入一个新的值<code>col3Display</code>。这样的话很不利于维护，比如如果<code>col3</code>改成了<code>col3</code>，首先想到的是需要在模板中更改名，然后需要在模板处理的部分改名，除了这些之处，还需要修改处理<code>col3Display</code>的地方，而这个地方是存在于业务逻辑中的。这种耦合也让业务逻辑和模板分别复用变成几乎不可能的事情。</p>
+
+<p>一般而言，模板中需要支持的逻辑主要为分支逻辑和遍历逻辑（下面会提及）即可，其它复杂的逻辑使用得并不普遍。当前市面上的模板引擎几乎100%包含这些简单逻辑的处理，如上面举的例子，这是非常合理的。</p>
+
+<h4>数据遍历</h4>
+
+<p>基于上面数据和逻辑分离的思想，除了分支逻辑之外，模板引擎还应该支持一个更为基础的功能，即数据自动遍历。也就是说，当我们传入一个数据数组的时候，模板引擎应该能够对数组中的元素自动遍历，对每个数据生成组合后的html片段再组合起来返回给用户，比如：</p>
+
+<pre><code>var tmplStr = '&lt;li&gt;My Name is {%name%}, I\'m {%age%} years old.&lt;/li&gt;';
+
+var arr = [{
+        name:'TooBug',
+        age:18
+},{
+        name:'ThreeBug',
+        age:18.1
+}];
+
+var html1 = template(tmplStr,arr);
+// 结果：
+// &lt;li&gt;My Name is TooBug, I\'m 18 years old.&lt;/li&gt;
+// &lt;li&gt;My Name is ThreeBug, I\'m 18.1 years old.&lt;/li&gt;
+</code></pre>
+
+<p>如果模板没有自动遍历的功能，那么开发者又只好把用于数据处理的逻辑写入业务代码了：</p>
+
+<pre><code>var tmplHtml = '';
+arr.forEach(function(dataItem){
+
+    tmplHtml += template(tmplStr,dataItem);
+
+});
+</code></pre>
+
+<p>早期的artTemplate就不支持自动遍历，要么采用上面的方法在业务代码中做，要么在业务代码中把数组再包装成一个对象，在模板中写遍历的代码。这是一件很纠结的事情。（to 糖饼：特此吐槽。）</p>
+
+<h3>表现与逻辑分离</h3>
+
+<p>数据的最佳存储方式与数据的最佳表现方式很多时候并不一致。比如时间类型的数据，最佳的存储方式无疑是时间戳（如<code>1377399298</code>），而最佳的表现方式则是我们最为熟悉的年月日的表示方式（如<code>2013年8月25日</code>）。此时就需要在数据展现前进行一些格式化。</p>
+
+<p>数据的格式化不像分支逻辑或者遍历逻辑那么简单，它是一个五花八门的工作。比如就时间而言，就有无数种格式，有时候需要<code>2013年8月25日</code>，有时候需要<code>2013-08-25</code>，有时候需要<code>11:03</code>，有时候需要<code>2 mins ago</code>……更别说其它更多的数据类型了。因此，做数据格式化往往有一些专门的逻辑，简单一点的可能是一个小函数，复杂一点的则可能是类似moment.js之类的库。</p>
+
+<p>于是，如何处理格式化库、业务逻辑、模板引擎的关系就成为一个很重要的问题。</p>
+
+<p>按照我崇尚的逻辑分离的思想，格式化代码不应该出现在业务代码中，最理想的方式是作为一个单独的文件外挂进来，然后由模板引擎直接调用。拿moment.js为例，最理想的方式就是可以直接在模板中写类似这样的代码：</p>
+
+<pre><code>......
+&lt;td&gt;moment(pubDate).format('YYYY-MM-DD')&lt;/td&gt;
+......
+</code></pre>
+
+<p>事实上，目前大部分模板也是允许这样操作的。但也有部分模板引擎选择了封闭了外部变量的访问，以artTemplate为典型。封闭对外部变量的访问最大的考量就在于阻止在模板中意外修改外部变量。因此，artTemplate在封闭对外部变量访问的同时，提供了另一种方案，即辅助方法机制。用户可以为模板引擎指定一些辅助方法，模板引擎可以访问这些辅助方法。如：</p>
+
+<pre><code>template.helper('myFormat', helper.myFormat);
+</code></pre>
+
+<p>加了这句代码之后就可以在artTemplate的模板中使用moment库来做日期时间的格式化。</p>
+
+<p>就上面这个例子来说，与直接使用外挂js中的格式化方法唯一的区别只是是否有<code>helper</code>这个全局命名空间的区别（artTemplate理想的方式是辅助方法不占用全局命名空间）。但我觉得，“辅助方法”这个概念又增加了不少的学习门槛，想必作者也为此接到了不少咨询。作为模板用户应该知道它所编写的代码会产生怎样的后果，作为模板引擎不应该以易用性和可维护性为代价来保障这个有点牵强的安全性。</p>
+
+<p>在处理格式化方法的问题时，还有一种方案，以jQuery tmpl为代表，在调用<code>tmpl</code>方法时可以传入一个对象，对象中的成员函数都可以直接在模板中使用。这种方案与artTemplate的辅助方法机制有些类似，但jQuery tmpl中的辅助方法只对本次渲染的模板有效。</p>
+
+<pre><code>$('myTest').tmpl({
+    myFormat:function(val){
+        return val;
+    }
+},myData);
+</code></pre>
+
+<p>这种方案其实有点难评价是好是坏。它的就地编写就地使用的方式用起来还是很方便的，而且方法直接写在渲染语句中，也不会给维护带来特别大的问题。但丢一大堆方法在渲染参数中还是多少会有些不爽。算是一种折衷的方案吧。</p>
+
+<h2>易用性</h2>
+
+<p>易用性是衡量一个模板引擎是否优秀的重要指标，因为它的目的就是简化前端开发工作，如果引入模板引擎反而使得代码更加复杂难懂，则有些得不偿失，毕竟模板引擎也是有学习和性能成本的。</p>
+
+<h3>简化还是繁化</h3>
+
+<p>如果一个模板写得人头昏眼花，也许应该回过头来想一下这个模板引擎设计是不是有问题。看一段代码：</p>
+
+<pre><code>&lt;%if(myData.testArr){%&gt;
+    &lt;%for(var i=0;i&lt;myData.testArr.length;i++){%&gt;
+        &lt;input type="checked"&lt;%if(myData.testArr[i].checked){%&gt; checked&lt;%}%&gt;/&gt;
+    &lt;%}%&gt;
+&lt;%}%&gt;
+</code></pre>
+
+<p>上面这段代码简化自某个项目的真实代码，一眼看去会不会觉得非常繁杂？其实代码很简单，无非是判断一个数组是否存在，然后对数组元素遍历输出checkbox。但看起来就是觉得头疼，各种符号穿插其中，各种符号鱼龙混杂，甚至连编辑器高亮都可能完全失效。</p>
+
+<p>我觉得这个模板引擎的语法设计是有如下问题的：</p>
+
+<ul>
+<li>为降低学习成本使用原生JS语法，这个想法是好的，但这个做法却在客观上增加了代码的复杂性，比如需要用户自己管理临时变量，需要自己管理代码的开始与结束（大括号）。</li>
+<li>对JS原生语法的支持有限，比如对于数组的遍历，并不支持使用原生的<code>forEach</code>方法，进一步加大代码复杂性。</li>
+<li>没有较好地处理“逻辑插值”的问题。（所谓“逻辑插值”是指标记中的某个部分需要按分支逻辑来处理的情况。）导致了在标签属性部分的代码十分复杂。而更为严重的是，尖括号<code>&lt;&gt;</code>会严重干扰到编辑器的语法解析过程，导致语法高亮出现错误。</li>
+</ul>
+
+<p>来看jade的处理方法：</p>
+
+<pre><code>- if(myData.testArr)
+    - each dataItem in myData.testArr
+        input(type="checked",checked=dataItem.checked)
+</code></pre>
+
+<p>再来看一下上面提到的三个问题：</p>
+
+<ul>
+<li>学习成本：上面的jade代码相信你可以秒懂，既然如此，学习成本便不是问题。</li>
+<li>原生语法：jade通过<code>-</code>来区分逻辑与标记，在逻辑代码中，随意使用任何原生js语法。</li>
+<li>逻辑插值：jade使用<code>checked=true/false</code>的方式处理布尔属性，避免了大部分逻辑插值的情况，虽然不能完全解决问题，但已经足够好读了。</li>
+</ul>
+
+<p>此外，jade还有同时适用于对象和数组的each语法，遍历起来十分方便。</p>
+
+<p>看完上面的例子，应该不用多说了，模板如果不能简化开发工作，反而使代码变得复杂和难以维护，那么我个人认为宁可不要。</p>
+
+<h3>模板标记的选用</h3>
+
+<p>在模板标记的选用上，各个引擎可谓是八仙过海各显神通。在这个问题上，也确实没有很多可以拿来比较的东西，但还是有些小点值得一说。</p>
+
+<h4>模板标记与页面重构</h4>
+
+<p>按照<a href="http://www.twinsenliang.net">彪叔</a>的观点，模板标记应该选用“看起来像文本”的标记，比如尖括号就应该避免，因为这样可以让重构同学在做页面的时候大概预览到模板标记所在处的效果，而不是被隐藏掉。</p>
+
+<p>不过，这其实是个不折不扣的伪命题。举个例子，<code>&lt;%=var%&gt;</code>这种语法来自ASP，而这种语法在浏览器中并不会被隐藏掉，而是原样显示，因此并不会影响预览效果。至于编码时，则更没区别了，只是敲不同的键而已。既然如此，那么所谓“被隐藏掉”是在哪里呢？答案其实是——DreamWeaver的可视化界面……面对已经被边缘掉的DW，这个问题的的确确可以被彻底忽视了。</p>
+
+<p>当然，如果你坚持使用DW的话，我仍然要说这是个伪命题，因为时至今日，已经很少有人再把模板标记放到正常的文档流中了，因此不管选择什么样的标记，这些不在文档流中的模板都始终不会被看到。</p>
+
+<h4>避免与后端语言模板冲突</h4>
+
+<p>这倒是一个很值得考虑的问题。在使用jQuery tmpl与ThinkPHP时，由于两者的模板机制均有使用<code>$</code>符号，因此经常导致前端模板标记被后端解析，从而导致页面异常。最终只能通过后端强制指定不解析模板来解决问题。</p>
+
+<p>考虑到这个问题的话，在选用前端模板标记时其实也没办法做到尽善尽美，因为后端模板的标记也不少，很难避免所有可能冲突的情况。但我们可以适当做些考虑，避开一些常用的后端模板。比如我会更倾向于使用<code>{%var%}</code>的方式（虽然我也没法证明它是一个更好的选择）。</p>
+
+<h4>美观</h4>
+
+<p>呵呵。美观是个很主观的话题，所以作者觉得哪个好看就用哪个吧……</p>
+
+<p>不过，除了输出变量之外，其它的模板标记其实更多的是一种语法设计，在这方面，确实要考虑美观的事情，上面说过，如果一个模板写出来异常复杂就不好了。</p>
+
+<h4>模板标记转义</h4>
+
+<p>其实这个问题与模板标记本身关系不大，主要是指如何让模板强制不解析某个模板标记，原样输出它。一般比较理想的方式是对标记进行转义，但转义也有两个层次的含义：</p>
+
+<ul>
+<li>在HTML级别的转义，比如我要输出<code>&lt;%=var%&gt;</code>，则直接在模板中写转义后的<code>&amp;lt;%=var%&amp;gt;</code>。</li>
+<li>在模板级别的转义，比如我要在jade中输出<code>#{var}</code>，则在模板中写入<code>\#{var}</code>即可。</li>
+</ul>
+
+<p>对于这两种转义，我更看重的是第二种，因为一个模板应当要有输出任何字符的能力，包括它用到的模板标记本身。（注意在HTML级别转义的话，输出的结果文本是不一样的。）</p>
+
+<h3>模板位置及提取</h3>
+
+<p>在文章开头的例子中，我们把模板写到了JS中，随后也做了说明，模板文本是可以写到HTML中的。接下来就来看看将模板放到HTML中的几种主要方法。（还有更多的方法，玉伯有一篇文章中有详述，由于原文被墙，可以到CSDN转载的页面查看：<a href="http://www.csdn.net/article/2011-09-27/304989">《[浅析]淘宝详情页的BigRender优化的最佳方式》</a>）</p>
+
+<h4>直接放入文档流中的DOM</h4>
+
+<p>将模板直接放到DOM中是一种比较原始的方案，这种方法会在写HTML时直接将模板写进去，然后使用JS动态从父容器中取出进行渲染，最后将生成的HTML字符串再写回父容器中。这种方案的弊端很多：</p>
+
+<ul>
+<li>模板会被渲染出来，这是开发者不希望看到的。而如果使用css来隐藏的话又在项目中添加了没有意义的代码。</li>
+<li>模板存在被修改的可能。一旦DOM节点被渲染后就无法保证它不被修改，有可能等我们用JS去取模板时，它已经被改得面目全非甚至都不在文档中了。（外部JS库、UI库、开发框架如jQuery Mobile、浏览器插件都可能修改页面中的DOM。）</li>
+</ul>
+
+<p>后来，在前辈们的探索下，找到了一种比较完美的方式：放到<code>textarea</code>中，这种方案在很大程度上避开了以上问题，只需要处理<code>textarea</code>本身即可。取用的时候只要取<code>textarea</code>的值即可。</p>
+
+<h4>放入script标签</h4>
+
+<p>将模板标记放到<code>textarea</code>中，虽然使得模板本身避免了被渲染和修改，但<code>textarea</code>本身还是需要隐藏。后来，前辈们又发现一个更NB的方案：将模板放到<code>type</code>属性不为<code>script</code>(以及一堆同义词)的<code>script</code>标签中，这个script是一个标准的DOM元素，但又不会受到其它的影响，浏览器也会直接忽略它，并不渲染。</p>
+
+<p>现在一个常见的模板放到<code>script</code>标签中可能是这样：</p>
+
+<pre><code>&lt;script type="text/tmpl" id="myTmpl"&gt;
+    模板放这里
+    ......
+&lt;/script&gt;
+</code></pre>
+
+<p>这是一种比较完美的方式，也是现在比较主流的方式。</p>
+
+<h4>template元素</h4>
+
+<p>鉴于模板引擎的广泛使用，web components组件规范中直接定义了一个<code>template</code>元素，专门用来存放模板。</p>
+
+<pre><code>&lt;template id="myTmpl"&gt;
+    模板放这里
+    ......
+&lt;/template&gt;
+</code></pre>
+
+<p>目前Chrome和Firefox均已支持这个元素（移动端暂没有浏览器支持）。</p>
+
+<h4>模板提取方式</h4>
+
+<p>好吧，上面三小节基本是在吹水，其实模板本身放哪里跟模板引擎的关系并不太大，模板引擎只要接受模板字符串进行处理就好了。但说回来，如果模板引擎能辅助用户进行模板的自动提取，则无疑是在易用性上的一个很好的亮点。</p>
+
+<p>目前jQuery tmpl和artTemplate都做了这些方面的努力。在jQuery tmpl中，直接在（经jQuery包裹后的）包含模板的元素上调用<code>.tmpl</code>方法即可，jQuery tmpl会自动去页面中提取出模板字符串并进行处理：</p>
+
+<pre><code>$('#myTmpl').tmpl(myData);
+</code></pre>
+
+<p>而artTemplate允许通过指定包含模板的元素ID的方式自动提取模板：</p>
+
+<pre><code>template.render('myTmpl',myData);
+</code></pre>
+
+<h2>性能</h2>
+
+<p>任何JS库、框架都逃不开性能这个命题，模板引擎自然也不例外。但模板引擎的性能一直是一个争议不断的话题。</p>
+
+<h3>性能是否是伪命题</h3>
+
+<p>我们来看一个性能测试的页面<a href="http://aui.github.io/artTemplate/test/test-speed.html">http://aui.github.io/artTemplate/test/test-speed.html</a>，其实结果很有意思，看完才知道，原来不同的模板引擎之间的性能差异真的如此巨大！</p>
+
+<p>不过更有意思的是，测试完成后，作者写了一句话：“测试已完成，请不要迷恋速度。”这其实是句很有意思的话，之前也有跟作者聊过性能方面的问题，作者也认为“性能是个伪命题”的观点。原因是这个测试的数据量是100*10000=100W。也即在百万级别的数据渲染时，才有几秒钟的性能差异。</p>
+
+<p>回到我们的日常web开发，单次渲染数据量上千就已经差不多是极限了，此时模板引擎之间的性能差异微乎其微，几乎无法被用户感知。</p>
+
+<p>另外还有一个特别值得注意的地方，模板引擎做的工作只是“模板+数据=包含数据的HTML字符串”，而这些HTML字符串真正显示在页面上还要经过一道DOM操作，而这个DOM操作在数据量大时比模板引擎本身的计算所要消耗的时间要大得多！如果100W条数据显示在DOM上，我觉得即使是Chrome也很难逃脱卡死的命运。</p>
+
+<p>这样看来，模板引擎的性能问题还真可能是个伪命题。那是否可以忽略这一问题呢？我认为也不可取，模板引擎还是要关注性能的，因为你不知道用户会怎么使用你的引擎。比如我就曾经为了偷懒，在一个页面上渲染了6000条数据，此时模板引擎在IE下的表现也可以差到用户可感知的程度。</p>
+
+<h3>有关预编译</h3>
+
+<p>在<a href="http://cdc.tencent.com/?p=5723">《高性能JavaScript模板引擎原理解析》</a>一文中，artTemplate作者解释了其高性能来源于针对模板的预编译。即在首次渲染时会根据模板解析的结果生成一个用于拼接数据的函数，后续调用时直接使用这个函数而不需要再次解析模板。这是个非常好的思路，目前也有越来越多的模板引擎采用了预编译的方式，所以我猜测一下，上面的测试如果换用最新版、并引入更多的模板引擎再做一次的话，差异应该不会那么明显。</p>
+
+<p>关于预编译的时机，目前的模板引擎基本都放在浏览器端首次调用时进行预编译。artTemplate是我见到的第一个尝试把模板预编译过程放在构建阶段的模板引擎，它可以在发布前对产品中用到的模板进行预处理，最后发出去的直接是拼接字符串的函数。详细详情可以在<a href="https://github.com/cdc-im/atc">这里</a>查看。</p>
+
+<p>这其实是个很不错的思路，尤其是在前端编译的概念有燎原之势的这个时机，只要集成方便，还是很有前途的。不过略遗憾的是，目前artTemplate的预编译工具还没有提供Grunt.js的插件，需要单独编译。</p>
+
+<p>顺序发散一下，如果我们在引入jQuery的项目发布前，扫描一下调用的API，然后把jQuery也在发布前预编译一遍会怎样？其实想象空间还挺大的。</p>
+
+<h2>功能</h2>
+
+<p>前面已经说过，一个模板引擎最主要的功能就是实现数据和逻辑、结构的分离，简化开发工作。因此一些剩下的功能就被放到了最后，这些并不是模板引擎的主要考量因素，但如果做好，也会成为很不错的亮点。</p>
+
+<h3>异常处理</h3>
+
+<p>模板引擎都有一套特定的语法，当我们写的模板无法按照这套语法进行解析或者是在处理数据时发生错误时便会产生错误。有一部分模板引擎在产生错误时不会做过多的处理，此时错误被直接抛出，但产生错误的代码行却往往是模板引擎本身，一定程度上会给调试带来困难。</p>
+
+<p>artTemplate在错误处理上有一些尝试，出错时会带上出错的模板本身，这样开发者可以定位到出错的模板代码。而jade则更进一步，直接能定位到出错的位置所在的字符。</p>
+
+<p>当然，这些辅助信息并不一定100%准确，因为很可能错误产生于真正报错之前，这是几乎所有的语言调试过程中面临的一个问题。不过，有了这些辅助信息还是能提升开发者的调试效率的。</p>
+
+<h3>包含、mixin复用</h3>
+
+<p>在后端模板的世界中，模板之间的相互包含是一件非常普遍的事情，因为后端模板往往是以页为单位来进行输出渲染，而相对来讲，前端模板的应用场景则会显示更碎片化。因此个人觉得前端模板中的模板相互包含、引用并不是一个非常普遍的需求。不过，也有不少的模板为了与在后端（Node.js）的使用方式保持一致，也为前端提供了模板包含功能。</p>
+
+<p>除了使用包含来完成模板复用外，jade还提供了一种叫作<code>mixin</code>的方式来复用模板：</p>
+
+<pre><code>mixin article(title)
+    .article
+        .article-wrapper
+            h1= title
+            if block
+                block
+            else
+                p No content provided
+
++article('Hello world')
+
++article('Hello world')
+    p This is my
+    p Amazing article
+</code></pre>
+
+<p>会编译成：</p>
+
+<pre><code>&lt;div class="article"&gt;
+    &lt;div class="article-wrapper"&gt;
+        &lt;h1&gt;Hello world&lt;/h1&gt;
+        &lt;p&gt;No content provided&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="article"&gt;
+    &lt;div class="article-wrapper"&gt;
+        &lt;h1&gt;Hello world&lt;/h1&gt;
+        &lt;p&gt;This is my&lt;/p&gt;
+        &lt;p&gt;Amazing article&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>这种方式其实已经非常接近<a href="http://www.toobug.net/article/what_is_shadow_dom.html">Shadow DOM</a>中对DOM的封装思路。（当然，如果你玩过LESS、SASS之类的CSS预处理语言，也会觉得这个mixin的概念似曾相识。）</p>
+
+<p>个人以为，相对模板包含而言，这种mixin的复用方式其实是对前端模板而言更为友好的方式。</p>
+
+<h2>结</h2>
+
+<p>洋洋洒洒地码了这么多，其实仍然没有去讲怎么设计一个模板引擎，只是提出了自己使用模板引擎过程中看到的一些差异和一些值得思考的点。真正设计一个工业级的模板引擎还是颇费工夫的。</p>
+
+<p>至于模板引擎的实现，则完全是编码的硬功夫了，除了编译原理外也没啥好说的了，就不打算说了。（装下B，真实原因是我也没写过……Wahaha……）</p>
+
+<blockquote>
+  <p>2013-12-04：感谢Barret Lee在评论中给出一篇好文<a href="http://barretlee.com/principle-of-javascript-template/">《javascript模板引擎原理，几行代码的事儿》</a>，这是一篇真正在讲如何用js实现一个模板引擎的文章，推荐阅读。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>[译]Shadow DOM第三课</title>
+      <link>http://www.toobug.net/article/shadow_dom_301.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_301.html</guid>
+      <pubDate>Sat, 10 Aug 2013 11:24:45 +0800</pubDate>
+      <category>Shadow DOM</category>
+      <category>Web Components</category>
+      <description>
+        <![CDATA[
+        <p>本文将会讨论Shadow DOM的更多神奇之处。本文是在<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>和<a href="http://www.toobug.net/article/shadow_dom_201.html">《Shadow DOM第二课》</a>的基础之上讨论的，如果你需要基础介绍，请参看那两篇。</p>
+
+<h2>使用多个shadow root</h2>
+
+<p>如果你要开个party，让所有人都呆在同一个房间，很快就会让这个房子变得很闷，你可能更希望将不同的人群分配到不同的房间。用于挂载shadow dom的元素（shadow host）也可以这样做，也就是说，它们可以同时挂载多个shadow root。</p>
+
+<p>我们来看看，往一个shadow host上挂载多个shadow root时会发生什么：</p>
+
+<pre><code>&lt;div id="example1"&gt;Host node&lt;/div&gt;
+&lt;script&gt;
+var container = document.querySelector('#example1');
+var root1 = container.webkitCreateShadowRoot();
+var root2 = container.webkitCreateShadowRoot();
+root1.innerHTML = '&lt;div&gt;Root 1 FTW&lt;/div&gt;';
+root2.innerHTML = '&lt;div&gt;Root 2 FTW&lt;/div&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<p>在开发者工具中这样显示：</p>
+
+<p><img src="/images/shadow_dom_301_1.png" alt="开发者工具中显示shadow host挂载多个shadow root" title="" /></p>
+
+<blockquote>
+  <p>注意：需要在开发者工具中打开“Show Shadow DOM”选项才可以看到shadow root。</p>
+</blockquote>
+
+<p>实例：</p>
+
+<div id="example1">Host node</div>
+<script>
+var container = document.querySelector('#example1');
+var root1 = container.webkitCreateShadowRoot();
+var root2 = container.webkitCreateShadowRoot();
+root1.innerHTML = '<div>Root 1 FTW</div>';
+root2.innerHTML = '<div>Root 2 FTW</div>';
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_301_2.png" /></p>
+</div>
+
+<p>尽管我们确实挂了两个shadow root，但真正被渲染的是“Root 2 FTW”。这是因为挂载在同一个shadow host上的多个shadow root，最后一个会被渲染。在渲染的时候是采用“后进先出”（LIFO，即Last In First Out）的原则。从开发者工具中看到的结果也可以验证这种行为。</p>
+
+<blockquote>
+  <p>在shadow host上添加的shadow root（shadow子树）会以被添加的顺序放到一个栈（stack）中，最上面是最后添加的元素。所以最后添加的那个就是真正被渲染的元素。</p>
+  
+  <p>最后被添加的子树叫作younger tree，而最新添加的树叫作older tree。在这个例子中，<code>root2</code>就是younger truee，而<code>tree1</code>就是older tree。</p>
+</blockquote>
+
+<p>既然只有最后一个子树会被渲染，那如何使用多个shadow子树呢？答案就是shadow插入点（shadow insertion point）。</p>
+
+<h3>shadow插入点</h3>
+
+<p>shadow插入点（<code>&lt;shadow&gt;</code>）和普通的插入点（<code>&lt;content&gt;</code>）很相似，都是“占位符”。但是，shadow插入点并不是用来插入shadow host的内容，而是用来挂载其它的shadow子树，也就是其它shadow子树开始的地方。</p>
+
+<blockquote>
+  <p>如果在shadow子树中有多个<code>&lt;shadow&gt;</code>元素，只有第一个会被识别，其它的会被忽略。</p>
+</blockquote>
+
+<p>回头看我们的例子，第一个shadow子树<code>root1</code>并没有被加入到渲染列表。添加一个<code>&lt;shadow&gt;</code>元素的话就可以让它也渲染。</p>
+
+<pre><code>&lt;div id="example2"&gt;Host node&lt;/div&gt;
+&lt;script&gt;
+var container = document.querySelector('#example2');
+var root1 = container.webkitCreateShadowRoot();
+var root2 = container.webkitCreateShadowRoot();
+root1.innerHTML = '&lt;div&gt;Root 1 FTW&lt;/div&gt;&lt;content&gt;&lt;/content&gt;';
+root2.innerHTML = '&lt;div&gt;Root 2 FTW&lt;/div&gt;&lt;shadow&gt;&lt;/shadow&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<p>在开发者工具中这样显示：</p>
+
+<p><img src="/images/shadow_dom_301_3.png" alt="使用shadow插入点挂载多个shadow root" title="" /></p>
+
+<blockquote>
+  <p>注意：需要在开发者工具中打开“Show Shadow DOM”选项才可以看到shadow root。</p>
+</blockquote>
+
+<p>实例：</p>
+
+<div id="example2">Host node</div>
+<script>
+var container = document.querySelector('#example2');
+var root1 = container.webkitCreateShadowRoot();
+var root2 = container.webkitCreateShadowRoot();
+root1.innerHTML = '<div>Root 1 FTW</div><content></content>';
+root2.innerHTML = '<div>Root 2 FTW</div><shadow></shadow>';
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_301_4.png" /></p>
+</div>
+
+<p>在这个例子中有几点值得注意的地方：</p>
+
+<ol>
+<li><p>“Root 2 FTW”仍然渲染在“Root 1 FTW”上方。这是因为，我们放的shadow插入点在内容之后。如果你想反过来，可以把shadow插入点放到前面：</p>
+
+<pre><code>root2.innerHTML = '&lt;shadow&gt;&lt;/shadow&gt;&lt;div&gt;Root 2 FTW&lt;/div&gt;';
+</code></pre></li>
+<li><p>注意现在在root1中有了一个<code>&lt;content&gt;</code>插入点。这使得shadow host的文本“Host node”也可以参与渲染。</p></li>
+</ol>
+
+<h3>在<code>&lt;shadow&gt;</code>所在的地方渲染的是谁？</h3>
+
+<p>有时候，会很想知道在<code>&lt;shadow&gt;</code>元素处渲染的是哪个子树。你可以通过<code>.olderShadowRoot</code>来引用：</p>
+
+<pre><code>root2.querySelector('shadow').olderShadowRoot === root1 //true
+</code></pre>
+
+<p><code>.olderShadowRoot</code>没有带上浏览器产商前缀，因为<code>HTMLShadowElement</code>只在Shadow DOM中才有意义，而Shadow DOM已经加了前缀了。</p>
+
+<h2>观察shadow host上挂载的shadow root</h2>
+
+<p>如果一个元素上挂载了Shadow DOM，那么你可以通过<code>.webkitShadowRoot</code>来访问youngest shadow root（最后挂载的shadow root）：</p>
+
+<pre><code>var root = host.webkitCreateShadowRoot();
+console.log(host.webkitShadowRoot === root); // true
+console.log(document.body.webkitShadowRoot); // null
+</code></pre>
+
+<blockquote>
+  <p>我不是很确定为什么要提供<code>.shadowRoot</code>。因为它其实破坏了Shadow DOM的封装，给了外界访问本来应该隐藏的DOM的机会。</p>
+</blockquote>
+
+<p>如果你担心外界侵入到你的Shadow DOM，你可以重写<code>.shadowRoot</code>：</p>
+
+<pre><code>Object.defineProperty(host, 'webkitShadowRoot', {
+    get: function() { return null; },
+    set: function(value) { }
+});
+</code></pre>
+
+<p>有点取巧，但确定有效。这样做也是为了寻找一种保持Shadow DOM私有性的方法。</p>
+
+<p>最后还有一点，在玩Shadow DOM时应该意识到，Shadow DOM并不是那么安全。不应该依赖它来让组件保持完全独立。</p>
+
+<h2>在JS中创建Shadow DOM</h2>
+
+<p>如果你喜欢在JS中创建DOM元素，那么可以使用<code>HTMLContentElement</code>和<code>HTMLShadowElement</code>。</p>
+
+<pre><code>&lt;div id="example3"&gt;
+    &lt;span&gt;Host node&lt;/span&gt;
+&lt;/div&gt;
+&lt;script&gt;
+var container = document.querySelector('#example3');
+var root1 = container.webkitCreateShadowRoot();
+var root2 = container.webkitCreateShadowRoot();
+
+var div = document.createElement('div');
+div.textContent = 'Root 1 FTW';
+root1.appendChild(div);
+
+// HTMLContentElement
+var content = document.createElement('content');
+content.select = 'span'; // selects any spans the host node contains
+root1.appendChild(content);
+
+var div = document.createElement('div');
+div.textContent = 'Root 2 FTW';
+root2.appendChild(div);
+
+// HTMLShadowElement
+var shadow = document.createElement('shadow');
+root2.appendChild(shadow);
+&lt;/script&gt;
+</code></pre>
+
+<p>这个例子和前面那个很像。唯一的区别是现在用了一个<code>select</code>来选择新增的<code>&lt;span&gt;</code>元素。</p>
+
+<h2>获取被分配的节点</h2>
+
+<p>被<code>select</code>选中的shadow host的子节点会被“分配”到shadow子树中，它们叫……当当当……被分配的元素！当有插入点选择它们时，就会穿越shadow边界，加入渲染名单。</p>
+
+<p>在概念上，有一个比较古怪的地方，就是插入点并没有真正移动DOM元素。shadow host的子元素仍然安静地呆在原来的地方，插入点只是将它们“投影”到了shadow子树中。这仅仅是一件渲染时发生的事情：<s>“把这些元素移过来”</s>“在这个位置渲染这此元素”。</p>
+
+<p>注意：你无法把一个DOM放到<code>&lt;content&gt;</code>中。如：</p>
+
+<pre><code>&lt;div&gt;&lt;h2&gt;Host node&lt;/h2&gt;&lt;/div&gt;
+&lt;script&gt;
+var shadowRoot = document.querySelector('div').webkitCreateShadowRoot();
+shadowRoot.innerHTML = '&lt;content select="h2"&gt;&lt;/content&gt;';
+
+var h2 = document.querySelector('h2');
+console.log(shadowRoot.querySelector('content[select="h2"] h2')); // null;
+console.log(shadowRoot.querySelector('content').contains(h2)); // false
+&lt;/script&gt;
+</code></pre>
+
+<p>上面的<code>h2</code>并不是Shadow DOM的子元素。这导致了一个有趣的东西：</p>
+
+<blockquote>
+  <p>插入点强大得出乎意料，你可以把它想象成一种创建Shadow DOM“声明式API”（declarative API）的方式。shadow host可以包含全世界所有的标记，但如果Shadow DOM不通过插入点使用它们，它们就永远没意义。</p>
+</blockquote>
+
+<h3>Element.getDistributedNodes()</h3>
+
+<p>我们不能直接访问到<code>&lt;content&gt;</code>里面的内容，但是有一个API <code>.getDistributedNodes()</code>可以用来选择被分配到插入点的元素：</p>
+
+<pre><code>&lt;div id="example4"&gt;
+    &lt;h2&gt;Eric&lt;/h2&gt;
+    &lt;h2&gt;Bidelman&lt;/h2&gt;
+    &lt;div&gt;Digital Jedi&lt;/div&gt;
+    &lt;h4&gt;footer text&lt;/h4&gt;
+&lt;/div&gt;
+
+&lt;template id="sdom"&gt;
+    &lt;header&gt;
+        &lt;content select="h2"&gt;&lt;/content&gt;
+    &lt;/header&gt;
+    &lt;section&gt;
+        &lt;content select="div"&gt;&lt;/content&gt;
+    &lt;/section&gt;
+    &lt;footer&gt;
+        &lt;content select="h4:first-of-type"&gt;&lt;/content&gt;
+    &lt;/footer&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+var container = document.querySelector('#example4');
+
+var root = container.webkitCreateShadowRoot();
+root.appendChild(document.querySelector('#sdom').content.cloneNode(true));
+
+var html = [];
+[].forEach.call(root.querySelectorAll('content'), function(el) {
+    html.push(el.outerHTML + ': ');
+    var nodes = el.getDistributedNodes();
+    [].forEach.call(nodes, function(node) {
+        html.push(node.outerHTML);
+    });
+    html.push('\n');
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>&lt;content select="h2"&gt;&lt;/content&gt;: &lt;h2&gt;Eric&lt;/h2&gt;&lt;h2&gt;Bidelman&lt;/h2&gt;
+&lt;content select="div"&gt;&lt;/content&gt;: &lt;div&gt;Digital Jedi&lt;/div&gt;
+&lt;content select="h4:first-of-type"&gt;&lt;/content&gt;: &lt;h4&gt;footer text&lt;/h4&gt;
+</code></pre>
+
+<h2>工具：Shadow DOM可视化</h2>
+
+<p>理解Shadown DOM还是多少有些困难的。当我刚开始接触的时候花了不少时间去学习。</p>
+
+<p>为了能让Shadow DOM的渲染过程能更直接，我使用<a href="http://d3js.org/">d3.js</a>创建了一个可视化工具。在左边显示的两块代码都是可以编辑的。你可以粘贴自己的代码进去，然后看看元素是怎么进入的插入点的，是怎么渲染的。</p>
+
+<p><img src="/images/shadow_dom_301_5.png" alt="Shadow DOM可视化工具" title="" /></p>
+
+<p>你可以<a href="http://html5-demos.appspot.com/static/shadowdom-visualizer/index.html">点击这里</a>进入这个可视化工具，一定要试一下，然后告诉我你的意见哈。</p>
+
+<p><embed src="http://player.youku.com/player.php/sid/XNTk2Njc3MDk2/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
+
+<blockquote>
+  <p>优酷不给超清，鄙视一下，原视频可以在这里下载<a href="http://url.cn/HQs1CS">http://url.cn/HQs1CS</a>。</p>
+</blockquote>
+
+<h2>事件模型</h2>
+
+<p>有一些事件会穿越shadow边界，有一些不会。在事件穿越边界的情况下，事件目标（event target）将会被调整，以保持shadow root上边界的封装性。具体地说，调整后的事件看起来是来自shadow host，而不是Shadow DOM内部。</p>
+
+<p>如果你的浏览器支持Shadow DOM，你应该可以看到下面的操作区，用它可以直观地反映事件的情况。黄色元素是Shadow DOM中的标记，蓝色元素是shadow host的一部分，包裹在写有“I'm a node in the host”元素外面的是黄色边框，表示它是一个被分配到<code>&lt;content&gt;</code>插入点中的元素。</p>
+
+<p>“Play Action”按钮会展示中不同的试验方法（鼠标如何操作）。你可以试一下，然后看看<code>mouseout</code>和<code>focusin</code>事件分别是如何冒泡的。</p>
+
+<div id="example5" class="demoarea">
+    <div data-host>
+        <div class="blue">I'm a node in the host</div>
+    </div>
+
+    <template style="display:none;"> <!-- display:none used for older browsers -->
+        <style>
+        .scopestyleforolderbrowsers * {
+            border: 4px solid #FC0;
+        }
+        .scopestyleforolderbrowsers input {
+            padding: 5px;
+        }
+        .scopestyleforolderbrowsers div {
+            background: #FC0;
+            padding: 5px;
+            border-radius: 3px;
+            margin: 5px 0;
+        }
+        content::-webkit-distributed(*) {
+            border: 4px solid #FC0;
+        }
+        </style>
+        <section class="scopestyleforolderbrowsers">
+            <div>I'm a node in Shadow DOM</div>
+            <div>I'm a node in Shadow DOM</div>
+            <content></content>
+            <input type="text" placeholder="I'm in Shadow DOM">
+            <div>I'm a node in Shadow DOM</div>
+            <div>I'm a node in Shadow DOM</div>
+        </section>
+    </template>
+
+    <aside class="cursor"></aside>
+
+    <div class="buttons">
+        <button data-action="playAnimation" data-action-idx="1">Play Action 1</button><br>
+        <button data-action="playAnimation" data-action-idx="2">Play Action 2</button><br>
+        <button data-action="playAnimation" data-action-idx="3">Play Action 3</button><br>
+        <button data-action="clearLog">Clear log</button>
+    </div>
+
+    <output></output>
+</div>
+
+<script>
+(function() {
+function stringify(node) {
+    return node.outerHTML.match(".*?>")[0].replace('<', '&lt;').replace('>', '&gt;');
+}
+
+var out = document.querySelector('#example5 output');
+var host = document.querySelector('#example5 [data-host]');
+var wrapper = document.querySelector('#example5');
+
+var root = host.webkitCreateShadowRoot();
+root.innerHTML = document.querySelector('#example5 template').innerHTML;
+
+host.addEventListener('mouseout', function(e) {
+    out.innerHTML += [
+        '<span>[' + e.type + ']</span>', 
+        'on:', stringify(e.target) + ',', 
+        'from', stringify(e.fromElement),
+        '&rarr;', stringify(e.toElement), '<br>'].join(' ');
+    out.scrollTop = out.scrollHeight;
+});
+
+document.addEventListener('focusin', function(e) {
+    out.innerHTML += [
+        '<span>[' + e.type + ']</span>',
+        'on:', stringify(e.target), '<br>'].join(' ');
+    out.scrollTop = out.scrollHeight;
+});
+
+function clearLog() {
+    out.innerHTML = '';
+}
+
+function cleanUpAnimations(node) {
+    [].forEach.call(node.classList, function(c) {
+        if (c.indexOf('animation') == 0) {
+            node.classList.remove(c);
+        }
+    });
+}
+
+function playAnimation(idx) {
+    clearLog();
+    wrapper.classList.add('playing');
+    wrapper.classList.add('animation' + idx);
+}
+
+wrapper.addEventListener('webkitAnimationEnd', function(e) {
+    this.classList.remove('playing');
+    cleanUpAnimations(this);
+});
+
+document.querySelector('#example5 .buttons').addEventListener('click', function(e) {
+    if (e.target.tagName == 'BUTTON') {
+        switch(e.target.dataset.action) {
+            case 'clearLog':
+                clearLog();
+                break;
+            case 'playAnimation':
+                cleanUpAnimations(wrapper);
+                playAnimation(parseInt(e.target.dataset.actionIdx));
+                break;
+            default:
+                break;
+        }
+    }
+});
+
+})();
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_301_6.png" /></p>
+</div>
+
+<ul>
+<li><p>Play Action1</p>
+
+<p>这个很有意思。你应该可以看到<code>mouseout</code>事件从shadow host元素（<code>&lt;div data-host&gt;</code>）冒泡到<code>&lt;div class="blue"&gt;</code>元素。尽管它是一个被分配的元素，但是它仍然存在于shadow host中，而不是Shadow DOM中。接着移动鼠标，会看到又一个由<code>&lt;div class="blue"&gt;</code>元素触发的<code>mouseout</code>事件冒泡到shadow host中。（译注：这里shadow host和<code>.blue</code>是父子关系，从父元素进入子元素会触发父元素的<code>mouseout</code>，从子元素移回父元素则有子元素的<code>mouseout</code>。）</p></li>
+<li><p>Play Action2</p>
+
+<p>会有一个<code>mouseout</code>事件发生在shadow host元素上（移动到最下方时）。正常来说，你应该看到在从每个黄色块移出时都有一个<code>mouseout</code>事件。但，在这个例子中，黄色元素都在Shadow DOM内部，这些事件不会穿越它们的上边界。</p></li>
+<li><p>Play Action3</p>
+
+<p>注意，当你点击输入框时，<code>focusin</code>看起来不是发生在输入框上的，而是在shadow host元素上。事件目标被调整了。</p></li>
+</ul>
+
+<h3>不会冒泡的事件</h3>
+
+<p>下面的事件不会穿越shadow边界：</p>
+
+<ul>
+<li><code>abort</code></li>
+<li><code>error</code></li>
+<li><code>select</code></li>
+<li><code>change</code></li>
+<li><code>load</code></li>
+<li><code>reset</code></li>
+<li><code>resize</code></li>
+<li><code>scroll</code></li>
+<li><code>selectstart</code></li>
+</ul>
+
+<h2>总结</h2>
+
+<p>Shadow DOM异常强大，希望你在看完文章后同意这句话。因为它，我们第一次有了不使用<code>&lt;iframe&gt;</code>（或者其它古老的方式）来封装元素的方法。</p>
+
+<p>必须承认，Shadow DOM很复杂，但它加入web平台后绝对是有价值的。尽管去花点时间学习吧。</p>
+
+<p>如果你希望学习更多，请参见<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>和<a href="http://www.toobug.net/article/shadow_dom_201.html">《Shadow DOM第二课》</a>。</p>
+
+<p>谢谢<a href="http://www.html5rocks.com/profiles/#dominiccooney">Dominic Cooney</a>和<a href="https://plus.google.com/111648463906387632236/posts">Dimitri Glakov</a>帮助审查本文。</p>
+
+<blockquote>
+  <p>原文地址<a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-301/">http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-301/</a></p>
+</blockquote>
+
+<script>
+    var css = document.createElement('link');
+    css.setAttribute('rel','stylesheet');
+    css.setAttribute('href','/attachments/shadow_dom_301_style.css');
+    document.head.appendChild(css);
+
+    if(!window.WebKitShadowRoot){
+        $('.helperimg').css({
+
+            border:'1px solid #ccc',
+            background:'#eee',
+            padding:'20px'
+
+        }).show();
+    }
+</script>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>[译]Shadow DOM第二课</title>
+      <link>http://www.toobug.net/article/shadow_dom_201.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_201.html</guid>
+      <pubDate>Sun, 21 Jul 2013 16:50:58 +0800</pubDate>
+      <category>Shadow DOM</category>
+      <category>Web Components</category>
+      <description>
+        <![CDATA[
+        <p>本文将会讨论Shadow DOM的更多神奇之处。本文是在<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>的基础之上讨论的，如果你需要基础介绍，请参看那篇。</p>
+
+<h2>介绍</h2>
+
+<p>无法否认，没有样式的结构是很无趣的。幸好，<a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#acknowledgements">Web Components</a>的制定者们很早就意识到了这个问题，并为我们提供了好几种为Shadow DOM中的结构指定样式的方法。</p>
+
+<h2>样式封装</h2>
+
+<p>Shadow DOM中有一个很核心的特性叫“shadow边界”（shadow boundary），它有很多好用的特点，其中的一点就是提供了样式封装。换句话说：默认情况下，在Shadow DOM中定义的样式会被限制在Shadow Root的范围中。</p>
+
+<p>下面是一个例子。如果你的浏览器支持Shadow DOM的话，将会看到“Shadow DOM Title”。</p>
+
+<pre><code>&lt;div&gt;&lt;h3&gt;Host title&lt;/h3&gt;&lt;/div&gt;
+&lt;script&gt;
+var root = document.querySelector('div').webkitCreateShadowRoot();
+root.innerHTML = '&lt;style&gt;h3{ color: red; }&lt;/style&gt;' + 
+                '&lt;h3&gt;Shadow DOM Title&lt;/h3&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<div id="example1"><h3>Host title</h3></div>
+<script>
+var root = document.querySelector('div#example1').webkitCreateShadowRoot();
+root.innerHTML = '<style>h3{ color: red; }</style>' + 
+                '<h3>Shadow DOM Title</h3>';
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_1.png" /></p>
+</div>
+
+<p>在这个例子中，有两个值得注意的点：</p>
+
+<ul>
+<li>在页面上有<a href="javascript:alert('页面上一共有' + document.querySelectorAll('h3').length + '个<h3>。')">其它的h3</a>，但唯一一个被上面的样式选中并变成红色的只有Shadow Root中的。也就是说，默认情况下，样式的作用范围被限制了。</li>
+<li>页面中用于其它h3的样式没有被应用到Shadow DOM中去，因为选择器无法穿越shadow边界。</li>
+</ul>
+
+<p>很神奇吧？感谢Shadow DOM，让我们可以将外部样式封装起来。</p>
+
+<h2>为shadow host元素指定样式</h2>
+
+<p><code>@host</code>是一种<a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/shadow/index.html#host-at-rule">at-rule</a>，它可以选择那些挂载了Shadow DOM的元素（即shadow host）。</p>
+
+<pre><code>&lt;button class="bigger"&gt;My Button&lt;/button&gt;
+&lt;script&gt;
+var root = document.querySelector('button').webkitCreateShadowRoot();
+root.innerHTML = '&lt;style&gt;' + 
+    '@host{' + 
+        'button { text-transform: uppercase; }' +
+        '.bigger { padding: 20px; }' +
+    '}' +
+    '&lt;/style&gt;' + 
+    '&lt;content select=""&gt;&lt;/content&gt;';
+&lt;/script&gt;
+&lt;button class="bigger"&gt;My Button&lt;/button&gt;
+</code></pre>
+
+<p><button id="example2" class="bigger">My Button</button></p>
+
+<script>
+var root = document.querySelector('button#example2').webkitCreateShadowRoot();
+root.innerHTML = '<style>' + 
+    '@host{' + 
+        'button { text-transform: uppercase; }' +
+        '.bigger { padding: 20px; }' +
+    '}' +
+    '</style>' + 
+    '<content select=""></content>';
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_2.png" /></p>
+</div>
+
+<p>需要特别注意的是，包裹在<code>@host</code>中的样式规则比页面中的任何选择器中的样式优化先都要高，但比shadow host元素上的<code>style</code>属性优先级低。<code>@host</code>仅仅在Shadow Root所在的范围中才有效，不可以在Shadow DOM之外使用。</p>
+
+<p>使用<code>@host</code>的典型场景是在创建自定义元素时，比如对不同的用户态（:hover，:focus，:active等）应用不同的样式。</p>
+
+<pre><code>&lt;style&gt;
+@host {
+    * {
+        opacity: 0.4;
+        +transition: opacity 420ms ease-in-out;
+    }
+    *:hover {
+        opacity: 1;
+    }
+    *:active {
+        position: relative;
+        top: 3px;
+        left: 3px;
+    }
+}
+&lt;/style&gt;
+</code></pre>
+
+<p><button id="example3">My Button</button></p>
+
+<script>
+var root = document.querySelector('button#example3').webkitCreateShadowRoot();
+root.innerHTML = '<style>' + 
+    '@host{' + 
+        '* {' +
+            'opacity: 0.4;' +
+            '+transition: opacity 420ms ease-in-out;' +
+        '}' +
+        '*:hover {' +
+            'opacity: 1;' +
+        '}' +
+        '*:active {' +
+            'position: relative;' +
+            'top: 3px;' +
+            'left: 3px;' +
+        '}' +
+    '}' +
+    '</style>' + 
+    '<content select=""></content>';
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_3.gif" /></p>
+</div>
+
+<p>在这个例子中，我使用了<code>*</code>选择器来选择承载我的Shadow DOM的元素。也就是“我不关心你是什么元素，只要按这样的样式显示就行了。”</p>
+
+<p>另一种需要使用<code>@host</code>的场景是你想从Shadow DOM内部为不同类型的shadow host指定不同的样式，比如shadow host是自定义元素时就需要这样。当然你还可以根据shadow host元素的类型来创建不同的皮肤。</p>
+
+<pre><code>@host {
+    g-foo { 
+        /* Applies if the host is a &lt;g-foo&gt; element.*/
+    }
+
+    g-bar {
+        /* Applies if the host is a &lt;g-bar&gt; element. */
+    }
+
+    div {
+        /* Applies if the host element is a &lt;div&gt;. */
+    }
+
+    * {
+        /* Applies to any type of element hosting this ShadowRoot. */
+    }
+}
+</code></pre>
+
+<h2>创建样式勾子</h2>
+
+<p>某些场景下让用户自定义是极好的，此时你可能希望打破样式封装，留出一些勾子给其它人来指定样式。</p>
+
+<h3>使用自定义伪元素</h3>
+
+<p>Webkit和Firefox都定义了一些伪元素，用于给原生的元素指定样式。比如<code>input[type=range]</code>，你可以使用<code>::-webkit-slider-thumb</code>来给滑块定义样式。</p>
+
+<pre><code>input[type=range].custom::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: blue;
+    width: 10px;
+    height: 40px;
+}
+</code></pre>
+
+<p>与原生元素提供的这些样式勾子一样，Shadow DOM的作者也可以指定一些可供外部指定样式的元素。具体的方法是使用<a href="http://www.w3.org/TR/shadow-dom/#custom-pseudo-elements">自定义伪元素</a>。</p>
+
+<p>你可以通过使用<code>pseudo</code>属性来指定某个元素作为自定义伪元素，它的值（名字）需要加上前缀“x-”。这样就可以让外部通过伪元素名穿过shadow边界，选择到这个Shadow DOM中的元素。</p>
+
+<p>下面是一个创建自定义滑块挂件的例子，可以通过伪元素让滑块变成蓝色：</p>
+
+<pre><code>&lt;style&gt;
+    #host::x-slider-thumb {
+        background-color: blue;
+    }
+&lt;/style&gt;
+&lt;div id="host"&gt;&lt;/div&gt;
+&lt;script&gt;
+var root = document.querySelector('#host').webkitCreateShadowRoot();
+root.innerHTML = '&lt;div&gt;' +
+                    '&lt;div pseudo="x-slider-thumb"&gt;&lt;/div&gt;' + 
+                '&lt;/div&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<blockquote>
+  <p>看起来很不错是么？你可以通过外部的CSS来指定样式，但不可以通过外部的JS来访问元素。shadow边界仍然对JS有效，但对CSS中使用自定义伪元素例外了。</p>
+</blockquote>
+
+<h3>使用CSS变量</h3>
+
+<blockquote>
+  <p>CSS变量功能可以在Chrome的about:flags中通过“启用实验性 WebKit 功能”开启。</p>
+</blockquote>
+
+<p>另外一个可以用于“换肤”的强大方式就是<a href="http://dev.w3.org/csswg/css-variables/">CSS变量</a>。本质上，就是创建一个“样式占位符”，让其它人来填充这占位符。</p>
+
+<p>一种可能遇到的场景就是自定义元素的作者在Shadow DOM内部使用了一些“样式占位符”，比如一个用于改变按钮字体的变量和一个用于改变颜色的变量：</p>
+
+<pre><code>button {
+    color: +var (button-text-color, pink); /* default color will be pink */
+    font: +var (button-font) ;
+}
+</code></pre>
+
+<p>然后，这个元素的使用者就可以根据他们的喜好来定义这些值，比如让它使用页面上的“Comic Sans”风格：</p>
+
+<pre><code>#host {
+    +var-button-text-color: green;
+    +var-button-font: "Comic Sans MS", "Comic Sans", cursive;
+}
+</code></pre>
+
+<p>因为有CSS变量的继承机制，一切都很完美！完整代码如下：</p>
+
+<pre><code>&lt;style&gt;
+    #host {
+        +var-button-text-color: green;
+        +var-button-font: "Comic Sans MS", "Comic Sans", cursive;
+    }
+&lt;/style&gt;
+&lt;div id="host"&gt;Host node&lt;/div&gt;
+&lt;script&gt;
+var root document.querySelector('#host').webkitCreateShadowRoot();
+root.innerHTML = '&lt;style&gt;' + 
+        'button {' + 
+            'color: +var (button-text-color, pink);' + 
+            'font: +var (button-font) ;' + 
+        '}' +
+        '&lt;/style&gt;' +
+        '&lt;content&gt;&lt;/content&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<blockquote>
+  <p>在这篇文章中，已经有好处提到了<a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/custom/index.html#the-element-element">自定义元素</a>。我不会去讲自定义元素的知识，从现在起，你只需要知道Shadow DOM的结构基础和样式概念是部分来自自定义元素即可。</p>
+</blockquote>
+
+<h2>继承和重设样式</h2>
+
+<p>有某些情况下，你可能希望让外部样式影响到Shadow DOM内部。一个常见的例子是评论挂件。大部分作者在嵌入评论挂件的时候都希望它长得像自己的页面，至少我是这样。我们需要一种方法来统一挂件的风格，比如通过继承字体、颜色、行高等。</p>
+
+<p>为了灵活性考虑，Shadow DOM允许我们在样式封装的边界上打出更多的“洞”。有两个属性可以控制来自外部的样式：</p>
+
+<ul>
+<li><code>.resetStyleInheritance</code>
+<ul><li><code>false</code> 默认值，<a href="这里">http://www.impressivewebs.com/inherit-value-css/</a>可以了解更多关于CSS继承的内容</li>
+<li><code>true</code> 在边界处将所有可以被继承的属性都置为<code>initial</code></li></ul></li>
+<li><code>.applyAuthorStyles</code>
+<ul><li><code>true</code> 使用作者在文档中定义的样式，可理解为“外部样式可以渗透到Shadow DOM内部”</li>
+<li><code>false</code> 默认值，外部样式不会被应用到Shadow DOM内部</li></ul></li>
+</ul>
+
+<p>下面是一个demo，用于演示改变这两个值时Shadow DOM会有怎样的变化。</p>
+
+<pre><code>&lt;div&gt;&lt;h3&gt;Host title&lt;/h3&gt;&lt;/div&gt;
+&lt;script&gt;
+var root = document.querySelector('div').webkitCreateShadowRoot();
+root.applyAuthorStyles = true;
+root.resetStyleInheritance = false;
+root.innerHTML = '&lt;style&gt;h3{ color: red; }&lt;/style&gt;' + 
+                                 '&lt;h3&gt;Shadow DOM Title&lt;/h3&gt;' + 
+                                 '&lt;content select="h3"&gt;&lt;/content&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<div id="example4"><h3>Host title</h3></div>
+<button id="example4_applyAuthorStyles" data-boolean="true">applyAuthorStyles=true</button>
+<button id="example4_resetStyleInheritance" data-boolean="false">resetStyleInheritance=false</button>
+<script>
+~function(){
+    var root = document.querySelector('div#example4').webkitCreateShadowRoot();
+    root.applyAuthorStyles = true;
+    root.resetStyleInheritance = true;
+    root.innerHTML = '<style>h3{ color: red; }</style>' + 
+                                     '<h3>Shadow DOM Title</h3>' + 
+                                     '<content select="h3"></content>';
+    function example4(options){
+        if(typeof options.applyAuthorStyles === 'boolean'){
+            root.applyAuthorStyles = options.applyAuthorStyles;
+            $('#example4_applyAuthorStyles').text('applyAuthorStyles='+options.applyAuthorStyles);
+        }
+        if(typeof options.resetStyleInheritance === 'boolean'){
+            root.resetStyleInheritance = options.resetStyleInheritance;
+            $('#example4_resetStyleInheritance').text('resetStyleInheritance='+options.resetStyleInheritance);
+        }
+    }
+    $('#example4_applyAuthorStyles').click(function(){
+
+        var $this = $(this);
+        var targetBoolean = !$this.data('boolean');
+        example4({
+            applyAuthorStyles:targetBoolean
+        });
+        $this.data('boolean',targetBoolean);
+
+    });
+    $('#example4_resetStyleInheritance').click(function(){
+
+        var $this = $(this);
+        var targetBoolean = !$this.data('boolean');
+        example4({
+            resetStyleInheritance:targetBoolean
+        });
+        $this.data('boolean',targetBoolean);
+
+    });
+}();
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_4.gif" /></p>
+</div>
+
+<p>上面的例子可以很容易地看到<code>.applyAuthorStyles</code>是怎样工作的。它使得Shadow DOM中的h3可以继承页面中h3元素的样式。（译注：你可能会奇怪为何这两个h3的样式不一样呢？不是继承了文档中的样式了吗？这是因为文档中的h3样式前面还有其它的选择器，不是直接写的<code>h3{...}</code>，而是类似<code>#container h3{...}</code>，这样的话因为h3在Shadow DOM中，而前面的选择器在文档中，导致CSS选择器产生跨越边界的行为，因此选择不到，见下段。）</p>
+
+<blockquote>
+  <p>即使设置了<code>apply-author-styles</code>属性，在文档中定义的CSS选择器仍然无法超过shadow边界。<em>只有完全在Shadow DOM内部或者外部的样式规则才会被匹配。</em></p>
+</blockquote>
+
+<p>理解<code>.resetStyleInheritance</code>有点麻烦，主要是因为它只在可以被继承的属性上才有效果。它的含义是：当浏览器在往上寻找某个可以继承的属性值时（比如<code>color</code>），在页面和Shadow Root之间的边界上，这些值不再被继承，而是使用<code>initial</code>代替（根据CSS标准）。（译注：举个例子，文档中定义了<code>body{color:red}</code>，此时如果是文档中有一个<code>p</code>元素，计算<code>color</code>属性值时就会往上寻找到<code>body</code>的<code>color</code>并继承，但如果是Shadow DOM中有一个<code>p</code>元素，则<code>color</code>值在浏览器寻找到shadow边界时被置为<code>initial</code>，而不是继续到Shadow DOM外部寻找继承。）</p>
+
+<p>如果你不确定哪个属性在CSS中会被继承，可以查看这个<a href="http://www.impressivewebs.com/inherit-value-css/">手册</a>，或者在开发工具中的Element面板中切换“Show inherited”选项。</p>
+
+<p><img src="/images/shadow_dom_201_showinheritance.gif" alt="在调试工具中查看继承的样式" title="" /></p>
+
+<h3>小抄</h3>
+
+<p>为了更好地理解这两个属性，下面有一个表格。赶紧把它收藏进口袋吧，很金贵的哦！</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>场景</th>
+            <th>applyAuthorStyles</th>
+            <th>resetStyleInheritance</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <p>“我有自己的样式，但是希望继承一些基础样式，比如文本颜色”<p>
+                <p><cite>比如，在写一个挂件</cite></p>
+            </td>
+            <td>false</td>
+            <td>false</td>
+        </tr>
+        <tr>
+            <td>
+                <p>“让页面滚蛋去吧，我有自己的主题”<p>
+                <p><cite>你仍然需要一个组件内部使用的css reset，因为被分配到内部的内容会带上它在页面中拥有的样式</cite></p>
+            </td>
+            <td>false</td>
+            <td>true</td>
+        </tr>
+        <tr>
+            <td>
+                <p>“我希望从页面样式中获得我的主题”<p>
+            </td>
+            <td>true</td>
+            <td>true</td>
+        </tr>
+        <tr>
+            <td>
+                <p>“我希望让页面样式尽可能地渗透给我”<p>
+                <p><cite>记住，CSS选择器无法跨越shadow边界</cite></p>
+            </td>
+            <td>true</td>
+            <td>false</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>给被分配的节点指定样式</h2>
+
+<p><code>.applyAuthorStyles</code>/<code>.resetStyleInheritance</code>只会影响定义在Shadow DOM内部的节点的样式。</p>
+
+<p>被分配的节点可以算是“异类”，从逻辑上讲，它们不属于Shadow DOM，它们仍然是Shadow host元素的子元素，只是在渲染的时候被移到另外一个地方去了。很自然地，它们会带上从文档中获取到的样式。唯一的例外规则是它们可以在渲染后的新的地方（Shadow DOM中）获取新的样式。</p>
+
+<h3>::distributed() 伪元素</h3>
+
+<p>如果被分配的节点是Shadow host元素的子元素，那怎样从Shadow DOM内部来找到它们并给它们写新的样式呢？答案是<code>::distributed()</code>伪元素。这是第一个“函数式”（functional）伪元素，它接受一个CSS选择器作为它的参数。</p>
+
+<p>我们来看一个简单的例子：</p>
+
+<pre><code>&lt;div&gt;&lt;h3&gt;Host title&lt;/h3&gt;&lt;/div&gt;
+&lt;script&gt;
+var root = document.querySelector('div').webkitCreateShadowRoot();
+root.innerHTML = '&lt;style&gt;' + 
+                   'h3{ color: red; }' + 
+                   'content::-webkit-distributed(h3) { color: green; }' + 
+                 '&lt;/style&gt;' + 
+                 '&lt;h3&gt;Shadow DOM Title&lt;/h3&gt;' +
+                 '&lt;content select="h3"&gt;&lt;/content&gt;';
+&lt;/script&gt;
+</code></pre>
+
+<div id="example5"><h3>Host title</h3></div>
+<script>
+var root = document.querySelector('div#example5').webkitCreateShadowRoot();
+root.innerHTML = '<style>' + 
+                   'h3{ color: red; }' + 
+                   'content::-webkit-distributed(h3) { color: green; }' + 
+                 '</style>' + 
+                 '<h3>Shadow DOM Title</h3>' +
+                 '<content select="h3"></content>';
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_201_5.png" /></p>
+</div>
+
+<p>你应该可以看到红色的“Shadow DOM Title”和绿色的“Host Title”。同时注意到，“Host Title”仍然保留了从文档（页面）中带来的样式。</p>
+
+<h3>在插入点（insertion points）重设样式</h3>
+
+<p>在创建ShadowRoot的时候，你可以选择重设继承的样式。<code>&lt;content&gt;</code>和<code>&lt;shadow&gt;</code>插入点也可以进行同样的选择。当我们使用这些元素的时候，可以通过在JS中设置<code>.resetStyleInheritance</code>布尔属性，或者在元素本身上设置<code>reset-style-inheritance</code>属性。</p>
+
+<ul>
+<li>对ShadowRoot或者是<code>&lt;shadow&gt;</code>插入点来说：<code>reset-style-inheritance</code>意味着，可继承的CSS属性在到达Shadow DOM之前，在shadow host处被置为<code>initial</code>。这个位置也就是熟知的“上边界”（upper boundary）。</li>
+<li>对<code>&lt;content&gt;</code>插入点来说：<code>reset-style-inheritance</code>意味着，可继承的CSS属性在shadow host的子元素被分配之前会被置为<code>initial</code>。这个位置也就是熟知的“下边界”（lower boundary）。</li>
+</ul>
+
+<p>（译注：其实没懂上下边界的差异在哪里，求指教……）</p>
+
+<blockquote>
+  <p>特别注意：在文档中定义的样式会继续应用到它们选择到的那些节点，即使这些节点被分配到Shadow DOM内部。节点跑到Shadow DOM内部并不会改变那些已经应用的样式。</p>
+</blockquote>
+
+<h2>总结</h2>
+
+<p>对自定义元素的作者来说，可以有N多种控制样式的办法。Shadow DOM成为了这些办法中最基础的部分。</p>
+
+<p>Shadow DOM为我们提供了样式封装（scoped style），以及一种可以选择性让外部样式渗透的方法。通过自定义伪元素和CSS变量，作者可以提供给第三方使用者一些样式勾子，以便使用者进一步自定义他们的内容。最终，web的作者们仍然可以完全控制内容的呈现。</p>
+
+<blockquote>
+  <p>原文地址<a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/?redirect_from_locale=zh">http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/?redirect_from_locale=zh</a></p>
+</blockquote>
+
+<script>
+    /*var css = document.createElement('link');
+    css.setAttribute('rel','stylesheet');
+    css.setAttribute('href','/attachments/shadow_dom_101_style.css');
+    document.head.appendChild(css);*/
+
+    if(!window.WebKitShadowRoot){
+        $('.helperimg').css({
+
+            border:'1px solid #ccc',
+            background:'#eee',
+            padding:'20px'
+
+        }).show();
+    }
+</script>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>[译]Shadow DOM第一课</title>
+      <link>http://www.toobug.net/article/shadow_dom_101.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_101.html</guid>
+      <pubDate>Tue, 28 May 2013 06:26:44 +0800</pubDate>
+      <category>Shadow DOM</category>
+      <category>Web Components</category>
+      <description>
+        <![CDATA[
+        <h2>译者按</h2>
+
+<p>去年我曾经翻译过一篇<a href="http://www.toobug.net/article/what_is_shadow_dom.html">介绍Shadow DOM的文章</a>，当时觉得这是一门好遥远的技术，但仅仅在半年之后，Chrome就已经支持了Shadow DOM，到目前为止，Web Components的各个子标准也已经初见端倪，可以再深入把玩一番了。建议使用Chrome 25+访问本文章以便可以看到可以使用的实例，否则文章中的演示将只能看到静态的图片。</p>
+
+<h2>简介</h2>
+
+<blockquote>
+  <p>注：本文讨论的API还没有被完全标准化，还处在不断讨论变更的阶段，所以请在项目中谨慎使用实验性的API。</p>
+</blockquote>
+
+<p><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html">Web Components</a>是一系列比较前卫的标准的集合，它可以：</p>
+
+<ul>
+<li>使得在页面中构建挂件（widget）成为可能</li>
+<li>构建的挂件很可靠，可以被重复使用</li>
+<li>如果挂件的下一个版本改变了内部实现细节，并不会影响页面</li>
+</ul>
+
+<p>这是否是说你得在使用HTML/JavaScript还是使用Web Components之间做出选择？事实上，不是的。HTML和JavaScript可以做出交互式的组件，而挂件正是这样的交互式组件。这也就是说使用HTML和JavaScript来开发挂件是件很有意义的事情。Web Components标准正是用来做这件事情的。</p>
+
+<blockquote>
+  <p>如果构建一个挂件必须要强制使用另外的技术，那么这是没有意义的。比如，使用<code>&lt;canvas&gt;</code>来构建一个挂件显然是件无趣的事情。它的确很可靠，因为当你改变画布中的内容时页面不会受影响，但它在可访问性、可索引性、内容创作、自适应分辨率等方面都很不友好。</p>
+</blockquote>
+
+<p>如果HTML和JavaScript来构建挂件面临一个基础性的问题，那就是挂件内的DOM树并没有被从页面其它部分封装起来。缺少封装意味着页面的CSS可能会意外地被应用到挂件内部，JavaScript可能会意外地修改挂件内部，还可能引起挂件内外的ID冲突等等。</p>
+
+<blockquote>
+  <p>缺少封装带来的另一方面的问题是，当你升级了你的库，改变了挂件的DOM结构，那么你的CSS和JavaScript有可能会意外地不能正常工作。</p>
+</blockquote>
+
+<p>Web Components由5个部分组成（译注：原文中是模板、Shadow DOM、自定义元素、Packaging四个部分，翻译时根据最新规范做了修改，感谢 <a href="http://weibo.com/jieorlin">@一丝</a> 提醒）：</p>
+
+<ol>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/templates/index.html">模板（Templates）</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#decorator-section">装饰器（Decorators）</a></li>
+<li><a href="http://www.w3.org/TR/shadow-dom/">Shadow DOM</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/custom/index.html">自定义元素（Custom Elements）</a></li>
+<li><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/imports/index.html">Imports</a></li>
+</ol>
+
+<p>Shadow DOM着眼于DOM树的封装问题。Web Components的这5个部分在设计时是希望它们协同工作的，但你可以自由选择使用哪一部分。本教程将讨论如何使用Shadow DOM。</p>
+
+<p>Shadow DOM目前只在Chrome 25+可用，API前面有一个<code>webkit</code>前缀。</p>
+
+<h2>Hello, Shadow World</h2>
+
+<p>在Shadow DOM的世界中，元素可以被关联到一种新的节点类型，这种新的节点类型叫作shadow root。一个被关联到shadow root的元素叫作shadow host。shadow host的内容不会被渲染，取而代之的是shadow root的内容。</p>
+
+<p>比如，如果你有这样的代码：</p>
+
+<pre><code>&lt;button&gt;Hello, world!&lt;/button&gt;
+&lt;script&gt;
+var host = document.querySelector('button');
+var root = host.webkitCreateShadowRoot();
+root.textContent = 'こんにちは、影の世界!';
+&lt;/script&gt;
+</code></pre>
+
+<p>页面是像这样渲染的：</p>
+
+<p><button>Hello, world!</button></p>
+
+<script>
+var host = document.querySelector('button');
+var root = host.webkitCreateShadowRoot();
+root.textContent = 'こんにちは、影の世界!';
+</script>
+
+<p>而不是这样：</p>
+
+<p><button>Hello, world!</button></p>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_101_2.png" /></p>
+</div>
+
+<p>需要注意，如果使用页面上的JavaScript来取按钮的<code>textContent</code>，得到的并不是“こんにちは、影の世界!”，而是“Hello, world!”，因为shadow root下面的DOM子树被封装起来了。</p>
+
+<p>这里可能违反了一个原则，就是不应该将内容放入Shadow DOM。内容必须被放到文档中，以便被屏幕阅读器、搜索引擎、浏览器插件等读取。Shadow DOM是用来处理在构建精致好用挂件过程中面临的无语义的标记的。内容部分应该留在页面上。</p>
+
+<blockquote>
+  <p>当然，对是否将内容放入Shadow DOM这件事，我们无法强制，毕竟这是web，你可以随意做你想做的事情。不要做得太过火就好。</p>
+</blockquote>
+
+<h2>将内容从表现中抽离</h2>
+
+<p>现在我们来看一个使用Shadow DOM将内容从表现中抽离的例子。假设我们有这样一个名牌：</p>
+
+<div id="nametag1" class="outer">
+    <div class="boilerplate">
+        Hi! My name is
+    </div>
+    <div class="name">
+        Bob
+    </div>
+</div>
+
+<blockquote>
+  <p>译注：这个例子效果和原文略有差异，因为我的博客样式影响到了名牌的样式，刚好可以作为DOM不封装时写组件弊端的证明，就不修正了。</p>
+</blockquote>
+
+<p>下面是代码，这是你已经每天在写的代码，没有用到Shadow DOM：</p>
+
+<pre><code>&lt;style&gt;
+.outer {
+    border: 2px solid brown;
+    border-radius: 1em;
+    background: red;
+    font-size: 20pt;
+    width: 12em;
+    height: 7em;
+    text-align: center;
+}
+.boilerplate {
+    color: white;
+    font-family: sans-serif;
+    padding: 0.5em;
+}
+.name {
+    color: black;
+    background: white;
+    font-family: "Marker Felt", cursive;
+    font-size: 45pt;
+    padding-top: 0.2em;
+}
+&lt;/style&gt;
+&lt;div class="outer"&gt;
+    &lt;div class="boilerplate"&gt;
+        Hi! My name is
+    &lt;/div&gt;
+    &lt;div class="name"&gt;
+        Bob
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>因为DOM树没有封装，名牌的整个结构都是暴露在文档中的。如果页面中碰巧有其它元素使用了相同的类名来写CSS或者JavaScript，那估计我们会很难过。</p>
+
+<p>我们可以避免这种难过的日子。</p>
+
+<h3>第1步，隐藏表现的细节</h3>
+
+<p>从语义上讲，我们可能只关心：</p>
+
+<ul>
+<li>它是一个名牌</li>
+<li>名字是“Bob”</li>
+</ul>
+
+<p>首先，我们写一个与我们期望的语义最接近的结构：</p>
+
+<pre><code>&lt;div id="nameTag"&gt;Bob&lt;/div&gt;
+</code></pre>
+
+<p>接下来，我们将所有会用到的样式和<code>div</code>元素写到<code>&lt;template&gt;</code>元素中：</p>
+
+<pre><code>&lt;div id="nameTag"&gt;Bob&lt;/div&gt;
+&lt;template id="nameTagTemplate"&gt;
+&lt;style&gt;
+.outer {
+    border: 2px solid brown;
+
+    … same as above …
+
+&lt;/style&gt;
+&lt;div class="outer"&gt;
+    &lt;div class="boilerplate"&gt;
+        Hi! My name is
+    &lt;/div&gt;
+    &lt;div class="name"&gt;
+        Bob
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>到目前为止，唯一被渲染的只有“Bob”，因为我们将用于表现的DOM结构移到了<code>&lt;template&gt;</code>元素中，它们没有被渲染，但我们可以从JavaScript中访问到这些DOM结构。现在，我们来处理shadow root：</p>
+
+<pre><code>&lt;script&gt;
+var shadow = document.querySelector('#nameTag').webkitCreateShadowRoot();
+var template = document.querySelector('#nameTagTemplate');
+shadow.appendChild(template.content);
+template.remove();
+&lt;/script&gt;
+</code></pre>
+
+<blockquote>
+  <p>模板（Templates）和Shadow DOM一样，也是一个还未完全确定的标准。目前<code>&lt;template&gt;</code>元素在Chrome Canary中可用。你也可以使用你熟悉的方法如<code>innerHTML</code>，<code>appendChild</code>，<code>getElementById</code>等等。因为这篇文章是讲Shadow DOM的，所以我们不会深入去讲<code>template</code>元素是如何工作的。如果你希望了解更多，可以看<a href="http://www.html5rocks.com/tutorials/webcomponents/template/">HTML's New Template Tag</a>。</p>
+</blockquote>
+
+<p>现在我们有了一个shadow root，名牌又重新被渲染了。如果你在名牌标签上点右键然后审查元素，你会看到我们所期望的语义化的结构：</p>
+
+<pre><code>&lt;div id="nameTag"&gt;Bob&lt;/div&gt;
+</code></pre>
+
+<p>从这个示例，我们可以看到，使用Shadow DOM可以将名牌的具体表现细节从文档中隐藏起来，它们被封装在了Shadow DOM中。</p>
+
+<h3>　第2步，从表现中抽离内容</h3>
+
+<p>现在我们的名牌可以将实现细节从页面中隐藏了，但其实并没有将内容和表现分享开，因为尽管内容（“Bob”）已经在页面上了，但被渲染的内容却是来自shadow root中的副本。如果我们需要修改名牌中的名字，还需要改这两个地方，甚至可能因为一些原因导致这两处的名字并不一致。</p>
+
+<p>HTML元素是可以组合的——比如你可以将一个按钮放进一个表格中。在这里我们所需要的正是组合——名牌由一个红色的背景，文本“Hi!”以及名字组合而成。</p>
+
+<p>你——即挂件的作者——可以通过一个叫<code>&lt;content&gt;</code>的新元素来定义你的挂件将如何被组合。这将在挂件的表现中创建一个插入点（insertion point），插入点会将shadow host中的内容放到插入点所在的位置。</p>
+
+<p>如果我们将Shadow DOM中的结构改成这样：</p>
+
+<pre><code>&lt;template id="nameTagTemplate"&gt;
+&lt;style&gt;
+    …
+&lt;/style&gt;
+&lt;div class="outer"&gt;
+    &lt;div class="boilerplate"&gt;
+        Hi! My name is
+    &lt;/div&gt;
+    &lt;div class="name"&gt;
+        &lt;content&gt;&lt;/content&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>如果这个名牌被渲染，那么shadow host的内容将被投影（project）到<code>&lt;content&gt;</code>元素出现的地方。</p>
+
+<p>现在文档的结构显得更简单了，因为名字只出现在一个地方，即文档中。如果需要修改页面中的名字，只需要这样写就可以了：</p>
+
+<pre><code>document.querySelector('#nameTag').textContent = 'Shellie';
+</code></pre>
+
+<p>浏览器会自动更新渲染结果，因为名字被投影到了<code>&lt;content&gt;</code>元素所在的地方。</p>
+
+<p>这是一个实例：</p>
+
+<div id="nameTag2">Bob</div>
+<template id="nameTag2Template">
+<style>
+.outer {
+  border: 2px solid brown;
+  border-radius: 1em;
+  background: red;
+  font-size: 20pt;
+  width: 12em;
+  height: 7em;
+  text-align: center;
+}
+.boilerplate {
+  color: white;
+  font-family: sans-serif;
+  padding: 0.5em;
+}
+.name {
+  color: black;
+  background: white;
+  font-family: "Marker Felt", cursive;
+  font-size: 45pt;
+  padding-top: 0.2em;
+  height: 55pt;
+  overflow: hidden;
+}
+</style>
+<div class="outer">
+    <div class="boilerplate">
+        Hi! My name is
+    </div>
+    <div class="name">
+        <content></content>
+    </div>
+</div>
+
+<p></template></p>
+
+<p>
+<label for="name2newName">New name:</label>
+<input name="name2newName" value="Shellie">
+<button onclick="document.querySelector('#nameTag2').innerText=document.querySelector('input[name=name2newName]').value;">Update</button>
+</p>
+
+<script>
+var shadow = document.querySelector('#nameTag2').webkitCreateShadowRoot();
+var template = document.querySelector('#nameTag2Template');
+shadow.appendChild(template.content);
+template.remove();
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_101_3.png" /></p>
+</div>
+
+<p>现在我们完成了内容与表现的分离。内容在文档中，而表现在Shadow DOM中。如果浏览器需要渲染的话，会自动将它们进行同步。</p>
+
+<h3>第3步，好处</h3>
+
+<p>通过分离内容和表现，我们可以简化对内容的操作，比如在上例中，你只需要操作一个<code>&lt;div&gt;</code>而不是一堆DOM。</p>
+
+<p>现在如果我们要修改表现，根本不需要改任何代码。</p>
+
+<p>比如，如果我们要对名牌进行本地化。这个名牌在文档中的语义化结构并没有改变：</p>
+
+<pre><code>&lt;div id="nameTag"&gt;Bob&lt;/div&gt;
+</code></pre>
+
+<p>初始化shadow root的代码仍然和上面的相同，变化的只是放入shadow root中的内容：</p>
+
+<pre><code>&lt;template id="nameTagTemplate"&gt;
+&lt;style&gt;
+.outer {
+    border: 2px solid pink;
+    border-radius: 1em;
+    background: url(sakura.jpg);
+    font-size: 20pt;
+    width: 12em;
+    height: 7em;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+.name {
+    font-size: 45pt;
+    font-weight: normal;
+    margin-top: 0.8em;
+    padding-top: 0.2em;
+}
+&lt;/style&gt;
+&lt;div class="outer"&gt;
+    &lt;div class="name"&gt;
+        &lt;content&gt;&lt;/content&gt;
+    &lt;/div&gt;
+    と申します。
+&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>现在我们看到了一个日本名牌（译注：原例如此，钓鱼岛是中国的！）：</p>
+
+<div id="nameTag3">Bob</div>
+<template id="nameTag3Template">
+<style>
+.outer {
+    border: 2px solid pink;
+    border-radius: 1em;
+    background: url(/images/shadow_dom_101_1.jpg);
+    font-size: 20pt;
+    width: 12em;
+    height: 7em;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+.name {
+    font-size: 45pt;
+    font-weight: normal;
+    margin-top: 0.8em;
+    padding-top: 0.2em;
+}
+</style>
+<div class="outer">
+    <div class="name">
+        <content></content>
+    </div>
+    と申します。
+</div>
+
+<p></template></p>
+
+<p>
+<label for="name3newName">New name:</label>
+<input name="name3newName" value="Shellie">
+<button onclick="document.querySelector('#nameTag3').innerText=document.querySelector('input[name=name3newName]').value;">Update</button>
+</p>
+
+<script>
+var shadow = document.querySelector('#nameTag3').webkitCreateShadowRoot();
+var template = document.querySelector('#nameTag3Template');
+shadow.appendChild(template.content);
+template.remove();
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_101_4.png" /></p>
+</div>
+
+<blockquote>
+  <p><a href="http://www.flickr.com/photos/mikedowman/5621169045/">背景图来自Mike Dowman</a>，在Creative Commons授权下使用。</p>
+</blockquote>
+
+<p>这相对于现在的web开发状况来说，是一个巨大的进步，因为用于更新名字的代码只需要依赖简单而且一致的组件结构即可，这些代码不需要知道用来做渲染的结构。具体到渲染细节上，名字出现在“Hi! My name is”之后，出现在日语之前，但对于更新名字的代码来说，这些细节都是毫无语义的，因此这些代码完全没有必要知道这些细节。</p>
+
+<h2>高级投影</h2>
+
+<p>在上面的例子中，<code>&lt;content&gt;</code>元素所在的位置放入了所有来自shadow host的元素（副本）。如果使用<code>select</code>属性，则可以选择性地进行投影。你甚至可以使用多个<code>content</code>元素。</p>
+
+<p>比如，如果你的文档中结构是这样：</p>
+
+<pre><code>&lt;div id="nameTag"&gt;
+    &lt;div class="first"&gt;Bob&lt;/div&gt;
+    &lt;div&gt;B. Love&lt;/div&gt;
+    &lt;div class="email"&gt;bob@&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>还有一个shadow root，它使用CSS选择器来指定内容：</p>
+
+<pre><code>&lt;div style="background: purple; padding: 1em;"&gt;
+    &lt;div style="color: red;"&gt;
+        &lt;content select=".first"&gt;&lt;/content&gt;
+    &lt;/div&gt;
+    &lt;div style="color: yellow;"&gt;
+        &lt;content select="div"&gt;&lt;/content&gt;
+    &lt;/div&gt;
+    &lt;div style="color: blue;"&gt;
+        &lt;content select=".email"&gt;&lt;/content&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<blockquote>
+  <p>注意：<code>select</code>属性只可以选择shadow host节点的近亲节点（immediate children），也就是说，你不能选择后代（如<code>select="table tr"</code>）。</p>
+</blockquote>
+
+<p><code>&lt;div class="email"&gt;</code>同时被<code>&lt;content select="div"&gt;</code>和<code>&lt;content select=".email"&gt;</code>元素匹配。那么Bob的email地址会出现几次呢？是什么颜色呢？</p>
+
+<p>答案是：Bob的email地址只会出现一次，是黄色的。</p>
+
+<div id="nameTag4">
+    <div class="first">Bob</div>
+    <div>B. Love</div>
+    <div class="email">bob@</div>
+</div>
+
+<p><template id="nameTag4Template"></p>
+
+<div style="background: purple; padding: 1em;">
+    <div style="color: red;">
+        <content select=".first"></content>
+    </div>
+    <div style="color: yellow;">
+        <content select="div"></content>
+    </div>
+    <div style="color: blue;">
+        <content select=".email"></content>
+    </div>
+</div>
+
+<p></template></p>
+
+<script>
+var shadow = document.querySelector('#nameTag4').webkitCreateShadowRoot();
+var template = document.querySelector('#nameTag4Template');
+shadow.appendChild(template.content);
+template.remove();
+</script>
+
+<div class="helperimg" style="display:none;">
+    <p>您的浏览器不支持Shadow DOM，这个例子的正确样子是这样的：</p>
+    <p><img alt="不支持shadow dom的同学看这个图片" src="/images/shadow_dom_101_5.png" /></p>
+</div>
+
+<p>原因是，构建在屏幕上渲染的DOM树就像是一场盛大的聚会。<code>content</code>元素是邀请的发起者，它们希望文档中的内容可以进入到Shadow DOM中进行渲染的聚会。这些邀请是按顺序送达的，谁能收到邀请取决于地址上写了谁（即<code>select</code>属性）。对于内容来说，一旦接到邀请，就会立刻接受这个邀请，欣然赴宴。如果下一个邀请被送到了同样的地址，这时候，这个地址已经没有人了，所以它不会出现在聚会中。</p>
+
+<p>在上面的例子中，<code>&lt;div class="email"&gt;</code>同时匹配了<code>div</code>选择器和<code>.email</code>选择器，但因为<code>div</code>选择器来得更早一些，所以<code>&lt;div class="email"&gt;</code>去了黄色的聚会，而没有人去蓝色的聚会。</p>
+
+<p>如果有部分内容没有收到任何邀请，它们将不会被渲染。第一个例子中的“Hello, world”就是这样的情况。这种情况在你想要做一些渐进增强的渲染时很有用：在文档中写入语义化的模型，它可以被脚本获取，然后在渲染时将它隐藏，使用Shadow DOM中的渲染模型来代替它。</p>
+
+<p>比如，HTML中有一个很好用的日历选择控件，如果你用<code>&lt;input type="date"&gt;</code>就能看到一个很不错的弹出日历框。但如果你想让用户选择一个日期范围会是什么情况？你在文档中写下这样的结构：</p>
+
+<pre><code>&lt;div class="dateRangePicker"&gt;
+    &lt;label for="start"&gt;Start:&lt;/label&gt;
+    &lt;input type="date" name="startDate" id="start"&gt;
+    &lt;br&gt;
+    &lt;label for="end"&gt;End:&lt;/label&gt;
+    &lt;input type="date" name="endDate" id="end"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>然后使用Shadow DOM创建了一个日历表格（译注：不是指datepicker中的日历，而是类似Google日历一样的表格），这个日历表格会高亮选中的日期范围。当用户点击日历表格中的日期时，组件会更新startDate输入框和endDate输入框的值，当用户提交表单时，这两个输入框中的值会被提交。</p>
+
+<p>那么，为什么在文档中还要包含<code>label</code>呢，它们根本不会被渲染？原因就是，如果用户在使用一个不支持Shadow DOM的浏览器，这个表单仍然是可用的，只是没那么完美。用户将会看到类似下面这样的表单：</p>
+
+<div class="dateRangePicker">
+    <label for="start">Start:</label>
+    <input type="date" name="startDate" id="start">
+    <br>
+    <label for="end">End:</label>
+    <input type="date" name="endDate" id="end">
+</div>
+
+<h2>恭喜完成Shadow DOM入门</h2>
+
+<p>这些就是Shadow DOM最基础的内容，恭喜你已经入门了！你可以使用Shadow DOM做更多事情，比如你可以在一个shadow host上挂多个Shadow DOM子树，或者在封装过程中将Shadow DOM嵌套起来，或者使用MDV（Model-Driven Views）和Shadow DOM来构造你的页面。事实上，Web组件远不止Shadow DOM这一门技术，比如，如果使用Web组件规范中的自定义元素部分，你可以使用声明式的方式来初始化Shadow DOM，而不必使用脚本。</p>
+
+<p>我们将在稍后的课程中讲述这些内容。现在，<a href="https://plus.google.com/103330502635338602217/posts">来Google+加入我们吧</a>。</p>
+
+<blockquote>
+  <p>原文地址<a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/?redirect_from_locale=zh">http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/?redirect_from_locale=zh</a></p>
+</blockquote>
+
+<script>
+    var css = document.createElement('link');
+    css.setAttribute('rel','stylesheet');
+    css.setAttribute('href','/attachments/shadow_dom_101_style.css');
+    document.head.appendChild(css);
+
+    if(!window.WebKitShadowRoot){
+        $('.helperimg').css({
+
+            border:'1px solid #ccc',
+            background:'#eee',
+            padding:'20px'
+
+        }).show();
+    }
+</script>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>JLint——一个sublime的JSLint插件</title>
+      <link>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</guid>
+      <pubDate>Thu, 13 Dec 2012 12:50:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>先上地址：<a href="https://github.com/TooooBug/JLint">https://github.com/TooooBug/JLint</a></p>
+
+<h3>为什么又造轮子？</h3>
+
+<p>Sublime Text 2是一款非常优秀的代码编辑器，前两天出于对它的喜爱，购买了license，从此走上正版的道路。</p>
+
+<p>恰逢最近在项目中看到了一些不是太好的前端代码，就想弄一个JSLint来辅助检查修改一下。在<a href="http://wbond.net/sublime_packages/community#sort-installs">http://wbond.net/sublime_packages/community#sort-installs</a>上搜索“JSLint”，可以找到三个插件，第一个甚至有2%的用户安装了。但是，仔细看去，这三个插件不是要依赖node就是要依赖java，这让我这种有系统洁癖的人觉得非常不爽。</p>
+
+<p>在找了大半天找不到的情况下，一个想法冒出来了——“逼我么？”</p>
+
+<p>于是有了这个插件。</p>
+
+<h3>说明</h3>
+
+<p>因为是业余作品，花的时间相当少，加之既没有python基础，也不会sublime text插件的开发，全部是现学现卖，因此质量上还有不少问题。</p>
+
+<p>第一个问题是我还不知道如何去打开sublime text 2的控制台，所以在检查完以后需要手工按ctrl+`打开控制台才能看到结果。</p>
+
+<p>第二个问题是不了解其它系统是否有自带的js引擎，所以目前仅支持windows。</p>
+
+<p>第三个问题是windows的脚本宿主（JScript）对连续空行的判断有bug，导致代码中遇到空行后显示的行数不正确。这个坑爹的问题连JSLint作者老道也不准备再搞了，悲剧。</p>
+
+<p>第四个问题是现在代码是同步执行的（还不会搞python子线程的异步执行），文件比较大时会有明显的卡顿现象。</p>
+
+<p>第五个问题是对JSLint的选项还不熟，因此不知道如何配置才最符合工程中的代码要求，这一点我也会自己一边用一边调整。</p>
+
+<h3>结束</h3>
+
+<p>没有了，慢慢改进吧，Node的出现极大地丰富了前端工具，但对不装Node的人来说，还是希望能多一些无依赖的插件可以使用，我也会慢慢去整理一些。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>你好，Solo &amp; GitHub!</title>
+      <link>http://www.toobug.net/article/hello_solo_and_github.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/hello_solo_and_github.html</guid>
+      <pubDate>Thu, 16 Aug 2012 18:24:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>曾经，有一部电影，名叫Solo（独行者）。其实情节很俗套，无非是生物科技发达，让人死而复生，变成“机器人”一样去打仗，同样俗套的是后面必须会有伦理的斗争，Solo获得意识，而类似的实验被终止。不过，令我一直念念不忘的是它的名字，Solo——独行者。</p>
+
+<p>初中行将毕业时，因为一些突如其来的事情，突然觉得整个世界失去了色彩。那时候真切地觉得，别人都好好活着，我好好地看着就好了。那时候，也曾在心底暗暗标榜过，我的生活，无非是冷眼看世界而已。大半夜在教室睡不着的时候，偶尔也会想想人生。偶尔也会不经意地想到Solo，很好的名字，一个人的精神世界，也许并没有那么糟。</p>
+
+<p>大学进了乐团，终于知道，原来solo还有独奏的意思。那时候跟着一堆朋友们在乐队中瞎混，觉得能抢到一段solo来让自己演奏真的是莫大的荣幸。也是这段经历，让我知道，solo很精彩，solo不孤单。</p>
+
+<p>好了，说了这么多无关痛痒的话题，我只想说，当我看到solo成为一个喜爱的博客项目的名字的时候，打心眼里感到喜悦！于是，来不及想作者的意图到底是本地编译还是在线编译，来不及看代码中的七牛到底是个什么神秘玩意，我就迫不急待地开始了我的solo之旅行。</p>
+
+<p>我很庆幸我是做前端的，这样，在第一眼就看出这个项目有很多不完善的时候，仍然有信心去将它打造成我想要的样子。于是，你看到了你现在看到的博客。当然，它不完美，它离我的预想还有很远，但是我坚信总有一天它会让我满意的。</p>
+
+<p>在接触了MarkDown之后，觉得抛弃WordPress是件很自然的事情了。虽然solo没有后台、没有任何动态特性，但对它每个角落的每一行代码完完全全地掌握就足够让我欣喜，而MarkDown对文字中每个细节的把握更是让我觉得完美，这种喜爱的感觉，奇妙得难以言表。</p>
+
+<p>虽然我有两个VPS，但是仍然选择将solo托管在GitHub上，无他，喜爱而已，就像我对MarkDown的喜爱一样，无可救药。</p>
+
+<p>好了，不扯了。一晃两年没写文字了，再次涉足，手足无措，其实我想说的无非就一句话：我生命中的第三个solo，我来了！</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>[译]什么是Shadow Dom？</title>
+      <link>http://www.toobug.net/article/what_is_shadow_dom.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/what_is_shadow_dom.html</guid>
+      <pubDate>Thu, 07 Jun 2012 18:24:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>如果你做过网站，那么很可能你已经用过一些JavaScript类库。既然如此，你可能会对这些不知名的类库作者心存感激。</p>
+
+<p>这些作者——web开发领域的勇士们——都面对着同样的一个问题——封装。他们会花大量的精力在面向对象的经典问题之一上面，即如何封装自己的代码，以便与类库使用者的代码分离。</p>
+
+<p>除了SVG，现在的Web平台只提供了一种原生的方法去隔离代码块，这并不优雅。没错，我说的就是iframe。对大部分需要封装的场景来说，frames太重而且限制太多。</p>
+
+<p>如果我需要把每个自定义的按钮都放到iframe里，你是什么感觉，会不会疯掉？</p>
+
+<p>所以，我们需要一些更好的东西。事实上，大部分的浏览器已经变相地提供了一种强大技术去隐藏一些实现细节。这个技术就是所谓的“shadow DOM”。</p>
+
+<h3>我的名字是DOM，Shadow DOM</h3>
+
+<p>Shadow DOM是指浏览器的一种能力，它允许在文档（document）渲染时插入一棵DOM元素子树，但是这棵子树不在主DOM树中。看一个简单的slider：</p>
+
+<pre><code>&lt;input id="foo" type="range"/&gt;
+</code></pre>
+
+<p>把这段代码放到webkit内核的浏览器中，它会这样显示：</p>
+
+<p><img src="../images/what_is_shadow_dom_1.png" alt="slider" title="" /></p>
+
+<p>很简单吧，这里有一个滑槽，还有一个滑块可以沿滑槽滑动。</p>
+
+<p>嗯。一切看起来都那么美好，喝杯咖啡先……等下等下，这里居然有一个可以在input元素中滑动的元素！为什么我不能通过JavaScript看到它？</p>
+
+<pre><code>var slider = document.getElementsById("foo");
+console.log(slider.firstChild); // 返回 null
+</code></pre>
+
+<p>这是一种魔法么？</p>
+
+<p>我的观点来看，不是。这只是shadow DOM在起作用。你看，浏览器的开发者们已经意识到了手工编写这些DOM元素的表现和行为很困难而且很SB。所以，从一定程度上讲，他们骗了我们，给了我们一个输入框，但拥有比输入框更多的功能。</p>
+
+<p>他们为你——web开发者设定了一个边界，界定了哪些是你可以访问的，哪些实现细节是访问不到的。然而，浏览器本身却可以随意跨越这个边界。设置这样一个边界之后，它们就可以在你看不见的地方使用熟悉的web技术、同样的HTML元素去创建更多的功能，而不是像你一样要在页面上用div和span来堆。</p>
+
+<p>有一些很简单，就像上面说的slider。而有一些却相当复杂。我们来看一下video元素，它有一些按钮、进度条、hover态的音量控制，像这样：</p>
+
+<p><img src="../images/what_is_shadow_dom_2.png" alt="slider" title="" /></p>
+
+<p>所有的这一切都只是HTML和CSS——但是是隐藏在shadow DOM子树中的。</p>
+
+<p>借用XXX的一首诗，“它是怎样工作的？”为了直观一些，我们假装可以用JavaScript操作它。看这个简单的页面：</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt; p { color: Green; } &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;My Future is so bright&lt;/p&gt;
+&lt;div id="foo"&gt;&lt;/div&gt;
+&lt;script&gt;
+    var foo = document.getElementById('foo');
+    // 注意：这里只是模拟，不是真实的API
+    foo.shadow = document.createElement('p');
+    foo.shadow.textContent = 'I gotta wear shades';
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>我们获得了一个这样的DOM树：</p>
+
+<pre><code>&lt;p&gt;My Future is so bright&lt;/p&gt;
+&lt;div id="foo"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>但是它像是被这样渲染出来的：</p>
+
+<pre><code>&lt;p&gt;My Future is so bright&lt;/p&gt;
+&lt;div id="foo"&gt; &lt;!-- shadow subtree begins --&gt;
+    &lt;p&gt;I gotta wear shades&lt;/p&gt;
+&lt;/div&gt; &lt;!-- shadow subtree ends --&gt;
+</code></pre>
+
+<p>看起来是这样：</p>
+
+<p><img src="../images/what_is_shadow_dom_3.png" alt="slider" title="" /></p>
+
+<p>注意一下，为什么渲染的句子的第二部分不是绿色的？这是因为文档（document）中选择器p不能获取到shadown DOM。很酷对不对？！如果一个框架开发者被赋予这样的能力会怎么样？想象一下你只需要写你的widget，而不用担心被不知哪里蹦出来的选择器愚弄……简直令人陶醉。</p>
+
+<h3>事件的情况</h3>
+
+<p>为了保持自然，shadow DOM子树中的事件可以在文档（document）中被监听。比如，你点击一下audio元素中的静音按钮，你可以在一个包裹它的div中监听到这个事件。</p>
+
+<pre><code>&lt;div onclick="alert('who dat?')"&gt;
+    &lt;audio controls src="test.wav"&gt;&lt;/audio&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>但是，如果你要确认事件的来源，会发现它是audio元素，而不是它内部的按钮。</p>
+
+<pre><code>&lt;div onclick="alert('fired by:' + event.target)"&gt;
+    &lt;audio controls src="test.wav"&gt;&lt;/audio&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>为什么这样？因为当事件穿过shadown DOM边界的时候，会被重新设定target，以避免暴露shadow DOM子树内部结构。用这种方式，你可以监听到从shadow DOM中产生的事件，而实现者也可以继续隐藏细节。</p>
+
+<h3>通过CSS访问（Reaching into）Shadow</h3>
+
+<p>另一个需要提到的技巧是怎样通过CSS来访问shadow DOM子树。假设我想自定义我的slider。我想让它有一些样式，而不是系统原生的那样，像这样：</p>
+
+<pre><code>input[type=range].custom {
+    -webkit-appearance: none;
+    background-color: Red;
+    width: 200px;
+}
+</code></pre>
+
+<p>结果如下：</p>
+
+<p><img src="../images/what_is_shadow_dom_4.png" alt="slider" title="" /></p>
+
+<p>很好，但是我怎样定义滑块的样式呢？我们已经知道，常规的CSS选择器并不能获取到shadow DOM子树。但事实上，这里有一些很方便的伪元素，可以取到shadow DOM子树中的元素。例如，slider中的滑块在webkit中可以这样访问：</p>
+
+<pre><code>input[type=range].custom::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: Green;
+    opacity: 0.5;
+    width: 10px;
+    height: 40px;
+}
+</code></pre>
+
+<p>样子如下：</p>
+
+<p><img src="../images/what_is_shadow_dom_5.png" alt="slider" title="" /></p>
+
+<p>很完美对不对？想想看，你可以为shadow DOM子树中的元素赋予样式，而不需要真的访问到这些元素。而这些shadow DOM的作者有了决定哪些部分可以被赋予样式的权利。如果你是作者，在做一些UI widget toolkit的时候，难道不想有这样的能力吗？</p>
+
+<h3>带有洞（hole）的Shadow DOM，无穷的想象力</h3>
+
+<p>讲完了这些令人惊叹的能力，我们想象一样，如果给一个有shadown DOM子树的元素插入子元素会怎样？我们来实验一下：</p>
+
+<pre><code>// Create an element with a shadow DOM subtree.
+var input = document.body.appendChild(document.createElement('input'));
+// Add a child to it.
+var test = input.appendChild(document.createElement('p'));
+// .. with some text.
+test.textContent = 'Team Edward';
+</code></pre>
+
+<p>结果如下：</p>
+
+<p><img src="../images/what_is_shadow_dom_6.png" alt="slider" title="" /></p>
+
+<p>哇！欢迎来到twilight DOM的世界！它是文档（document）的一部分，可以被遍历到，但是不会渲染！它是不是很有用呢？不一定，但是如果你需要的话它确实就在那等你。</p>
+
+<p>但是，如果我们真的有能力把元素的子元素放入shadow DOM子树中会怎么样？想象一下shadow DOM是一个模板，通过它的某个洞（hole）可以看到内部的子元素：</p>
+
+<pre><code>// 注意：这里只是模拟，不是真实的API
+var element = document.getElementById('element');
+// 创建shadow DOM子树
+element.shadow = document.createElement('div');
+element.shadow.innerHTML = '&lt;h1&gt;Think of the Children&lt;/h1&gt;' +
+    '&lt;div class="children"&gt;{{children-go-here}}&lt;/div&gt;';
+// Now add some children.
+var test = element.appendChild(document.createElement('p'));
+test.textContent = 'I see the light!';
+</code></pre>
+
+<p>如果你去遍历DOM，你会看到这个：</p>
+
+<pre><code>&lt;div id="element"&gt;
+    &lt;p&gt;I see the light&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>但是像是这样渲染出来的：</p>
+
+<pre><code>&lt;div id="element"&gt;
+    &lt;div&gt; &lt;!-- shadow tree begins --&gt;
+        &lt;h1&gt;Think of the Children&lt;/h1&gt;
+        &lt;div class="children"&gt; &lt;!-- shadow tree hole begins --&gt;
+            &lt;p&gt;I see the light&lt;/p&gt;
+        &lt;/div&gt; &lt;!-- shadow tree hole ends --&gt;
+    &lt;/div&gt; &lt;!-- shadow tree ends --&gt; 
+&lt;/div&gt;
+</code></pre>
+
+<p>当你添加子元素的时候，从DOM树中看像一个正常的子元素，但是渲染的时候，他们从“洞（hole）”中进到了shadow DOM子树。</p>
+
+<p>写到这里，你应该会承认，这真的很酷，也会问：</p>
+
+<p>浏览器中什么时候才会有呢？</p>
+
+<h3>家庭作业</h3>
+
+<p>你认为听完了这么多说教的内容会没有家庭作业？作为一个JavaScript类库或者框架的开发者，尝试者去想象一下你可以利用shadow DOM制作的跟之前不一样的伟大的东西。然后想一下shadow DOM可以应用到的一些特定的使用场景（加上真实的或者模拟的代码）。</p>
+
+<p>最后，共享你想到的使用场景到public-webapps邮件列表。关于在web平台中加入这种能力的讨论正在进行，我们需要你的帮助。</p>
+
+<p>如果你不是一个框架作者，你仍然可以参与进来，你可以给shadown DOM加油，也可以将这份快乐传播到你最喜欢的社交网络上，因为快乐就是我们工作的全部。</p>
+
+<p>附：SVG和shadow DOM</p>
+
+<p>差点忘了，至于你信不信，我反正信了，SVG确实已经用到了shadow DOM，从一开始就是这样。但是比较麻烦的是，SVG的shadow DOM非常……非常……水（shady），不不，不是这个词，是另一个词，以sh开头，以y结尾。（注：对英文语境不是太熟悉，评论中有人提到是shy。）对对，就是它！我可以继续说，但是请相信我对SVG shadow DOM的评价。或者你可以查看文档。</p>
+
+<p>原文地址：<a href="http://glazkov.com/2011/01/14/what-the-heck-is-shadow-dom/">http://glazkov.com/2011/01/14/what-the-heck-is-shadow-dom/</a></p>
+
+<p>译者注：应该说这是一篇关于前端理论的文章，并不能给前端开发人员带来什么便利，至少短期内没有，但是了解这种技术对我们从事web相关的软件开发会有好处，而且指不定哪天这种开发模式就出现了呢！</p>
+
+<blockquote>
+  <p>2013年5月24日更新：修正了一下之前翻译不通的地方。另外Chrome 23+已经实现了Shadow Dom，Chrome 25+已经默认打开了Shadow Dom的使用选项。因此，现在可以有一些更具体的案例可以看了，比如<a href="https://github.com/TooooBug/shadowDatePicker">https://github.com/TooooBug/shadowDatePicker</a>。近期我也会再写一写Shadow Dom的具体实现方式以及需要注意的地方，敬请关注！</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>jSound Alpha</title>
+      <link>http://www.toobug.net/article/jsound_alpha.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/jsound_alpha.html</guid>
+      <pubDate>Fri, 06 Apr 2012 12:27:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>某天突发奇想，咋没有一个关于声音的js库？本来HTML5的声音就很弱，这方面应该有更多的封装才适合做游戏之类的东东。</p>
+
+<p>在网上找了一下，有个叫<a href="https://github.com/nicklockwood/SoundManager">soundmanager</a>的库，不过它是调用flash的声音能力，当然功能也比较强大。</p>
+
+<p>于是就自己写了一个，目前还只是最最简单的版本，全部代码如下：</p>
+
+<pre><code>~function(w){
+    if(w.jSound)return;
+    ~function(){
+        if (!document.body){
+            setTimeout(arguments.callee,50);
+            return;
+        }
+        var elem = document.createElement('audio'),src;
+        if (!elem.canPlayType){
+            elem = document.createElement('bgsound');
+        }
+        document.body.appendChild(elem);
+        w.jSound={
+            play:function(soundSrc){
+                src=soundSrc;
+                elem.src='';
+                elem.src=src;
+                if (elem.canPlayType){
+                    elem.play();
+                }
+            }
+        }
+    }();
+}(window);
+</code></pre>
+
+<p>目前只是封装了IE与非IE的差别，IE下用bgsound，非IE用audio标签，还有比较多的事情要解决：</p>
+
+<ul>
+<li>声音重叠（IE下必须播放完后才能重新放同一个声音，即使将src赋空后重新赋值也不行）</li>
+<li>URL请求，目前每点击一次在高级浏览器下会发出两个HTTP请求，原因还没仔细去看，后续看看能否优化成下载后不再发出请求</li>
+<li>多声音管理，本来刚开始是将jSound写成构造函数的，然后每个对象管理自己的src和页面元素elem，但是试用了一下觉得似乎不太必要又改为了现在全局对象的样子，是否需要单独的对象要再衡量一下</li>
+<li>播放状态管理，这个估计有困难</li>
+</ul>
+
+<blockquote>
+  <p>8月17日更新：已经开源到<a href="https://github.com/TooooBug/jSound">GitHub</a>，另外许久未打理，估计得过段时间再继续完善。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>HTML续行符</title>
+      <link>http://www.toobug.net/article/the_line_continuation_of_html.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/the_line_continuation_of_html.html</guid>
+      <pubDate>Wed, 01 Feb 2012 18:04:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>常识：</p>
+
+<ol>
+<li>HTML源码中夹在文字中连续的空白（空格、回车、TAB等）会在页面上形成一个空格</li>
+<li>大部分的代码规范会规定单行不得超过XX字符，超过必须做折行处理</li>
+<li>CSS可以按属性多行编写，JS的长字符串可以用“\”续行</li>
+</ol>
+
+<p>问题：HTML的长字符串怎么办？</p>
+
+<p>答案：使用注释</p>
+
+<p>例：</p>
+
+<pre><code>这是源码中的第一行文字，它很长，以至于达到了要折行的要求&lt;!--
+--&gt;接着写第二，不管它有多长都不怕了，因为在页面中，始终是&lt;!--
+--&gt;当成同一行处理。
+</code></pre>
+
+<blockquote>
+  <p>2012年8月17日注：这种用法除了是因为规范外，还有一个原因，就是消除inline-block带来的间隙，详见<a href="http://ued.taobao.com/blog/2012/08/15/inline-block/">inline-block的前世今生</a>。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>IE7下focus方法失效（原因不明）</title>
+      <link>http://www.toobug.net/article/ie7_focus_method_invalid.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ie7_focus_method_invalid.html</guid>
+      <pubDate>Wed, 28 Dec 2011 10:49:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>项目中遇到一个诡异的问题：用jQuery写的一个click事件响应中，一个输入框的focus()方法无效，仅在IE7下出现。</p>
+
+<p>在IE的调试工具中，手工执行focus没有问题，不管是jQuery对象的focus方法还是DOM的focus的方法都可以正常工具，但是放到响应事件中就不行。</p>
+
+<p>断点调试、打log也没什么结果，代码是走到那里了，但是input就是死活不focus。</p>
+
+<p>后来死马当活马医，开始试。结果发现将focus方法连续调用两次，居然生效了。</p>
+
+<p>原因不明，期待高人解释。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>《Javascript Patterns》读书笔记 第二章 概要（1）</title>
+      <link>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</guid>
+      <pubDate>Sat, 24 Dec 2011 18:34:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>这一章概要地介绍了一些最佳实践、模式还有编码习惯。</p>
+
+<h3>一、编写可维护的代码</h3>
+
+<p>发现bug时最好能立马修复，延迟可能导致你需要更多的时间去重新理解问题，还有可以解决问题的代码。</p>
+
+<p>代码经常会被阅读，因为以下原因：</p>
+
+<ol>
+<li>Bugs</li>
+<li>新功能要添加</li>
+<li>程序需要在新环境下运行</li>
+<li>代码的功能被改变</li>
+<li>代码完全被重写</li>
+</ol>
+
+<p>可维护的代码表示代码具有以下特性：</p>
+
+<ol>
+<li>可读的</li>
+<li>一致的</li>
+<li>可预测的</li>
+<li>看起来像同一个人编写的</li>
+<li>有文档的</li>
+</ol>
+
+<h3>二、尽量减少全局变量</h3>
+
+<p>JavaScript用函数来管理作用域，函数内定义的变量是局部的。全局变量是定义在任何函数之外的或者是未定义直接使用的变量。</p>
+
+<p>每个JavaScript有一个全局对象（global object），当this用在任何函数之外时可以访问到它。每个全局变量成为全局对象的一个属性，游戏器中全局对象是window。</p>
+
+<p>全局变量的问题在于它被所有的代码共享，当两部分的代码定义相同的全局变量时，会产生冲突。</p>
+
+<p>引入一个第三方的代码也是很常见的，比如：</p>
+
+<ol>
+<li>第三方库</li>
+<li>来自广告伙伴的脚本</li>
+<li>来自流量跟踪和分析的代码</li>
+<li>各种widget等</li>
+</ol>
+
+<p>当一个第三方脚本定义了全局变量result后，你自己定义的函数定义全局变量result时就会覆盖前面的全局变量。</p>
+
+<p>所以和其他的脚本共同工作时，减少全局变量的使用是非常重要的。使用var定义变量是一个最重要的方法。</p>
+
+<p>提示：另一个减少全局变量使用的原因是考虑到可移植性，当你的代码要运行在不同的环境中时，定义全局变量是很危险的，因为可以覆盖来自宿主的全局变量。</p>
+
+<p>用var创建的全局变量和未使用var创建的隐性全局变量有一点细微的差别：</p>
+
+<p>用var创建的全局变量不能被delete删除，而未使用var创建的隐性全局变量可以用delete删除。</p>
+
+<p>在ES5“严格模式”下，给未定义的变量赋值将报错。</p>
+
+<h3>三、访问全局对象</h3>
+
+<p>在浏览器中，全局对象可以在任何代码中通过window访问。但在另一些环境中，这个全局对象可能叫不同的名字，所以最好不要硬编码，而是通过下面的代码访问（在任何代码中都可以）：</p>
+
+<pre><code>var global = (function(){
+    return this;
+}());
+</code></pre>
+
+<p>(注：最外层的括号完全可以不要的，括回也可以放到最后一对空括号之前)</p>
+
+<h3>四、单var语句</h3>
+
+<p>在函数开头只使用一个var语句有如下好处：</p>
+
+<ol>
+<li>变量集中到开头</li>
+<li>阻止当一个变量在声明前使用时产生逻辑错误（hoisting，见后文）（注：这个是指JavaScript预编译机制导致的变量可见性问题，即一个变量在同一作用域内先读，后定义，则读的时候会是undefined，而不管它的作用域链中同名变量情况是如何）</li>
+<li>强迫记得声明变量，减少隐性全局变量</li>
+<li>减少代码量</li>
+</ol>
+
+<p>声明变量时赋初值是个好习惯，可能避免逻辑错误，并增加代码可读性，可以一眼看出是什么类型的变量。</p>
+
+<p>你也可以在定义的时候做真正的计算。（注：例子中是指一系列逗号分开的定义中，后面的变量可以使用前面的变量）</p>
+
+<p>JavaScript允许在函数内部随意、多次使用var定义变量，就跟在顶部定义一样的效果，这个行为叫hoisting（注：不知该如何翻译好）。如：</p>
+
+<pre><code>myname="global";
+function func(){
+    alert(myname);    //"undefined"
+    var myname="local";
+    alert(myname);    //"local"
+}
+func();
+</code></pre>
+
+<p>跟下面的代码一样，好像定义被提前了一样：</p>
+
+<pre><code>myname="global";
+function func(){
+    var myname;
+    alert(myname);    //"undefined"
+    myname="local";
+    alert(myname);    //"local"
+}
+func();
+</code></pre>
+
+<blockquote>
+  <p>提示：在理解的时候，可以将函数和变量定义理解为“提前”，但ECMAScript中并未有这种说法。在实现的时候，其实是分两步的，第一步先扫描函数和变量定义，创建上下文环境（context），第二步才执行代码。</p>
+  
+  <p>第二章内容好多，先发一部分，之后继续。</p>
+  
+  <p>2012年8月20日更新：短期内可能不会更新了，本书正在翻译中，<a href="https://github.com/TooooBug/javascript.patterns">翻译稿</a>可以在GitHub上找到。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>The Little Book on Coffee Script</title>
+      <link>http://www.toobug.net/article/the_little_book_on_coffee_script.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/the_little_book_on_coffee_script.html</guid>
+      <pubDate>Fri, 23 Dec 2011 18:14:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>最近突然对基于JS的编译语言有了兴趣，分别看了一下Dart和Coffee Script。但是Dart的虚拟机（js文件）高达10M的体积确实让人后怕，本机用chrome都会卡好久，只能期待chrome加入原生虚拟机的表现了。</p>
+
+<p>而coffee script似乎也是一门比较吃香的语言，官方更新也非常快，据说语法和功能和ruby很像。</p>
+
+<p>扫了一眼官方推荐的第一本书，但是是网页的，花了点时间整理成PDF了，方便自己看。</p>
+
+<p>顺便也发到博客上，有需要的同学可以看看。</p>
+
+<p><a href="../attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>IE下绝对定位的链接display:block失效的问题</title>
+      <link>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
+      <pubDate>Wed, 21 Dec 2011 20:02:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
+
+<p>搜索了一下，解决方案在这里：</p>
+
+<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
+
+<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用<code>url(about:blank)</code>做背景。</p>
+
+<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
+
+<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>Chrome也支持zoom了</title>
+      <link>http://www.toobug.net/article/chrome_supports_zoom.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/chrome_supports_zoom.html</guid>
+      <pubDate>Wed, 21 Dec 2011 19:59:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>查阅网上的中文资料，几乎每篇文章都在说，zoom是IE专有的属性，但事实是，chrome也支持。</p>
+
+<p>Demo：<a href="http://jsfiddle.net/toobug/9drpy/1/embedded/result/">http://jsfiddle.net/toobug/9drpy/1/embedded/result/</a></p>
+
+<p>所以在chrome下放大元素除了用css3之外，也可以用zoom这样简单的方法了。</p>
+
+<blockquote>
+  <p>2013-07-20更新1：现在网上再查已经可以查到有很多资料在讲chrome支持zoom属性了。顺带提一下，CSS3中用transform的写法：<code>transform:scale(0.5);</code>，但这个缩放是以中心点为原点来进行的，可以通过<code>transform-origin:top left</code>来修正。</p>
+  
+  <p>2013-07-20更新2：在IE中zoom被用于激活hasLayout属性的作用远大于它本身的缩放作用。但事实上，zoom在进行缩放时，部分低版本IE下（比如IE7）在遇到<code>position:relative</code>的元素时会有各种定位漂移的bug，因此，慎用为好。</p>
+</blockquote>
+        ]]>
+      </description>
+    </item>
+  </channel>
+</rss>
