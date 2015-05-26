@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale:1.0,maximum-scale:2.0,user-scalable=yes">
+    <title>[译]Git回滚合并 - TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="../rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="../index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div class="sideTitle">作者简介</div>
+      <div id="intro" class="sideContent">
+        <p class="avatar"><img src="http://tp4.sinaimg.cn/2160639311/180/5633952458/1"></p>
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://www.futu5.com" target="_blank">富途网络</a>，曾任腾讯CDC前端工程师。</p>
+        <p><a href="http://weibo.com/toooobug" target="_blank"><img src="http://www.sinaimg.cn/blog/developer/wiki/32x32.png"></a><a href="https://github.com/TooBug" target="_blank"><img src="http://cdn-img.easyicon.cn/png/10981/1098194.gif"></a></p>
+      </div>
+      <div class="sideTitle">友情链接</div>
+      <div class="sideContent">
+        <p>
+          <ul class="friendLink">
+            <li><a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a></li>
+            <li><a href="http://cdc.im" target="_blank">CDC前端博客</a></li>
+            <li><a href="http://weba11y.cn" target="_blank">WebAccessibility</a></li>
+            <li><a href="http://www.lesscss.net" target="_blank">LESS中国官网</a></li>
+            <li><a href="http://www.gruntjs.org" target="_blank">Grunt中文社区</a></li>
+            <li><a href="http://miyuki.42code.com" target="_blank">Miyuki的博客</a></li>
+            <li><a href="http://www.basecss.net" target="_blank">Basecss的博客</a></li>
+            <li><a href="http://skpping.cdc.im" target="_blank">Skpping的博客</a></li>
+            <li><a href="http://solodu.com" target="_blank">Solo的博客</a></li>
+            <li><a href="http://www.mxgw.info" target="_blank">梦想的港湾</a></li>
+            <li><a href="http://www.uselessblog.cn" target="_blank">UseLess的博客</a></li>
+            <li><a href="http://riny.net" target="_blank">Bubblings</a></li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <h1>[译]Git回滚合并<em class="pubDate">2015-05-26 12:50:00</em></h1><p>如果工作流严重依赖分支合并的话，也难免会碰到需要回滚合并的情况。而且回滚还分为两种情况：永久回滚，或者回滚后在稍后重新合并。</p>
+
+<p>假设有如下分支图：</p>
+
+<p><img src="https://git-scm.com/images/unmerge1.png" alt="分支图" title="" /></p>
+
+<blockquote>
+  <p>注：Git分支图中的箭头表示依赖关系，并不是分支发展路线。发展路线和箭头是相反的。也就是图中是从C1开始一直发展到C12的。</p>
+</blockquote>
+
+<p>假设要回滚C10。</p>
+
+<p>第一种解决方案是将<code>master</code>回退到C8，然后将两个特性分支<code>jk/post-checkout</code>和<code>db/push-cleanup</code>合并过来。</p>
+
+<p><code>sh
+git checkout master
+git reset --hard [sha_of_C8]
+git merge jk/post-checkout
+git merge db/push-cleanup
+</code></p>
+
+<p>完成之后，分支图如下：</p>
+
+<p><img src="https://git-scm.com/images/unmerge2.png" alt="分支图" title="" /></p>
+
+<p>接下来就可以继续在新的<code>master</code>上工作，然后在适当的时候将<code>tv/rebase-stat</code>合并回来。</p>
+
+<h2>回滚合并</h2>
+
+<p>如果在很久之后才发现要回滚，或者其它人已经在合并之后提交了代码，分支图会是这样：</p>
+
+<p><img src="https://git-scm.com/images/unmerge3.png" alt="分支图" title="" /></p>
+
+<p>这种情况下要么回退一次合并，要么退回去，再重新合并，然后将新的变更（C9和C10）cherry-pick过来。后者容易让人迷惑，做起来也不容易，尤其是在合并之后提交很多的情况下。</p>
+
+<p><code>git revert</code>能很好地处理合并的回退。你需要指定需要回退的那次合并提交记录，并指定保留合并中的哪一条线（parent）。假设我们需要回退合并<code>jk/post-checkout</code>的记录，则这样做：</p>
+
+<p><code>
+git revert -m 1 [sha_of_C8]
+Finished one revert.
+[master 88edd6d] Revert "Merge branch 'jk/post-checkout'"
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+</code></p>
+
+<p>完成后会产生一个新提交，这个提交回滚了合并过来的内容。其结果和一个包含被合并过来分支改动的cherry-pick（反向操作，即回滚）差不多。</p>
+
+<p><img src="https://git-scm.com/images/unmerge4.png" alt="分支图" title="" /></p>
+
+<h2>回滚“回滚”</h2>
+
+<p>假设在回滚之后，我们需要再次合并这个分支。如果你直接合并的话，什么都不会发生。</p>
+
+<p><code>sh
+git merge jk/post-checkout
+Already up-to-date.
+</code></p>
+
+<p>更令人困惑的是，如果你回到分支，再做一些修改后再合并，则只有新产生的修改会被合并过来。</p>
+
+<p><img src="https://git-scm.com/images/unmerge5.png" alt="分支图" title="" /></p>
+
+<p>这种状态是一种非常奇怪的状态，有可能导致冲突或者难以理解的错误。此时你真正想做的事情应该是回滚“上一次对合并的回滚操作”。</p>
+
+<p><code>sh
+git revert 88edd6d
+Finished one revert.
+[master 268e243] Revert "Revert "Merge branch 'jk/post-checkout'""
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+</code></p>
+
+<p><img src="https://git-scm.com/images/unmerge6.png" alt="分支图" title="" /></p>
+
+<p>现在我们将分支恢复到了合并之后的情况，如果分支上有新的改动，就可以直接合并了。</p>
+
+<p><code>sh
+git merge jk/post-checkout
+Auto-merging test.txt
+Merge made by recursive.
+ test.txt |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+</code></p>
+
+<p><img src="https://git-scm.com/images/unmerge7.png" alt="分支图" title="" /></p>
+
+<p>最后，建议使用<code>git merge --no-ff</code>合并分支，这样可以保持 分支不是快进的，使它可以回滚。</p>
+
+<blockquote>
+  <p>原文地址<a href="https://git-scm.com/blog/2010/03/02/undoing-merges.html">https://git-scm.com/blog/2010/03/02/undoing-merges.html</a>，本文并未逐字逐句翻译，仅根据理解摘录了重要部分。</p>
+</blockquote>
+      </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>
+      <script src="http://tajs.qq.com/stats?sId=22296323"></script>
+    </div>
+  </body>
+</html>

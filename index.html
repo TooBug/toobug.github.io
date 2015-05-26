@@ -55,6 +55,98 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/git_revert_merge.html">[译]Git回滚合并</a><em class="pubDate">2015-05-26</em></h1><p>如果工作流严重依赖分支合并的话，也难免会碰到需要回滚合并的情况。而且回滚还分为两种情况：永久回滚，或者回滚后在稍后重新合并。</p>
+
+<p>假设有如下分支图：</p>
+
+<p><img src="https://git-scm.com/images/unmerge1.png" alt="分支图" title="" /></p>
+
+<blockquote>
+  <p>注：Git分支图中的箭头表示依赖关系，并不是分支发展路线。发展路线和箭头是相反的。也就是图中是从C1开始一直发展到C12的。</p>
+</blockquote>
+
+<p>假设要回滚C10。</p>
+
+<p>第一种解决方案是将<code>master</code>回退到C8，然后将两个特性分支<code>jk/post-checkout</code>和<code>db/push-cleanup</code>合并过来。</p>
+
+<p><code>sh
+git checkout master
+git reset --hard [sha_of_C8]
+git merge jk/post-checkout
+git merge db/push-cleanup
+</code></p>
+
+<p>完成之后，分支图如下：</p>
+
+<p><img src="https://git-scm.com/images/unmerge2.png" alt="分支图" title="" /></p>
+
+<p>接下来就可以继续在新的<code>master</code>上工作，然后在适当的时候将<code>tv/rebase-stat</code>合并回来。</p>
+
+<h2>回滚合并</h2>
+
+<p>如果在很久之后才发现要回滚，或者其它人已经在合并之后提交了代码，分支图会是这样：</p>
+
+<p><img src="https://git-scm.com/images/unmerge3.png" alt="分支图" title="" /></p>
+
+<p>这种情况下要么回退一次合并，要么退回去，再重新合并，然后将新的变更（C9和C10）cherry-pick过来。后者容易让人迷惑，做起来也不容易，尤其是在合并之后提交很多的情况下。</p>
+
+<p><code>git revert</code>能很好地处理合并的回退。你需要指定需要回退的那次合并提交记录，并指定保留合并中的哪一条线（parent）。假设我们需要回退合并<code>jk/post-checkout</code>的记录，则这样做：</p>
+
+<p><code>
+git revert -m 1 [sha_of_C8]
+Finished one revert.
+[master 88edd6d] Revert "Merge branch 'jk/post-checkout'"
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+</code></p>
+
+<p>完成后会产生一个新提交，这个提交回滚了合并过来的内容。其结果和一个包含被合并过来分支改动的cherry-pick（反向操作，即回滚）差不多。</p>
+
+<p><img src="https://git-scm.com/images/unmerge4.png" alt="分支图" title="" /></p>
+
+<h2>回滚“回滚”</h2>
+
+<p>假设在回滚之后，我们需要再次合并这个分支。如果你直接合并的话，什么都不会发生。</p>
+
+<p><code>sh
+git merge jk/post-checkout
+Already up-to-date.
+</code></p>
+
+<p>更令人困惑的是，如果你回到分支，再做一些修改后再合并，则只有新产生的修改会被合并过来。</p>
+
+<p><img src="https://git-scm.com/images/unmerge5.png" alt="分支图" title="" /></p>
+
+<p>这种状态是一种非常奇怪的状态，有可能导致冲突或者难以理解的错误。此时你真正想做的事情应该是回滚“上一次对合并的回滚操作”。</p>
+
+<p><code>sh
+git revert 88edd6d
+Finished one revert.
+[master 268e243] Revert "Revert "Merge branch 'jk/post-checkout'""
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+</code></p>
+
+<p><img src="https://git-scm.com/images/unmerge6.png" alt="分支图" title="" /></p>
+
+<p>现在我们将分支恢复到了合并之后的情况，如果分支上有新的改动，就可以直接合并了。</p>
+
+<p><code>sh
+git merge jk/post-checkout
+Auto-merging test.txt
+Merge made by recursive.
+ test.txt |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+</code></p>
+
+<p><img src="https://git-scm.com/images/unmerge7.png" alt="分支图" title="" /></p>
+
+<p>最后，建议使用<code>git merge --no-ff</code>合并分支，这样可以保持 分支不是快进的，使它可以回滚。</p>
+
+<blockquote>
+  <p>原文地址<a href="https://git-scm.com/blog/2010/03/02/undoing-merges.html">https://git-scm.com/blog/2010/03/02/undoing-merges.html</a>，本文并未逐字逐句翻译，仅根据理解摘录了重要部分。</p>
+</blockquote>
+          <div class="articlemore"><a href="./article/git_revert_merge.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/git_and_gitflow.html">团队使用Git和Git-Flow手记</a><em class="pubDate">2015-05-11</em></h1><p>去年10月份，在我们被产品节奏逼到墙角无路可走的时候，我们在几乎没有准备的情况下，在团队中引入了Git。目前时间已经过去半年，回顾这半年的时间，基本还是运作得比较顺利。当然过程中也少不了踩坑，因此记录一些心得。</p>
 
 <h2>Why Git?</h2>
@@ -130,57 +222,7 @@
 <p><img src="/images/css_image_sprites_on_retina_screen_1.png" alt="WebQQ在retina屏下出现白边" title="" /></p>
           <div class="articlemore"><a href="./article/css_image_sprites_on_retina_screen.html">继续阅读</a></div>
         </div>
-        <div class="indexarticle">
-          <h1><a href="./article/learning_es6_generator.html">学习ES6生成器（Generator）</a><em class="pubDate">2013-12-29</em></h1><p>这几天，TJ大神的koa框架突然在国内火起来了，随之而来的，则是其使用的ES6生成器（Generator）引起了广大码农的强烈兴趣，各种文章也如雨后春笋般拔地而起，比如<a href="https://www.imququ.com/post/generator-function-in-es6.html">这篇</a>、<a href="http://bg.biedalian.com/2013/12/21/harmony-generator.html">这篇</a>、还有<a href="https://developer.mozilla.org/zh-CN/docs/JavaScript/Guide/Iterators_and_Generators">这篇</a>。这个神奇的生成器被视为解决JS“回调恶魔金字塔”的利器。在动手实践之后，发现介绍ES6生成器的文章仍然有些疏漏，因此有了这篇文章，权当是对各位大大们的补充好了。</p>
-
-<h2>背景</h2>
-
-<p>在JS的使用场景中，异步操作的处理是一个不可回避的问题，如果不做任何抽象、组织，只是“跟着感觉走”，那么面对“按顺序发起3个ajax请求”的需求，很容易就能写出如下代码（假设已引入jQuery）：</p>
-
-<pre><code>// 第1个ajax请求
-$.ajax({
-    url:'http://echo.113.im',
-    dateType:'json',
-    type:'get',
-    data:{
-        data:JSON.stringify({status:1,data:'hello world'}),
-        type:'json',
-        timeout:1000
-    },
-    success:function(data){
-        if(data.status === 1){
-            // 第2个ajax请求
-            $.ajax({
-                ......此处省略500字
-                success:function(data){
-                    if(data.status === 1){
-                        // 第3个ajax请求
-                        $.ajax({
-                            ......此处省略500字
-                            success:function(data){
-                                if(data.status === 1){
-
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
-});
-</code></pre>
-
-<p>当顺序执行的异步操作越来越多的时候，回调层级也就越多，这也就是传说中的“回调恶魔金字塔”，在本文章中，我们给它另一个名字“被动异步”。</p>
-
-<p>还有一种场景，比如老赵的Wind.js总喜欢用的经典例子，对一个数组进行排序，但要动态展示排序过程（<a href="http://windjs.org/cn/docs/async/samples/browser/sorting-animations/">详情</a>）。</p>
-
-<p>在这种情况下，为了使动画能够正确呈现，我们不得不对“排序”这一本来不涉及到异步操作的逻辑做些改动，强制添加延时操作，使它变成一个异步操作。（如不理解，请搜索“JavaScript动画原理”。）</p>
-
-<p>在本文中，我们给这种场景也起一个名字，叫“主动异步”。</p>
-          <div class="articlemore"><a href="./article/learning_es6_generator.html">继续阅读</a></div>
-        </div>
-        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a>
+        <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a><a href="index_page8.html">8</a>
         </div>
       </div>
     </section>
