@@ -24,6 +24,7 @@ body {
 	color: #888;
 	min-width: 960px;
 	margin: 0 100px;
+	font-family: Helvetica, sans-serif;
 }
 header {
 	font-family: "HUL", "microsoft yahei";
@@ -116,7 +117,7 @@ header nav ul li a:hover {
 	border-bottom: 1px solid #dddddd;
 }
 #content #article {
-	font-size: 14px;
+	font-size: 16px;
 	line-height: 2em;
 	letter-spacing: 0.1em;
 }
@@ -182,8 +183,9 @@ header nav ul li a:hover {
 	max-width: 100%;
 }
 #content #article blockquote {
-	margin: 1em 4em 1em 2em;
+	margin: 1em 4em 1em 0;
 	padding: 0.6em 1em;
+	border-left:3px solid #0099ff;
 	background: #f1f1f1;
 }
 #content #article blockquote blockquote {

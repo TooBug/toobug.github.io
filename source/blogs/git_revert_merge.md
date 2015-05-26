@@ -14,7 +14,7 @@ Tags: "Git"
 
 第一种解决方案是将`master`回退到C8，然后将两个特性分支`jk/post-checkout`和`db/push-cleanup`合并过来。
 
-```sh
+```
 git checkout master
 git reset --hard [sha_of_C8]
 git merge jk/post-checkout
@@ -52,7 +52,7 @@ Finished one revert.
 
 假设在回滚之后，我们需要再次合并这个分支。如果你直接合并的话，什么都不会发生。
 
-```sh
+```
 git merge jk/post-checkout
 Already up-to-date.
 ```
@@ -63,7 +63,7 @@ Already up-to-date.
 
 这种状态是一种非常奇怪的状态，有可能导致冲突或者难以理解的错误。此时你真正想做的事情应该是回滚“上一次对合并的回滚操作”。
 
-```sh
+```
 git revert 88edd6d
 Finished one revert.
 [master 268e243] Revert "Revert "Merge branch 'jk/post-checkout'""
@@ -74,7 +74,7 @@ Finished one revert.
 
 现在我们将分支恢复到了合并之后的情况，如果分支上有新的改动，就可以直接合并了。
 
-```sh
+```
 git merge jk/post-checkout
 Auto-merging test.txt
 Merge made by recursive.
