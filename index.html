@@ -69,12 +69,11 @@
 
 <p>第一种解决方案是将<code>master</code>回退到C8，然后将两个特性分支<code>jk/post-checkout</code>和<code>db/push-cleanup</code>合并过来。</p>
 
-<p><code>
-git checkout master
+<pre><code>git checkout master
 git reset --hard [sha_of_C8]
 git merge jk/post-checkout
 git merge db/push-cleanup
-</code></p>
+</code></pre>
 
 <p>完成之后，分支图如下：</p>
 
