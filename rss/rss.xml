@@ -45,27 +45,25 @@
 
 <p>大概的代码：</p>
 
-<p>```javascript
-var ServerChan = require('bunyan-serverchan');</p>
+<pre><code>var ServerChan = require('bunyan-serverchan');
 
-<p>var logger = bunyan.createLogger({
+var logger = bunyan.createLogger({
     name: 'myapp',
     streams: [{
         level: 'error',
         stream: new ServerChan({key:'MY_KEY'})
     }]
 });
-```</p>
+</code></pre>
 
 <p>首先我们定义了一个<code>logger</code>用来记录日志，记录到的<code>error</code>级别以上的日志会送给<code>ServerChan</code>的实例（一个“stream”）。关于<code>ServerChan</code>，稍后解释。</p>
 
 <p>接下来，在出错的地方调用<code>logger</code>记录错误：</p>
 
-<p><code>javascript
-xxx.on('error',function(err){
+<pre><code>xxx.on('error',function(err){
     logger.error(err, 'Something went wrong:%s',err.message);
 });
-</code></p>
+</code></pre>
 
 <p>此时错误的记录部分就算完成了，bunyan会负责将错误信息传递给<code>ServerChan</code>的实例。</p>
 
