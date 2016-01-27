@@ -34,27 +34,23 @@ Tags: Node 错误 告警
 
 大概的代码：
 
-```javascript
-var ServerChan = require('bunyan-serverchan');
-
-var logger = bunyan.createLogger({
-	name: 'myapp',
-	streams: [{
-		level: 'error',
-		stream: new ServerChan({key:'MY_KEY'})
-	}]
-});
-```
+	var ServerChan = require('bunyan-serverchan');
+	
+	var logger = bunyan.createLogger({
+		name: 'myapp',
+		streams: [{
+			level: 'error',
+			stream: new ServerChan({key:'MY_KEY'})
+		}]
+	});
 
 首先我们定义了一个`logger`用来记录日志，记录到的`error`级别以上的日志会送给`ServerChan`的实例（一个“stream”）。关于`ServerChan`，稍后解释。
 
 接下来，在出错的地方调用`logger`记录错误：
 
-```javascript
-xxx.on('error',function(err){
-	logger.error(err, 'Something went wrong:%s',err.message);
-});
-```
+	xxx.on('error',function(err){
+		logger.error(err, 'Something went wrong:%s',err.message);
+	});
 
 此时错误的记录部分就算完成了，bunyan会负责将错误信息传递给`ServerChan`的实例。
 
