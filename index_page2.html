@@ -55,6 +55,22 @@
     <section id="content">
       <div id="article">
         <div class="indexarticle">
+          <h1><a href="./article/css_image_sprites_on_retina_screen.html">Retina屏下的CSS雪碧图</a><em class="pubDate">2014-03-19</em></h1><p>CSS雪碧图早已经成为前端知识体系中一个必备知识了，时至今日，可能很多人都觉得这一块已经没有什么东西可以再讲了的。但事实上雪碧图一直都可以引出新的话题，比如从最早的连接数和体积的平衡到格式之争到图像摆放位置的策略，再到合并图像的颗粒度，再到内存占用、CPU占用等性能问题……</p>
+
+<p>没错，今天还要在这一古老的话题上展开，引入一个新的问题，那就是雪碧图在retina屏下存在的问题及应对方案。（值得注意的是，retina屏一般指分辨率为普通屏幕两倍的屏，这样按照普通尺寸开发出来的网站相当于被放大了2倍，会导致图像模糊之类的现象产生，理想的解决方案是为retina专门适配一套皮肤，但本文关注的问题是未适配retina屏幕的网站所出现的问题。）</p>
+
+<blockquote>
+  <p>雪碧图本身不是浏览器或者web标准中的技术，因此它的不少细节取决于浏览器的实现，本文中的讨论的内容正是如此，为避免争议，本文所有结论的得出场景限定为Mac OSX 10.9.1、Chrome浏览器V33。是否适用iPhone、iPad等场景未做相应测试。</p>
+</blockquote>
+
+<h2>无处不在的白边</h2>
+
+<p>如前文所述，在retina屏上浏览未做专门适配的网站，会出现图像模糊等问题，无法达到最佳效果，但一般情况下，仍然处于可以接受的范围。不过，在某些网站上，却出现了比图像模糊更糟糕的情况：</p>
+
+<p><img src="/images/css_image_sprites_on_retina_screen_1.png" alt="WebQQ在retina屏下出现白边" title="" /></p>
+          <div class="articlemore"><a href="./article/css_image_sprites_on_retina_screen.html">继续阅读</a></div>
+        </div>
+        <div class="indexarticle">
           <h1><a href="./article/learning_es6_generator.html">学习ES6生成器（Generator）</a><em class="pubDate">2013-12-29</em></h1><p>这几天，TJ大神的koa框架突然在国内火起来了，随之而来的，则是其使用的ES6生成器（Generator）引起了广大码农的强烈兴趣，各种文章也如雨后春笋般拔地而起，比如<a href="https://www.imququ.com/post/generator-function-in-es6.html">这篇</a>、<a href="http://bg.biedalian.com/2013/12/21/harmony-generator.html">这篇</a>、还有<a href="https://developer.mozilla.org/zh-CN/docs/JavaScript/Guide/Iterators_and_Generators">这篇</a>。这个神奇的生成器被视为解决JS“回调恶魔金字塔”的利器。在动手实践之后，发现介绍ES6生成器的文章仍然有些疏漏，因此有了这篇文章，权当是对各位大大们的补充好了。</p>
 
 <h2>背景</h2>
@@ -149,18 +165,6 @@ document.querySelector('#myDiv').innerHTML = tempHtml;
 
 <p>如果你要开个party，让所有人都呆在同一个房间，很快就会让这个房子变得很闷，你可能更希望将不同的人群分配到不同的房间。用于挂载shadow dom的元素（shadow host）也可以这样做，也就是说，它们可以同时挂载多个shadow root。</p>
           <div class="articlemore"><a href="./article/shadow_dom_301.html">继续阅读</a></div>
-        </div>
-        <div class="indexarticle">
-          <h1><a href="./article/shadow_dom_201.html">[译]Shadow DOM第二课</a><em class="pubDate">2013-07-21</em></h1><p>本文将会讨论Shadow DOM的更多神奇之处。本文是在<a href="http://www.toobug.net/article/shadow_dom_101.html">《Shadow DOM第一课》</a>的基础之上讨论的，如果你需要基础介绍，请参看那篇。</p>
-
-<h2>介绍</h2>
-
-<p>无法否认，没有样式的结构是很无趣的。幸好，<a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html#acknowledgements">Web Components</a>的制定者们很早就意识到了这个问题，并为我们提供了好几种为Shadow DOM中的结构指定样式的方法。</p>
-
-<h2>样式封装</h2>
-
-<p>Shadow DOM中有一个很核心的特性叫“shadow边界”（shadow boundary），它有很多好用的特点，其中的一点就是提供了样式封装。换句话说：默认情况下，在Shadow DOM中定义的样式会被限制在Shadow Root的范围中。</p>
-          <div class="articlemore"><a href="./article/shadow_dom_201.html">继续阅读</a></div>
         </div>
         <div id="pagination"><a href="index.html">1</a><a href="index_page2.html">2</a><a href="index_page3.html">3</a><a href="index_page4.html">4</a><a href="index_page5.html">5</a><a href="index_page6.html">6</a><a href="index_page7.html">7</a><a href="index_page8.html">8</a>
         </div>

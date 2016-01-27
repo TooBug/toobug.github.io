@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="TooBug - 专注前端开发">
+    <meta name="keywords" content="TooBug,web前端,前端,HTML,CSS,JavaScript,js">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale:1.0,maximum-scale:2.0,user-scalable=yes">
+    <title>Node.js中低成本实现错误告警 - TooBug</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/favicon.ico">
+    <link rel="author" href="https://plus.google.com/106918118643022434563?rel=author">
+    <link rel="alternate" type="application/rss+xml" title="TooBug" href="../rss/rss.xml">
+    <link rel="stylesheet" href="../css/light.css">
+    <link rel="stylesheet" href="../js/prettify/prettify.css">
+    <script src="../js/prettify/prettify.js"></script>
+    <script src="../js/jquery/jquery-1.7.2.min.js"></script>
+    <script src="../js/index.js"></script>
+  </head>
+  <body>
+    <header>
+      <div id="logo"><a href="../index.html">TooBug</a><span class="subTitle">Life is too bug ...</span></div>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Index<br />首页</a></li>
+          <li><a href="../page/about.html">About<br />关于</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="sidebar">
+      <div class="sideTitle">作者简介</div>
+      <div id="intro" class="sideContent">
+        <p class="avatar"><img src="http://tp4.sinaimg.cn/2160639311/180/5633952458/1"></p>
+        <p><strong>TooBug</strong>，前端工程师，目前就职于<a href="http://www.futu5.com" target="_blank">富途网络</a>，曾任腾讯CDC前端工程师。</p>
+        <p><a href="http://weibo.com/toooobug" target="_blank"><img src="http://www.sinaimg.cn/blog/developer/wiki/32x32.png"></a><a href="https://github.com/TooBug" target="_blank"><img src="http://cdn-img.easyicon.cn/png/10981/1098194.gif"></a></p>
+      </div>
+      <div class="sideTitle">友情链接</div>
+      <div class="sideContent">
+        <p>
+          <ul class="friendLink">
+            <li><a href="http://cdc.tencent.com" target="_blank">腾讯CDC</a></li>
+            <li><a href="http://cdc.im" target="_blank">CDC前端博客</a></li>
+            <li><a href="http://weba11y.cn" target="_blank">WebAccessibility</a></li>
+            <li><a href="http://www.lesscss.net" target="_blank">LESS中国官网</a></li>
+            <li><a href="http://www.gruntjs.org" target="_blank">Grunt中文社区</a></li>
+            <li><a href="http://miyuki.42code.com" target="_blank">Miyuki的博客</a></li>
+            <li><a href="http://www.basecss.net" target="_blank">Basecss的博客</a></li>
+            <li><a href="http://skpping.cdc.im" target="_blank">Skpping的博客</a></li>
+            <li><a href="http://solodu.com" target="_blank">Solo的博客</a></li>
+            <li><a href="http://www.mxgw.info" target="_blank">梦想的港湾</a></li>
+            <li><a href="http://www.uselessblog.cn" target="_blank">UseLess的博客</a></li>
+            <li><a href="http://riny.net" target="_blank">Bubblings</a></li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section id="content">
+      <div id="article">
+        <h1>Node.js中低成本实现错误告警<em class="pubDate">2016-01-27 20:18:00</em></h1><p>相比其他语言（特指PHP）而言，Node.js应用更需要关注出错信息，因为一旦处理不慎，就会导致应用crash。</p>
+
+<p>一种偷懒的方法是使用<a href="https://github.com/Unitech/pm2">PM2</a>之类的进程管理软件来启动Node.js进程，从而达到出错crash后自动重新启动应用的目的。</p>
+
+<p>当然更好的办法则是手工捕获错误，然后进行适当的处理，防止应用产生未被接住的错误导致crash。</p>
+
+<p>在捕获到Node.js产生的错误后，下一步自然是记录到错误日志中，以便日后可以进行分析，并针对性地排查修改。本文要说的，即是对错误日志的处理方式之一——告警。</p>
+
+<p>告警是运维工作中非常重要的一个环节，它能让开发者（维护者）及时获知应用出错状态和详情，及早介入处理，将线上故障的影响降低到最低。而要实现告警功能，则需要从两方面入手，一方面是对错误信息进行集中处理（分类、分级、合并、限流等），另一方面需要将这些错误信息及时推送出去。</p>
+
+<h2>推送</h2>
+
+<p>推送渠道可以有很多种，常见的包括邮件、短信、微信等，Geek一点的还可以考虑用slack、GTalk(死了吧)、Telegram机器人推送什么的。</p>
+
+<p>为了降低开发成本，这里选用了<a href="http://sc.ftqq.com/1.version">Server Chan</a>作为推送服务，它的使用极其简单，只要登录之后就会获得一个key，然后访问带key的URL <code>http://sc.ftqq.com/{KEY}.send</code> 即可完成消息推送。而推送的渠道则有两种，一种是手机客户端，另一种是微信。想要哪种就使用哪种，在网站绑定即可，推送时是不分渠道的。</p>
+
+<h2>日志</h2>
+
+<p>接下来是应用的错误日志收集，在打听了很多方案之后先用了<a href="https://github.com/trentm/node-bunyan">bunyan</a>这个模块作为日志记录工具。bunyan的优势在于：</p>
+
+<ul>
+<li>结构化日志数据，方便后续整理分析</li>
+<li>完善的错误分级 <code>fatal</code> / <code>error</code> / <code>warn</code> / <code>info</code> / <code>debug</code> / <code>trace</code> 一应俱全</li>
+<li>多种错误处理方式：文件、控制台、流</li>
+<li>可扩展：可以通过扩展流的方式自定义错误处理逻辑</li>
+<li>日志文件自动滚动</li>
+</ul>
+
+<p>这里我们主要用到bunyan的扩展性，自定义一个流来获取错误，然后在自定义的逻辑中调用推送逻辑完成告警。</p>
+
+<p>大概的代码：</p>
+
+<p>```javascript
+var ServerChan = require('bunyan-serverchan');</p>
+
+<p>var logger = bunyan.createLogger({
+    name: 'myapp',
+    streams: [{
+        level: 'error',
+        stream: new ServerChan({key:'MY_KEY'})
+    }]
+});
+```</p>
+
+<p>首先我们定义了一个<code>logger</code>用来记录日志，记录到的<code>error</code>级别以上的日志会送给<code>ServerChan</code>的实例（一个“stream”）。关于<code>ServerChan</code>，稍后解释。</p>
+
+<p>接下来，在出错的地方调用<code>logger</code>记录错误：</p>
+
+<p><code>javascript
+xxx.on('error',function(err){
+    logger.error(err, 'Something went wrong:%s',err.message);
+});
+</code></p>
+
+<p>此时错误的记录部分就算完成了，bunyan会负责将错误信息传递给<code>ServerChan</code>的实例。</p>
+
+<h2>ServerChan模块</h2>
+
+<p>在上面的代码中，我们通过<code>require('bunyan-serverchan')</code>引入了<code>ServerChan</code>，这个模块负责接受错误信息，并调用Server Chan的URL完成推送。</p>
+
+<p>那这个模块到底是什么呢？</p>
+
+<p>没错，是我写的，欢迎到<a href="https://github.com/TooBug/bunyan-serverchan">https://github.com/TooBug/bunyan-serverchan</a>围观。</p>
+
+<p>事实上这个模块的逻辑极其简单，调用构造函数之后会生成一个对象，只要保证这个对向的<code>write</code>方法是存在的，即可以用于bunyan的自定义stream。也就是说，虽然bunyan的概念中是一个自定义stream，但我们并不需要真的实现一个stream，只需要一个有<code>write</code>方向的对象即可。</p>
+
+<p><code>write</code>方向负责接受错误信息，并完成自定义逻辑（推送）。</p>
+
+<h2>结</h2>
+
+<p>Over，就这么简单。</p>
+      </div>
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_shortname = 'toobug';
+        (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>
+        <Please>enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></Please>
+      </noscript>
+    </section>
+    <div id="foot">
+      <p>Powered by <a href="https://github.com/TooooBug/solo" target="_blank">Solo</a></p>
+      <script src="http://tajs.qq.com/stats?sId=22296323"></script>
+    </div>
+  </body>
+</html>

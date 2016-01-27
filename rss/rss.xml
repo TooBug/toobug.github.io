@@ -4,8 +4,89 @@
     <title>TooBug</title>
     <link>http://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
-    <lastBuildDate>Tue, 26 May 2015 12:50:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 Jan 2016 20:18:00 +0800</lastBuildDate>
     <generator>Solo 2.0</generator>
+    <item>
+      <title>Node.js中低成本实现错误告警</title>
+      <link>http://www.toobug.net/article/alert_in_node.html</link>
+      <guid isPermaLink="true">http://www.toobug.net/article/alert_in_node.html</guid>
+      <pubDate>Wed, 27 Jan 2016 20:18:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>相比其他语言（特指PHP）而言，Node.js应用更需要关注出错信息，因为一旦处理不慎，就会导致应用crash。</p>
+
+<p>一种偷懒的方法是使用<a href="https://github.com/Unitech/pm2">PM2</a>之类的进程管理软件来启动Node.js进程，从而达到出错crash后自动重新启动应用的目的。</p>
+
+<p>当然更好的办法则是手工捕获错误，然后进行适当的处理，防止应用产生未被接住的错误导致crash。</p>
+
+<p>在捕获到Node.js产生的错误后，下一步自然是记录到错误日志中，以便日后可以进行分析，并针对性地排查修改。本文要说的，即是对错误日志的处理方式之一——告警。</p>
+
+<p>告警是运维工作中非常重要的一个环节，它能让开发者（维护者）及时获知应用出错状态和详情，及早介入处理，将线上故障的影响降低到最低。而要实现告警功能，则需要从两方面入手，一方面是对错误信息进行集中处理（分类、分级、合并、限流等），另一方面需要将这些错误信息及时推送出去。</p>
+
+<h2>推送</h2>
+
+<p>推送渠道可以有很多种，常见的包括邮件、短信、微信等，Geek一点的还可以考虑用slack、GTalk(死了吧)、Telegram机器人推送什么的。</p>
+
+<p>为了降低开发成本，这里选用了<a href="http://sc.ftqq.com/1.version">Server Chan</a>作为推送服务，它的使用极其简单，只要登录之后就会获得一个key，然后访问带key的URL <code>http://sc.ftqq.com/{KEY}.send</code> 即可完成消息推送。而推送的渠道则有两种，一种是手机客户端，另一种是微信。想要哪种就使用哪种，在网站绑定即可，推送时是不分渠道的。</p>
+
+<h2>日志</h2>
+
+<p>接下来是应用的错误日志收集，在打听了很多方案之后先用了<a href="https://github.com/trentm/node-bunyan">bunyan</a>这个模块作为日志记录工具。bunyan的优势在于：</p>
+
+<ul>
+<li>结构化日志数据，方便后续整理分析</li>
+<li>完善的错误分级 <code>fatal</code> / <code>error</code> / <code>warn</code> / <code>info</code> / <code>debug</code> / <code>trace</code> 一应俱全</li>
+<li>多种错误处理方式：文件、控制台、流</li>
+<li>可扩展：可以通过扩展流的方式自定义错误处理逻辑</li>
+<li>日志文件自动滚动</li>
+</ul>
+
+<p>这里我们主要用到bunyan的扩展性，自定义一个流来获取错误，然后在自定义的逻辑中调用推送逻辑完成告警。</p>
+
+<p>大概的代码：</p>
+
+<p>```javascript
+var ServerChan = require('bunyan-serverchan');</p>
+
+<p>var logger = bunyan.createLogger({
+    name: 'myapp',
+    streams: [{
+        level: 'error',
+        stream: new ServerChan({key:'MY_KEY'})
+    }]
+});
+```</p>
+
+<p>首先我们定义了一个<code>logger</code>用来记录日志，记录到的<code>error</code>级别以上的日志会送给<code>ServerChan</code>的实例（一个“stream”）。关于<code>ServerChan</code>，稍后解释。</p>
+
+<p>接下来，在出错的地方调用<code>logger</code>记录错误：</p>
+
+<p><code>javascript
+xxx.on('error',function(err){
+    logger.error(err, 'Something went wrong:%s',err.message);
+});
+</code></p>
+
+<p>此时错误的记录部分就算完成了，bunyan会负责将错误信息传递给<code>ServerChan</code>的实例。</p>
+
+<h2>ServerChan模块</h2>
+
+<p>在上面的代码中，我们通过<code>require('bunyan-serverchan')</code>引入了<code>ServerChan</code>，这个模块负责接受错误信息，并调用Server Chan的URL完成推送。</p>
+
+<p>那这个模块到底是什么呢？</p>
+
+<p>没错，是我写的，欢迎到<a href="https://github.com/TooBug/bunyan-serverchan">https://github.com/TooBug/bunyan-serverchan</a>围观。</p>
+
+<p>事实上这个模块的逻辑极其简单，调用构造函数之后会生成一个对象，只要保证这个对向的<code>write</code>方法是存在的，即可以用于bunyan的自定义stream。也就是说，虽然bunyan的概念中是一个自定义stream，但我们并不需要真的实现一个stream，只需要一个有<code>write</code>方向的对象即可。</p>
+
+<p><code>write</code>方向负责接受错误信息，并完成自定义逻辑（推送）。</p>
+
+<h2>结</h2>
+
+<p>Over，就这么简单。</p>
+        ]]>
+      </description>
+    </item>
     <item>
       <title>[译]Git回滚合并</title>
       <link>http://www.toobug.net/article/git_revert_merge.html</link>
@@ -3320,27 +3401,6 @@ func();
 <p>顺便也发到博客上，有需要的同学可以看看。</p>
 
 <p><a href="../attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
-        ]]>
-      </description>
-    </item>
-    <item>
-      <title>IE下绝对定位的链接display:block失效的问题</title>
-      <link>http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
-      <pubDate>Wed, 21 Dec 2011 20:02:00 +0800</pubDate>
-      <description>
-        <![CDATA[
-        <p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
-
-<p>搜索了一下，解决方案在这里：</p>
-
-<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
-
-<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用<code>url(about:blank)</code>做背景。</p>
-
-<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
-
-<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
         ]]>
       </description>
     </item>
