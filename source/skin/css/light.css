@@ -103,6 +103,9 @@ header nav ul li a:hover {
 #sidebar p a{
 	margin-right: 10px;
 }
+#sidebar p .iconfont.snsLink{
+	font-size:32px;
+}
 #content {
 	margin-left: 250px;
 	/*border-left: 1px solid #dddddd;*/
@@ -328,6 +331,7 @@ header nav ul li a:hover {
 }
 #content #article h1 {
 	font-size: 1.8em;
+	margin-bottom:1em;
 }
 #content #article h2 {
 	font-size: 1.6em;
