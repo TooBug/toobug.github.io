@@ -2,14 +2,14 @@
 <rss version="2.0">
   <channel>
     <title>TooBug</title>
-    <link>http://www.toobug.net</link>
+    <link>https://www.toobug.net</link>
     <description>TooBug - 专注前端开发</description>
     <lastBuildDate>Wed, 27 Jan 2016 20:18:00 +0800</lastBuildDate>
-    <generator>Solo 2.0</generator>
+    <generator>TooSolo 2.0</generator>
     <item>
       <title>Node.js中低成本实现错误告警</title>
-      <link>http://www.toobug.net/article/alert_in_node.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/alert_in_node.html</guid>
+      <link>https://www.toobug.net/article/alert_in_node.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/alert_in_node.html</guid>
       <pubDate>Wed, 27 Jan 2016 20:18:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -87,8 +87,8 @@ var logger = bunyan.createLogger({
     </item>
     <item>
       <title>[译]Git回滚合并</title>
-      <link>http://www.toobug.net/article/git_revert_merge.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/git_revert_merge.html</guid>
+      <link>https://www.toobug.net/article/git_revert_merge.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/git_revert_merge.html</guid>
       <pubDate>Tue, 26 May 2015 12:50:00 +0800</pubDate>
       <category>Git</category>
       <description>
@@ -182,8 +182,8 @@ Merge made by recursive.
     </item>
     <item>
       <title>团队使用Git和Git-Flow手记</title>
-      <link>http://www.toobug.net/article/git_and_gitflow.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/git_and_gitflow.html</guid>
+      <link>https://www.toobug.net/article/git_and_gitflow.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/git_and_gitflow.html</guid>
       <pubDate>Mon, 11 May 2015 14:23:00 +0800</pubDate>
       <category>Git</category>
       <category>Git-Flow</category>
@@ -307,8 +307,8 @@ Merge made by recursive.
     </item>
     <item>
       <title>使用PM2 Deploy部署基于Git版本管理的网站应用</title>
-      <link>http://www.toobug.net/article/using_pm2_deploy.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/using_pm2_deploy.html</guid>
+      <link>https://www.toobug.net/article/using_pm2_deploy.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/using_pm2_deploy.html</guid>
       <pubDate>Wed, 19 Nov 2014 13:29:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -457,8 +457,8 @@ Now using node v0.11.13
     </item>
     <item>
       <title>如何高效debug</title>
-      <link>http://www.toobug.net/article/how_to_debug_efficiently.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/how_to_debug_efficiently.html</guid>
+      <link>https://www.toobug.net/article/how_to_debug_efficiently.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/how_to_debug_efficiently.html</guid>
       <pubDate>Sun, 29 Jun 2014 12:19:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -590,8 +590,8 @@ $('#test').append(words);
     </item>
     <item>
       <title>Retina屏下的CSS雪碧图</title>
-      <link>http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/css_image_sprites_on_retina_screen.html</guid>
+      <link>https://www.toobug.net/article/css_image_sprites_on_retina_screen.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/css_image_sprites_on_retina_screen.html</guid>
       <pubDate>Wed, 19 Mar 2014 13:39:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -721,8 +721,8 @@ $('#test').append(words);
     </item>
     <item>
       <title>学习ES6生成器（Generator）</title>
-      <link>http://www.toobug.net/article/learning_es6_generator.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/learning_es6_generator.html</guid>
+      <link>https://www.toobug.net/article/learning_es6_generator.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/learning_es6_generator.html</guid>
       <pubDate>Sun, 29 Dec 2013 13:35:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -987,8 +987,8 @@ app.listen(8080);
     </item>
     <item>
       <title>在Windows上手工安装Node.js</title>
-      <link>http://www.toobug.net/article/manual_install_node_on_windows.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/manual_install_node_on_windows.html</guid>
+      <link>https://www.toobug.net/article/manual_install_node_on_windows.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/manual_install_node_on_windows.html</guid>
       <pubDate>Thu, 19 Dec 2013 20:55:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -1050,8 +1050,8 @@ wmic ENVIRONMENT where "name='path' and username='&lt;system&gt;'" set VariableV
     </item>
     <item>
       <title>如何设计一个前端模板引擎</title>
-      <link>http://www.toobug.net/article/how_to_design_front_end_template_engine.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/how_to_design_front_end_template_engine.html</guid>
+      <link>https://www.toobug.net/article/how_to_design_front_end_template_engine.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/how_to_design_front_end_template_engine.html</guid>
       <pubDate>Sun, 25 Aug 2013 09:55:24 +0800</pubDate>
       <description>
         <![CDATA[
@@ -1422,8 +1422,8 @@ arr.forEach(function(dataItem){
     </item>
     <item>
       <title>[译]Shadow DOM第三课</title>
-      <link>http://www.toobug.net/article/shadow_dom_301.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_301.html</guid>
+      <link>https://www.toobug.net/article/shadow_dom_301.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/shadow_dom_301.html</guid>
       <pubDate>Sat, 10 Aug 2013 11:24:45 +0800</pubDate>
       <category>Shadow DOM</category>
       <category>Web Components</category>
@@ -1883,8 +1883,8 @@ document.querySelector('#example5 .buttons').addEventListener('click', function(
     </item>
     <item>
       <title>[译]Shadow DOM第二课</title>
-      <link>http://www.toobug.net/article/shadow_dom_201.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_201.html</guid>
+      <link>https://www.toobug.net/article/shadow_dom_201.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/shadow_dom_201.html</guid>
       <pubDate>Sun, 21 Jul 2013 16:50:58 +0800</pubDate>
       <category>Shadow DOM</category>
       <category>Web Components</category>
@@ -2353,8 +2353,8 @@ root.innerHTML = '<style>' +
     </item>
     <item>
       <title>[译]Shadow DOM第一课</title>
-      <link>http://www.toobug.net/article/shadow_dom_101.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/shadow_dom_101.html</guid>
+      <link>https://www.toobug.net/article/shadow_dom_101.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/shadow_dom_101.html</guid>
       <pubDate>Tue, 28 May 2013 06:26:44 +0800</pubDate>
       <category>Shadow DOM</category>
       <category>Web Components</category>
@@ -2880,8 +2880,8 @@ template.remove();
     </item>
     <item>
       <title>JLint——一个sublime的JSLint插件</title>
-      <link>http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</guid>
+      <link>https://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/jlint_a_jslint_plugin_of_sublime.html</guid>
       <pubDate>Thu, 13 Dec 2012 12:50:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -2919,8 +2919,8 @@ template.remove();
     </item>
     <item>
       <title>你好，Solo &amp; GitHub!</title>
-      <link>http://www.toobug.net/article/hello_solo_and_github.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/hello_solo_and_github.html</guid>
+      <link>https://www.toobug.net/article/hello_solo_and_github.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/hello_solo_and_github.html</guid>
       <pubDate>Thu, 16 Aug 2012 18:24:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -2944,8 +2944,8 @@ template.remove();
     </item>
     <item>
       <title>[译]什么是Shadow Dom？</title>
-      <link>http://www.toobug.net/article/what_is_shadow_dom.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/what_is_shadow_dom.html</guid>
+      <link>https://www.toobug.net/article/what_is_shadow_dom.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/what_is_shadow_dom.html</guid>
       <pubDate>Thu, 07 Jun 2012 18:24:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -3158,63 +3158,9 @@ test.textContent = 'I see the light!';
       </description>
     </item>
     <item>
-      <title>jSound Alpha</title>
-      <link>http://www.toobug.net/article/jsound_alpha.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/jsound_alpha.html</guid>
-      <pubDate>Fri, 06 Apr 2012 12:27:00 +0800</pubDate>
-      <description>
-        <![CDATA[
-        <p>某天突发奇想，咋没有一个关于声音的js库？本来HTML5的声音就很弱，这方面应该有更多的封装才适合做游戏之类的东东。</p>
-
-<p>在网上找了一下，有个叫<a href="https://github.com/nicklockwood/SoundManager">soundmanager</a>的库，不过它是调用flash的声音能力，当然功能也比较强大。</p>
-
-<p>于是就自己写了一个，目前还只是最最简单的版本，全部代码如下：</p>
-
-<pre><code>~function(w){
-    if(w.jSound)return;
-    ~function(){
-        if (!document.body){
-            setTimeout(arguments.callee,50);
-            return;
-        }
-        var elem = document.createElement('audio'),src;
-        if (!elem.canPlayType){
-            elem = document.createElement('bgsound');
-        }
-        document.body.appendChild(elem);
-        w.jSound={
-            play:function(soundSrc){
-                src=soundSrc;
-                elem.src='';
-                elem.src=src;
-                if (elem.canPlayType){
-                    elem.play();
-                }
-            }
-        }
-    }();
-}(window);
-</code></pre>
-
-<p>目前只是封装了IE与非IE的差别，IE下用bgsound，非IE用audio标签，还有比较多的事情要解决：</p>
-
-<ul>
-<li>声音重叠（IE下必须播放完后才能重新放同一个声音，即使将src赋空后重新赋值也不行）</li>
-<li>URL请求，目前每点击一次在高级浏览器下会发出两个HTTP请求，原因还没仔细去看，后续看看能否优化成下载后不再发出请求</li>
-<li>多声音管理，本来刚开始是将jSound写成构造函数的，然后每个对象管理自己的src和页面元素elem，但是试用了一下觉得似乎不太必要又改为了现在全局对象的样子，是否需要单独的对象要再衡量一下</li>
-<li>播放状态管理，这个估计有困难</li>
-</ul>
-
-<blockquote>
-  <p>8月17日更新：已经开源到<a href="https://github.com/TooooBug/jSound">GitHub</a>，另外许久未打理，估计得过段时间再继续完善。</p>
-</blockquote>
-        ]]>
-      </description>
-    </item>
-    <item>
       <title>HTML续行符</title>
-      <link>http://www.toobug.net/article/the_line_continuation_of_html.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/the_line_continuation_of_html.html</guid>
+      <link>https://www.toobug.net/article/the_line_continuation_of_html.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/the_line_continuation_of_html.html</guid>
       <pubDate>Wed, 01 Feb 2012 18:04:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -3245,8 +3191,8 @@ test.textContent = 'I see the light!';
     </item>
     <item>
       <title>IE7下focus方法失效（原因不明）</title>
-      <link>http://www.toobug.net/article/ie7_focus_method_invalid.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/ie7_focus_method_invalid.html</guid>
+      <link>https://www.toobug.net/article/ie7_focus_method_invalid.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/ie7_focus_method_invalid.html</guid>
       <pubDate>Wed, 28 Dec 2011 10:49:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -3264,8 +3210,8 @@ test.textContent = 'I see the light!';
     </item>
     <item>
       <title>《Javascript Patterns》读书笔记 第二章 概要（1）</title>
-      <link>http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/javascript_patterns_note_chapter_2.html</guid>
+      <link>https://www.toobug.net/article/javascript_patterns_note_chapter_2.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/javascript_patterns_note_chapter_2.html</guid>
       <pubDate>Sat, 24 Dec 2011 18:34:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -3385,8 +3331,8 @@ func();
     </item>
     <item>
       <title>The Little Book on Coffee Script</title>
-      <link>http://www.toobug.net/article/the_little_book_on_coffee_script.html</link>
-      <guid isPermaLink="true">http://www.toobug.net/article/the_little_book_on_coffee_script.html</guid>
+      <link>https://www.toobug.net/article/the_little_book_on_coffee_script.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/the_little_book_on_coffee_script.html</guid>
       <pubDate>Fri, 23 Dec 2011 18:14:00 +0800</pubDate>
       <description>
         <![CDATA[
@@ -3399,6 +3345,27 @@ func();
 <p>顺便也发到博客上，有需要的同学可以看看。</p>
 
 <p><a href="../attachments/The-Little-Book-on-Coffee-Script.pdf">The Little Book on Coffee Script</a></p>
+        ]]>
+      </description>
+    </item>
+    <item>
+      <title>IE下绝对定位的链接display:block失效的问题</title>
+      <link>https://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</link>
+      <guid isPermaLink="true">https://www.toobug.net/article/ie_position_absolute_link_display_block_invalid.html</guid>
+      <pubDate>Wed, 21 Dec 2011 20:02:00 +0800</pubDate>
+      <description>
+        <![CDATA[
+        <p>IE下如果a元素使用绝对定位，在没有背景的情况下，display:block会失效。</p>
+
+<p>搜索了一下，解决方案在这里：</p>
+
+<p><a href="http://firefly365.com/question/css/201011052110376846.html">http://firefly365.com/question/css/201011052110376846.html</a></p>
+
+<p>大意是添加背景就好了，如果要保持透明，则添加透明图片做背景，或者是用<code>url(about:blank)</code>做背景。</p>
+
+<p>我在试验的时候发现，如果a包含在div当中，如果div有背景，也同样可以让链接生效。</p>
+
+<p>想来想去，这个东西只可能是bug，要具体解释会涉及到IE的原理，超出能力范围。</p>
         ]]>
       </description>
     </item>
